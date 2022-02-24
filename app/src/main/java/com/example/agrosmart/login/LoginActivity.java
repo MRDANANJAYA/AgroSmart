@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.agrosmart.InfoMonitoring;
 import com.example.agrosmart.MainActivity;
 import com.example.agrosmart.R;
@@ -45,9 +46,10 @@ public class LoginActivity extends AppCompatActivity {
     private Button googleBut,login;
     private String TAG;
     private FirebaseAuth mAuth;
-    private ProgressBar progressBar;
+    //private ProgressBar progressBar;
     private EditText lemail;
     private EditText lpassword;
+    private LottieAnimationView lottieLoading;
 
 
 
@@ -60,12 +62,23 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.Login);
         Signup = findViewById(R.id.createAcc);
         googleBut = findViewById(R.id.Google);
-        progressBar =findViewById(R.id.progressBar);
+        //progressBar =findViewById(R.id.progressBar);
         lemail =findViewById(R.id.UserEmail);
         lpassword =findViewById(R.id.UserPassword);
+        lottieLoading =findViewById(R.id.lottie);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
+        //currently signed in user
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            Intent intent= new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        else {
+            // user is signed out, show Login-in form
+        }
 
         createRequest();
 
@@ -160,7 +173,7 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
-        progressBar.setVisibility(View.VISIBLE);
+        lottieLoading.setVisibility(View.VISIBLE);
 
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -174,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent log = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(log);
 
-                            progressBar.setVisibility(View.GONE);
+                            lottieLoading.setVisibility(View.GONE);
 
 
                         } else {

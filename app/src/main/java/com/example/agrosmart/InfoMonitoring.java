@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.agrosmart.login.LoginActivity;
 import com.example.agrosmart.login.SignUp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,6 +39,7 @@ public class InfoMonitoring extends AppCompatActivity {
     private TextView mMoisture2;
     private TextView lStatus;
     private TextView mStatus;
+    private LottieAnimationView lottieAnimationLoading;
 
 
 
@@ -45,6 +47,17 @@ public class InfoMonitoring extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_monitoring);
+
+
+
+        mHumid = findViewById(R.id.humidity_value);
+        mTemp = findViewById(R.id.temperature_value);
+        mMoisture= findViewById(R.id.moisture_value);
+        mMoisture2 = findViewById(R.id.moisture_value2);
+        lStatus = findViewById(R.id.Light_Status);
+        mStatus = findViewById(R.id.Motor_Status);
+        mLight = findViewById(R.id.light_value);
+        lottieAnimationLoading = findViewById(R.id.lottieMonitor);
 
         //Define bottom Navigation bar
         bottomNavigationView = findViewById(R.id.bottomNavigation);
@@ -63,7 +76,7 @@ public class InfoMonitoring extends AppCompatActivity {
             }
         });
 
-
+        lottieAnimationLoading.setVisibility(View.VISIBLE);
 
 
 
@@ -109,13 +122,7 @@ public class InfoMonitoring extends AppCompatActivity {
 
 
 
-        mHumid = findViewById(R.id.humidity_value);
-        mTemp = findViewById(R.id.temperature_value);
-        mMoisture= findViewById(R.id.moisture_value);
-        mMoisture2 = findViewById(R.id.moisture_value2);
-        lStatus = findViewById(R.id.Light_Status);
-        mStatus = findViewById(R.id.Motor_Status);
-        mLight = findViewById(R.id.light_value);
+
 
 
         sensorData();
@@ -147,7 +154,7 @@ public class InfoMonitoring extends AppCompatActivity {
                  Integer Light = snapshot.child("light").getValue(Integer.class);
                  mLight.setText(Integer.toString(Light));
 
-
+                 lottieAnimationLoading.setVisibility(View.GONE);
 
              }
 
