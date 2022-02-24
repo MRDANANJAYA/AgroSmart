@@ -175,7 +175,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginHorizontal="27dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/round_rectrangle"
+                    android:background="@drawable/round_rectangle"
                     android:fontFamily="sans-serif-medium"
                     android:text="Sign Up"
                     android:textColor="@color/Green"

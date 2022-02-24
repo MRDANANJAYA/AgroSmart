@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.116" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable/google_btn.xml" value="0.31" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable/google_icon.xml" value="0.31" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable/image_process.xml" value="0.116" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable/imagepro_background.xml" value="0.116" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable/imageprocess.xml" value="0.116" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable/new_bt.xml" value="0.1545" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable/round_rectrangle.xml" value="0.332" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/drawable/rounded_shape.xml" value="0.31" />
@@ -12,9 +16,10 @@
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_image_processing.xml" value="0.25092592592592594" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_reminder.xml" value="0.17222222222222222" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_settings.xml" value="0.3569230769230769" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
-        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/info_monitoring.xml" value="0.17222222222222222" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/info_monitoring.xml" value="0.336166194523135" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/menu/bottom_navigationbar.xml" value="0.17222222222222222" />
       </map>
     </option>

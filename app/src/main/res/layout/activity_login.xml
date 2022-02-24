@@ -20,7 +20,7 @@
         android:scaleType="centerCrop"
         android:layout_marginTop="-50dp"
 
-        />
+        android:contentDescription="@string/Top_green" />
 
     <ImageView
         android:id="@+id/BackgroundLeaf"
@@ -32,7 +32,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pattern" />
+        app:srcCompat="@drawable/pattern"
+        android:contentDescription="@string/transparent_leaf" />
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -52,14 +53,18 @@
             android:id="@+id/imageView"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            app:srcCompat="@drawable/asset1" />
+            app:srcCompat="@drawable/asset1"
+
+            android:contentDescription="@string/logo" />
 
 
         <ImageView
             android:id="@+id/TextViewImage"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/agrosmart" />
+            app:srcCompat="@drawable/agrosmart"
+            android:contentDescription="@string/logo_name"
+            />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -116,9 +121,9 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="30dp"
-                    android:background="@drawable/round_rectrangle"
+                    android:background="@drawable/round_rectangle"
 
-                    android:text="Login"
+                    android:text="@string/login_bt"
                     android:textColor="@color/Green"
                     android:textSize="18sp"
 
@@ -140,13 +145,15 @@
                     android:backgroundTint="@color/white"
                     android:ems="10"
                     android:focusableInTouchMode="true"
-                    android:hint="User Email"
+                    android:hint="@string/user_email"
                     android:inputType="textEmailAddress"
-                    android:paddingLeft="40dp"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
                     android:paddingBottom="5dp"
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/error_appearance"
-                    app:hintAnimationEnabled="true" />
+                    app:hintAnimationEnabled="true"
+                    tools:ignore="Autofill" />
 
                 <EditText
 
@@ -163,11 +170,13 @@
                     android:background="@drawable/group_209"
                     android:backgroundTint="@color/white"
                     android:ems="10"
-                    android:hint="⬤⬤⬤⬤⬤⬤⬤⬤"
+                    android:hint="@string/PasswordString"
                     android:inputType="textPassword"
-                    android:paddingLeft="40dp"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
                     android:paddingBottom="5dp"
-                    app:passwordToggleEnabled="true" />
+                    app:passwordToggleEnabled="true"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/imageView2"
@@ -179,7 +188,7 @@
                     android:layout_marginStart="170dp"
                     android:layout_marginTop="35dp"
 
-                    android:text="Forgot Password?"
+                    android:text="@string/forgot_password"
                     android:textColor="@color/white" />
 
 
@@ -197,20 +206,19 @@
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/google_btn"
-
         android:drawableLeft="@drawable/google_icon"
         android:fontFamily="sans-serif-black"
-        android:text="Login With Google"
+        android:text="@string/login_with_google"
         android:textAllCaps="true"
         android:textColor="@color/Green"
         android:textSize="16sp"
         android:textStyle="bold"
         android:theme="@style/Button.White"
-
         app:layout_constraintBottom_toTopOf="@+id/createAcc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
+        tools:ignore="RtlHardcoded" />
 
 
     <TextView

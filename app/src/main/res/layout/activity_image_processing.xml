@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            app:menu="@menu/bottom_navigationbar"
+            app:menu="@menu/bottom_navigation_bar"
 
             />
 
@@ -144,8 +144,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:backgroundTint="@color/Green"
-        android:contentDescription="TODO"
-        android:src="@drawable/pattern"
+        android:contentDescription="Go Back"
+        android:src="@drawable/arrow_back"
+        app:tint="@null"
         app:layout_anchor="@id/BottomApp" />
 
 
