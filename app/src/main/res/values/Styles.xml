@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="mytoast">
+        <item name="stTextBold">true</item>
+        <item name="stTextColor">#FFFFFF</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">@color/Green</item>
+        <item name="alpha">70</item>
+        <item name="stLength">SHORT</item> LONG or SHORT
+        <item name="stRadius">25dp</item>
+        <item name="stGravity">top</item>
+    </style>
+
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <!--<style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+
+        <item name="colorPrimary">@color/design_default_color_on_primary</item>
+        <item name="colorPrimaryDark">@color/design_default_color_primary_dark</item>
+        <item name="colorAccent">@color/design_default_color_background</item>
+
+
+    </style>-->
+
+
+</resources>

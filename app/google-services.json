@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "532296326928",
+    "firebase_url": "https://agrismartwatering-default-rtdb.firebaseio.com/",
+    "project_id": "agrismartwatering",
+    "storage_bucket": "agrismartwatering.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532296326928:android:1b80bc91b853e02667cf95",
+        "android_client_info": {
+          "package_name": "com.example.agrosmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532296326928-763t6v9k9a0vla2vf8da8l32p20a1d04.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.agrosmart",
+            "certificate_hash": "7376b68c9443d597908c132cc8f4efff1ea55cad"
+          }
+        },
+        {
+          "client_id": "532296326928-jr2409b4o5ae7mnppnde56o9e726rgkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXuZlrg_FFgDW2RucxkigPF-XuZzG97Q4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532296326928-jr2409b4o5ae7mnppnde56o9e726rgkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
