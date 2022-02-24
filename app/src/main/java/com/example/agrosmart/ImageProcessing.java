@@ -45,7 +45,7 @@ public class ImageProcessing extends AppCompatActivity {
     TextView result, confidenceX;
     ImageView imageView;
     Button picture;
-    Uri imageuri;
+    Uri imageUri;
     int imageSize = 224;
 
 
@@ -79,11 +79,10 @@ public class ImageProcessing extends AppCompatActivity {
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(Intent.createChooser(intent,"Select Picture"),1);
 
-                    //startActivityForResult(cameraIntent, 1);
+
 
                 } else {
-                    //Request camera permission if we don't have it.
-                    //requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+                    //Request storage permission if  don't have it.
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
                 }
             }
@@ -160,7 +159,7 @@ public class ImageProcessing extends AppCompatActivity {
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
             byteBuffer.order(ByteOrder.nativeOrder());
 
-            int [] intValues =  new int[imageSize * imageSize];
+           int [] intValues =  new int[imageSize * imageSize];
             image.getPixels(intValues, 0, image.getWidth(),0 ,0, image.getWidth(), image.getHeight());
             int pixel = 0;
             for(int  i = 0; i < imageSize; i++ ) {
@@ -168,7 +167,8 @@ public class ImageProcessing extends AppCompatActivity {
                     int val = intValues[pixel++]; //RGB
                     byteBuffer.putFloat(((val >> 16)& 0xFF) * (1.f / 255.f));
                     byteBuffer.putFloat(((val >> 8)& 0xFF) * (1.f / 255.f));
-                    byteBuffer.putFloat(((val & 0xFF)) * (1.f / 255.f));
+                    byteBuffer.putFloat(((val >> 0 )& 0xFF) * (1.f / 255.f));
+
                 }
 
             }
@@ -223,10 +223,10 @@ public class ImageProcessing extends AppCompatActivity {
    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            imageuri = data.getData();
+            imageUri = data.getData();
 
             try {
-                Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), imageuri);
+                Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 int dimensions = Math.min(image.getWidth(), image.getHeight());
                 image = ThumbnailUtils.extractThumbnail(image, dimensions, dimensions);
                 imageView.setImageBitmap(image);

@@ -36,13 +36,13 @@ import io.github.muddz.styleabletoast.StyleableToast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ImageView login;
+
     private TextView Signup;
 
     private GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 123;
 
-    Button googleBut;
+    private Button googleBut,login;
     private String TAG;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
