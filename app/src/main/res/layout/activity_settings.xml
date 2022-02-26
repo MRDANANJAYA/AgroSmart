@@ -6,6 +6,372 @@
     android:layout_height="match_parent"
     tools:context=".Settings">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/settings_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_notif_enabler_box"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/settings_box_height"
+            android:background="@drawable/settings_cell_round_up"
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toTopOf="@id/settings_body">
+
+            <ImageView
+                android:id="@+id/settings_notif_enabler_icon"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="2dp"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/set_icon_notif_bell" />
+
+
+            <TextView
+                android:id="@+id/settings_notif_enabler_text"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="14dp"
+                android:gravity="center_vertical"
+                android:text="@string/settings_notif_enabler_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_font_size"
+                android:textStyle="bold"
+                app:fontFamily="sans-serif-medium"
+                app:layout_constraintBottom_toBottomOf="@id/settings_notif_enabler_icon"
+                app:layout_constraintEnd_toStartOf="@id/settings_notif_enabler_switch"
+                app:layout_constraintStart_toEndOf="@id/settings_notif_enabler_icon"
+                app:layout_constraintTop_toTopOf="@id/settings_notif_enabler_icon" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_notif_enabler_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:checked="true"
+                android:theme="@style/Notification_Switch"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/settings_separator_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/thin_line_height"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_notif_enabler_box" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_notif_timing_box"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/settings_box_height"
+            android:background="@drawable/settings_cell_round_none"
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_separator_1">
+
+            <ImageView
+                android:id="@+id/settings_notif_timing_icon"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="2dp"
+                android:adjustViewBounds="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="@dimen/dimen_new_plant_options_icon_padding"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_alarm_clock" />
+
+            <TextView
+                android:id="@+id/settings_notif_timing_text"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/dimen_settings_text_margin_right"
+                android:gravity="center_vertical"
+                android:text="@string/settings_notif_timing_text"
+                android:textColor="#190707"
+                android:textStyle="bold"
+                android:textSize="@dimen/dimen_cell_text_name_font_size"
+                app:fontFamily="@font/rubik"
+                app:layout_constraintBottom_toBottomOf="@id/settings_notif_timing_icon"
+                app:layout_constraintEnd_toStartOf="@id/settings_notif_timing_hour"
+                app:layout_constraintStart_toEndOf="@id/settings_notif_timing_icon"
+                app:layout_constraintTop_toTopOf="@id/settings_notif_timing_icon" />
+
+            <TextView
+                android:id="@+id/settings_notif_timing_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_settings_margin_right"
+                android:gravity="center"
+                android:textColor="@color/colorOrange"
+                android:textSize="@dimen/dimen_settings_numbers_fontsize"
+                app:fontFamily="@font/dosis"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/settings_separator_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/thin_line_height"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_notif_timing_box" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_notif_remind_box"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/settings_box_height"
+            android:background="@drawable/settings_cell_round_down"
+
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_separator_2">
+
+            <ImageView
+                android:id="@+id/settings_notif_remind_icon"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="@dimen/dimen_settings_cell_margin_left"
+                android:adjustViewBounds="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="@dimen/dimen_new_plant_options_icon_padding"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_clock_remind_later_green" />
+
+            <TextView
+                android:id="@+id/settings_notif_remind_text"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="14dp"
+                android:gravity="center_vertical"
+                android:text="@string/settings_notif_postpone_text"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_font_size"
+                app:fontFamily="sans-serif-medium"
+                app:layout_constraintBottom_toBottomOf="@id/settings_notif_remind_icon"
+                app:layout_constraintEnd_toStartOf="@id/settings_notif_remind_num_hours"
+                app:layout_constraintStart_toEndOf="@id/settings_notif_remind_icon"
+                app:layout_constraintTop_toTopOf="@id/settings_notif_remind_icon" />
+
+            <TextView
+                android:id="@+id/settings_notif_remind_num_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="4dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_font_size"
+                app:fontFamily="sans-serif-medium"
+                app:layout_constraintEnd_toStartOf="@id/settings_notif_remind_text_hours" />
+
+            <TextView
+                android:id="@+id/settings_notif_remind_text_hours"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_font_size"
+                app:fontFamily="sans-serif-medium"
+                app:layout_constraintBaseline_toBaselineOf="@id/settings_notif_remind_num_hours"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/settings_separator_3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/thin_line_height"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_notif_remind_box" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_delete_box"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/settings_box_height"
+            android:background="@drawable/settings_cell_round_both"
+
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_separator_3">
+
+            <ImageView
+                android:id="@+id/settings_delete_icon"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="2dp"
+                android:adjustViewBounds="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_trash_can" />
+
+            <TextView
+                android:id="@+id/settings_delete_text"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="@string/settings_delete_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_font_size"
+                android:textStyle="bold"
+                app:fontFamily="sans-serif-medium"
+                app:layout_constraintBottom_toBottomOf="@id/settings_delete_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/settings_delete_icon"
+                app:layout_constraintTop_toTopOf="@id/settings_delete_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/settings_separator_4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/thin_line_height"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_delete_box" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_license_box"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/settings_box_height"
+            android:background="@drawable/settings_cell_round_up"
+
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_separator_4">
+
+            <ImageView
+                android:id="@+id/settings_license_icon"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="@dimen/dimen_settings_cell_margin_left"
+                android:adjustViewBounds="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="@dimen/dimen_new_plant_options_icon_padding"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_documents" />
+
+            <TextView
+                android:id="@+id/settings_license_text"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="@string/settings_license_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_font_size"
+                app:fontFamily="sans-serif-medium"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/settings_license_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/settings_license_icon"
+                app:layout_constraintTop_toTopOf="@id/settings_license_icon" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/settings_separator_5"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/thin_line_height"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_license_box" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_about_box"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/settings_box_height"
+            android:background="@drawable/settings_cell_round_down"
+
+            app:layout_constraintEnd_toEndOf="@id/settings_body"
+            app:layout_constraintStart_toStartOf="@id/settings_body"
+            app:layout_constraintTop_toBottomOf="@id/settings_separator_5">
+
+            <ImageView
+                android:id="@+id/settings_about_icon"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="@dimen/dimen_settings_cell_margin_left"
+                android:adjustViewBounds="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="@dimen/dimen_new_plant_options_icon_padding"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_about_info" />
+
+            <TextView
+                android:id="@+id/settings_about_text"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="@string/settings_about_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/settings_font_size"
+                app:fontFamily="sans-serif-medium"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/settings_about_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/settings_about_icon"
+                app:layout_constraintTop_toTopOf="@id/settings_about_icon" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -17,6 +17,20 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <string name="settings_notif_enabler_text">Notifications</string>
+    <string name="settings_notif_timing_text">Notify at</string>
+    <string name="settings_notif_postpone_text">Postpone for</string>
+    <string name="settings_delete_text">Delete data</string>
+    <string name="settings_license_text">Licenses</string>
+    <string name="settings_about_text">About</string>
+
+
+    <style name="Notification_Switch" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/Gray</item>
+        <item name="colorAccent">@color/white</item>
+    </style>
+
 
     <!--<style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
 

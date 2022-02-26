@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="Settings_corners">22dp</dimen>
+    <dimen name="settings_box_height">56dp</dimen>
+    <dimen name="icon_size">50dp</dimen>
+
+
+    <dimen name="settings_font_size">18sp</dimen>
+    <dimen name="thin_line_height">2dp</dimen>
+</resources>
