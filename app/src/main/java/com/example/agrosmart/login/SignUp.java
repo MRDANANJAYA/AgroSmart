@@ -1,8 +1,10 @@
 package com.example.agrosmart.login;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,10 +13,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.agrosmart.MainActivity;
 import com.example.agrosmart.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.Delayed;
 
@@ -29,8 +40,10 @@ public class SignUp extends AppCompatActivity {
     private TextView addText, loginHere;
     private EditText userName, emailAdd, passwordSn, cmfPassword;
     final static int REQUEST_CODE = 215;
-
-
+    private FirebaseAuth mAuth;
+    private ProgressDialog loadingBar;
+    FirebaseDatabase db;
+    DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +59,16 @@ public class SignUp extends AppCompatActivity {
       passwordSn = findViewById(R.id.UserPasswordSn);
       cmfPassword = findViewById(R.id.ConfirmPassword);
 
+
+      loadingBar = new ProgressDialog(this);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Initialize Firebase Database
+       db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
+
+       dbRef = db.getReference("User");
 
 
       // Create a storage reference from our app
@@ -102,9 +125,57 @@ public class SignUp extends AppCompatActivity {
               }
 
               else {
-                  StyleableToast.makeText(SignUp.this, "Login Successful", R.style.mytoast).show();
-                  Intent log = new Intent(SignUp.this, MainActivity.class);
-                  startActivity(log);
+
+
+                  loadingBar.setTitle("Signing up");
+                  loadingBar.setMessage("Please wait. while we are registering ");
+                  loadingBar.show();
+
+                  mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                      @Override
+                      public void onComplete(@NonNull Task<AuthResult> task) {
+
+                          if(task.isSuccessful()){
+
+                              //save to database
+
+                              User user = new User();
+                              user.setEmail(emailAdd.getText().toString());
+                              user.setUsername(userName.getText().toString());
+                              user.setPassword(passwordSn.getText().toString());
+
+                             dbRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
+                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                         @Override
+                                         public void onComplete(@NonNull Task<Void> task) {
+
+                                                Toast.makeText(SignUp.this, "User Registration has been Successful!",Toast.LENGTH_SHORT).show();
+                                               // StyleableToast.makeText(SignUp.this, "User Registration is Successful", R.style.mytoast).show();
+                                               // Intent log = new Intent(SignUp.this, MainActivity.class);
+                                               //  startActivity(log);
+                                         }
+                                     }).addOnFailureListener(new OnFailureListener() {
+                                 @Override
+                                 public void onFailure(@NonNull Exception e) {
+
+                                     Toast.makeText(SignUp.this, "Registration Unsuccessful!"+e.getMessage(),Toast.LENGTH_SHORT).show();
+
+
+
+                                 }
+                             });
+
+                          }else {
+
+                              Toast.makeText(SignUp.this, "Something Wrong!",Toast.LENGTH_SHORT).show();
+                          }
+
+
+
+                      }
+                  });
+                  loadingBar.dismiss();
+
               }
 
           }

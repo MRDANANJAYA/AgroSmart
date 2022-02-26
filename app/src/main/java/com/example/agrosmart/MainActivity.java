@@ -4,15 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.agrosmart.login.GlobalUser;
 import com.example.agrosmart.login.LoginActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -27,11 +30,12 @@ import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
-     BottomNavigationView bottomNavigationView;
-     FloatingActionButton floatingActionButton;
-     Menu Reminder;
-     TextView Name;
-     ImageView profilePic;
+     private BottomNavigationView bottomNavigationView;
+     private FloatingActionButton floatingActionButton;
+     private FirebaseAuth mAuth;
+     private TextView Name;
+     private ImageView profilePic;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +43,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.
-                Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
-                build();
-
-
-
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         floatingActionButton = findViewById(R.id.Fab);
         bottomNavigationView.setBackground(null);
         bottomNavigationView.getMenu().getItem(2).setEnabled(false);
-        Name = findViewById(R.id.Name);
+        Name = findViewById(R.id.NameUser);
         profilePic = findViewById(R.id.Photo);
+
+
+        //Fitch User name
+        Name.setText(GlobalUser.currentUser.getUsername());
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.
+                Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                build();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -171,12 +171,12 @@
                     android:backgroundTint="@color/white"
                     android:ems="10"
                     android:hint="@string/PasswordString"
+                    android:importantForAutofill="no"
                     android:inputType="textPassword"
                     android:paddingStart="40dp"
                     android:paddingEnd="40dp"
                     android:paddingBottom="5dp"
-                    app:passwordToggleEnabled="true"
-                    android:importantForAutofill="no" />
+                    app:passwordToggleEnabled="true" />
 
                 <TextView
                     android:id="@+id/imageView2"

@@ -35,6 +35,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="signUp_bt">Sign Up</string>
     <string name="add_image">Add \n Image</string>
+    <string name="settings_text">Settings</string>
 
 
 </resources>
