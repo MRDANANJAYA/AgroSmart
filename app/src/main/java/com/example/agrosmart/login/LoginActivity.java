@@ -1,10 +1,13 @@
 package com.example.agrosmart.login;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +30,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -54,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     //private ProgressBar progressBar;
     private EditText lemail;
     private EditText lpassword;
+    private TextView forgotPass;
     private LottieAnimationView lottieLoading;
 
 
@@ -71,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         lemail =findViewById(R.id.UserEmail);
         lpassword =findViewById(R.id.UserPassword);
         lottieLoading =findViewById(R.id.lottie);
+        forgotPass = findViewById(R.id.forgetPassword);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -86,6 +92,56 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         createRequest();
+
+        //reset Password
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final EditText forgotPass = new EditText(LoginActivity.this);
+                final AlertDialog.Builder PasswordResetDialog = new AlertDialog.Builder(v.getContext());
+                PasswordResetDialog.setTitle("Did you forget password..?");
+                PasswordResetDialog.setMessage("Enter Tour Email To Received Reset Link");
+                PasswordResetDialog.setView(forgotPass);
+                forgotPass.setHint("Email");
+                forgotPass.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+
+                // LinearLayout linearLayout =new LinearLayout(Login.this);
+
+
+                PasswordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String email = forgotPass.getText().toString().trim();
+                        mAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(LoginActivity.this, "Reset Link Sent To Your Email", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(LoginActivity.this, "Reset Link Can Not be Send !" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+                PasswordResetDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                PasswordResetDialog.create().show();
+
+            }
+        });
+
+
+
 
         googleBut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,6 +232,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 
     private void createRequest() {
 

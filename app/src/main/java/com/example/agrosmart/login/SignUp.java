@@ -19,15 +19,24 @@ import android.widget.Toast;
 
 import com.example.agrosmart.MainActivity;
 import com.example.agrosmart.R;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 
+import java.util.HashMap;
 import java.util.concurrent.Delayed;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import io.github.muddz.styleabletoast.StyleableToast;
 
@@ -42,8 +51,12 @@ public class SignUp extends AppCompatActivity {
     final static int REQUEST_CODE = 215;
     private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
-    FirebaseDatabase db;
-    DatabaseReference dbRef;
+    private String myUri = "";
+    private StorageTask uploadTask;
+    private FirebaseDatabase db;
+    private DatabaseReference dbRef;
+    StorageReference storageRef;
+    FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +81,31 @@ public class SignUp extends AppCompatActivity {
         // Initialize Firebase Database
        db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
 
+        storage = FirebaseStorage.getInstance();
+
        dbRef = db.getReference("User");
-
-
       // Create a storage reference from our app
-        //StorageReference storageRef = storage.getReference();
+         storageRef = storage.getReference();
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE);
+
+
+
+            }
+        });
+
 
       signUp.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+
 
               String email = emailAdd.getText().toString().trim();
               String password = passwordSn.getText().toString();
@@ -122,12 +151,16 @@ public class SignUp extends AppCompatActivity {
                   cmfPassword.setError("Password Didn't Match");
                   cmfPassword.requestFocus();
                   return;
+              }if(imageUri == null){
+
+                  Toast.makeText(SignUp.this,"Image Not Selected", Toast.LENGTH_LONG).show();
               }
 
               else {
 
 
                   loadingBar.setTitle("Signing up");
+                  loadingBar.setMessage("Please wait. while we are registering ");
                   loadingBar.setMessage("Please wait. while we are registering ");
                   loadingBar.show();
 
@@ -144,26 +177,61 @@ public class SignUp extends AppCompatActivity {
                               user.setUsername(userName.getText().toString());
                               user.setPassword(passwordSn.getText().toString());
 
-                             dbRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
-                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                         @Override
-                                         public void onComplete(@NonNull Task<Void> task) {
-
-                                                Toast.makeText(SignUp.this, "User Registration has been Successful!",Toast.LENGTH_SHORT).show();
-                                               // StyleableToast.makeText(SignUp.this, "User Registration is Successful", R.style.mytoast).show();
-                                               // Intent log = new Intent(SignUp.this, MainActivity.class);
-                                               //  startActivity(log);
-                                         }
-                                     }).addOnFailureListener(new OnFailureListener() {
-                                 @Override
-                                 public void onFailure(@NonNull Exception e) {
-
-                                     Toast.makeText(SignUp.this, "Registration Unsuccessful!"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                              dbRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
+                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                          @Override
+                                          public void onComplete(@NonNull Task<Void> task) {
 
 
+                                              final StorageReference fileRef = storageRef
+                                                      .child(mAuth.getCurrentUser().getUid()+ "jpg");
 
-                                 }
-                             });
+
+                                              uploadTask = fileRef.putFile(imageUri);
+
+                                              uploadTask.continueWithTask(new Continuation() {
+                                                  @Override
+                                                  public Object then(@NonNull Task task) throws Exception {
+                                                      if(!task.isSuccessful()){
+                                                          throw task.getException();
+                                                      }
+                                                      return fileRef.getDownloadUrl();
+                                                  }
+                                              }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                  @Override
+                                                  public void onComplete(@NonNull Task<Uri> task) {
+                                                      if(task.isSuccessful()){
+
+                                                          Uri downloadUrl = task.getResult();
+                                                          myUri = downloadUrl.toString();
+
+                                                          HashMap<String, Object> userMap = new HashMap<>();
+                                                          userMap.put("image", myUri);
+
+
+                                                          dbRef.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
+
+
+                                                      }
+                                                  }
+                                              });
+
+
+                                              Toast.makeText(SignUp.this, "User Registration has been Successful!",Toast.LENGTH_SHORT).show();
+                                              // StyleableToast.makeText(SignUp.this, "User Registration is Successful", R.style.mytoast).show();
+                                               Intent log = new Intent(SignUp.this, LoginActivity.class);
+                                               startActivity(log);
+                                          }
+                                      }).addOnFailureListener(new OnFailureListener() {
+                                  @Override
+                                  public void onFailure(@NonNull Exception e) {
+
+                                      Toast.makeText(SignUp.this, "Registration Unsuccessful!"+e.getMessage(),Toast.LENGTH_SHORT).show();
+
+
+
+                                  }
+                              });
 
                           }else {
 
@@ -190,23 +258,14 @@ public class SignUp extends AppCompatActivity {
           }
       });
 
-      profilePic.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
 
-              Intent intent = new Intent();
-              intent.setType("image/*");
-              intent.setAction(Intent.ACTION_GET_CONTENT);
-              startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE);
-
-
-
-          }
-      });
 
 
 
     }
+
+
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -220,4 +279,8 @@ public class SignUp extends AppCompatActivity {
 
         }
     }
+
+
+
+
 }

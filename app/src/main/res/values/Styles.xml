@@ -9,7 +9,7 @@
         <item name="alpha">70</item>
         <item name="stLength">SHORT</item> LONG or SHORT
         <item name="stRadius">25dp</item>
-        <item name="stGravity">top</item>
+        <item name="stGravity">center</item>
     </style>
 
     <style name="error_appearance" parent="@android:style/TextAppearance">

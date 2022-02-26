@@ -26,6 +26,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
      private FirebaseAuth mAuth;
      private TextView Name;
      private ImageView profilePic;
+    private FirebaseStorage storage;
+    private FirebaseDatabase db;
+    private DatabaseReference dbRef;
 
 
     @Override
@@ -51,12 +61,24 @@ public class MainActivity extends AppCompatActivity {
         profilePic = findViewById(R.id.Photo);
 
 
+        storage = FirebaseStorage.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
+
+        dbRef = db.getReference("User");
+
+
         //Fitch User name
         Name.setText(GlobalUser.currentUser.getUsername());
 
         GoogleSignInOptions gso = new GoogleSignInOptions.
                 Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
                 build();
+
+        getUserinfo();
+
+
+
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,5 +145,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private void getUserinfo() {
+
+
+        dbRef.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists() && snapshot.getChildrenCount() > 0){
+
+                    if(snapshot.hasChild("image")){
+
+                        String image = snapshot.child("image").getValue().toString();
+                        Picasso.with(MainActivity.this).load(image).fit().placeholder(R.mipmap.ic_launcher_round).into(profilePic);
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }
