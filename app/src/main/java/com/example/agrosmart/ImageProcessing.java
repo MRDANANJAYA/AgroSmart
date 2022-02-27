@@ -1,17 +1,6 @@
 package com.example.agrosmart;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -25,6 +14,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.agrosmart.ml.ModelUnquant;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -49,7 +43,6 @@ public class ImageProcessing extends AppCompatActivity {
     int imageSize = 224;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,25 +53,21 @@ public class ImageProcessing extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.Fab);
         bottomNavigationView.setBackground(null);
         bottomNavigationView.getMenu().getItem(2).setEnabled(false);
-
         result = findViewById(R.id.result);
         confidenceX = findViewById(R.id.confidence);
         imageView = findViewById(R.id.imageView);
         picture = findViewById(R.id.button);
 
 
-
-
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ContextCompat.checkSelfPermission(ImageProcessing.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                  // Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    Intent intent=new Intent();
+                    // Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent,"Select Picture"),1);
-
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
 
 
                 } else {
@@ -89,14 +78,10 @@ public class ImageProcessing extends AppCompatActivity {
         });
 
 
-
-
-
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent main= new Intent(ImageProcessing.this, MainActivity.class);
+                Intent main = new Intent(ImageProcessing.this, MainActivity.class);
                 startActivity(main);
 
 
@@ -145,11 +130,10 @@ public class ImageProcessing extends AppCompatActivity {
         });
 
 
-
     }
 
 
-    public void classifyImage(Bitmap image){
+    public void classifyImage(Bitmap image) {
 
         try {
             ModelUnquant model = ModelUnquant.newInstance(getApplicationContext());
@@ -159,15 +143,15 @@ public class ImageProcessing extends AppCompatActivity {
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
             byteBuffer.order(ByteOrder.nativeOrder());
 
-           int [] intValues =  new int[imageSize * imageSize];
-            image.getPixels(intValues, 0, image.getWidth(),0 ,0, image.getWidth(), image.getHeight());
+            int[] intValues = new int[imageSize * imageSize];
+            image.getPixels(intValues, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
             int pixel = 0;
-            for(int  i = 0; i < imageSize; i++ ) {
-                for(int j = 0; j < imageSize; j++){
+            for (int i = 0; i < imageSize; i++) {
+                for (int j = 0; j < imageSize; j++) {
                     int val = intValues[pixel++]; //RGB
-                    byteBuffer.putFloat(((val >> 16)& 0xFF) * (1.f / 255.f));
-                    byteBuffer.putFloat(((val >> 8)& 0xFF) * (1.f / 255.f));
-                    byteBuffer.putFloat(((val >> 0 )& 0xFF) * (1.f / 255.f));
+                    byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 255.f));
+                    byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 255.f));
+                    byteBuffer.putFloat((val & 0xFF) * (1.f / 255.f));
 
                 }
 
@@ -180,36 +164,35 @@ public class ImageProcessing extends AppCompatActivity {
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidence = outputFeature0.getFloatArray();
-            int maxPos =0;
+            int maxPos = 0;
             float maxConfidence = 0;
-            for(int i = 0; i < confidence.length; i++){
-                if(confidence[i] > maxConfidence){
+            for (int i = 0; i < confidence.length; i++) {
+                if (confidence[i] > maxConfidence) {
                     maxConfidence = confidence[i];
                     maxPos = i;
                 }
             }
-            String[] classes = {"No need to be watered","Need to be watered thoroughly","Need to be watered Lighty","Not recognized"};
+            String[] classes = {"No need to be watered", "Need to be watered thoroughly", "Need to be watered Lighty", "Not recognized"};
             result.setText(classes[maxPos]);
             String s = "";
-            for(int i = 0; i <classes.length; i++){
-                s += String.format("%s: %.1f%%\n", classes[i], confidence[i] *100);
+            for (int i = 0; i < classes.length; i++) {
+                s += String.format("%s: %.1f%%\n", classes[i], confidence[i] * 100);
 
             }
 
             confidenceX.setText(s);
 
-            if(maxPos == 0){
+            if (maxPos == 0) {
                 Toast.makeText(ImageProcessing.this, "No need to be watered", Toast.LENGTH_LONG).show();
-            }else if(maxPos == 1){
+            } else if (maxPos == 1) {
                 Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly", Toast.LENGTH_LONG).show();
-            }else  if (maxPos == 2){
+            } else if (maxPos == 2) {
                 Toast.makeText(ImageProcessing.this, "Need to be watered Lighty", Toast.LENGTH_LONG).show();
-            }else if (maxPos == 3){
+            } else if (maxPos == 3) {
                 Toast.makeText(ImageProcessing.this, "Not recognized", Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(ImageProcessing.this, "Not vaild", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ImageProcessing.this, "invalid", Toast.LENGTH_LONG).show();
             }
-
 
 
             // Releases model resources if no longer used.
@@ -220,7 +203,7 @@ public class ImageProcessing extends AppCompatActivity {
     }
 
 
-   @Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             imageUri = data.getData();
@@ -239,7 +222,7 @@ public class ImageProcessing extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-           // Bitmap image = (Bitmap) data.getExtras().get("data");
+
 
 
         }
