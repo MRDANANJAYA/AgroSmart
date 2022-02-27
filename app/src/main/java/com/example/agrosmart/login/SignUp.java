@@ -22,6 +22,7 @@ import com.example.agrosmart.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,8 +31,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Timer;
@@ -164,18 +167,19 @@ public class SignUp extends AppCompatActivity {
                       public void onComplete(@NonNull Task<AuthResult> task) {
 
 
-                          loadingBar.setTitle("Signing up");
-                          loadingBar.setMessage("Please wait. while we are registering ");
+                          loadingBar.setTitle("Registering");
                           loadingBar.show();
 
                           if(task.isSuccessful()){
 
-                              //save to database
+                              //set data into User.class
 
                               User user = new User();
                               user.setEmail(emailAdd.getText().toString());
                               user.setUsername(userName.getText().toString());
                               user.setPassword(passwordSn.getText().toString());
+
+
 
                               dbRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -186,10 +190,55 @@ public class SignUp extends AppCompatActivity {
                                               final StorageReference fileRef = storageRef
                                                       .child(mAuth.getCurrentUser().getUid()+ "jpg");
 
+                                              uploadTask = fileRef.putFile(imageUri)
+                                                      .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                          @Override
+                                                          public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                              loadingBar.dismiss();
+                                                              Toast.makeText(SignUp.this, "User Registration has been Successful!",Toast.LENGTH_SHORT).show();
+                                                              Intent log = new Intent(SignUp.this, LoginActivity.class);
+                                                              startActivity(log);
 
-                                              uploadTask = fileRef.putFile(imageUri);
 
-                                              uploadTask.continueWithTask(new Continuation() {
+                                                          }
+                                                      }).addOnFailureListener(new OnFailureListener() {
+                                                          @Override
+                                                          public void onFailure(@NonNull Exception e) {
+
+                                                              Toast.makeText(SignUp.this, "Upload image Unsuccessful!"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                                                              loadingBar.dismiss();
+                                                          }
+
+
+                                                      }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                                         @Override
+                                                         public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                                                             fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                                 @Override
+                                                                 public void onSuccess(Uri uri) {
+                                                                     final String downloadUrl = uri.toString();
+                                                                     myUri = downloadUrl;
+
+                                                                     HashMap<String, Object> userMap = new HashMap<>();
+                                                                     userMap.put("image", myUri);
+
+
+                                                                     dbRef.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
+                                                                 }
+                                                             });
+
+                                                             double progressPercent = (100.00 * snapshot.getBytesTransferred()/ snapshot.getTotalByteCount());
+                                                             loadingBar.setMessage("Please wait. while we are registering... " + (int) progressPercent + "%");
+
+                                                         }
+
+
+                                                     });
+
+                                            /**
+                                          uploadTask = fileRef.putFile(imageUri);
+                                            uploadTask.continueWithTask(new Continuation() {
                                                   @Override
                                                   public Object then(@NonNull Task task) throws Exception {
                                                       if(!task.isSuccessful()){
@@ -213,6 +262,10 @@ public class SignUp extends AppCompatActivity {
 
 
 
+
+
+
+
                                                       }
                                                   }
                                               });
@@ -232,7 +285,7 @@ public class SignUp extends AppCompatActivity {
 
                                                           }
 
-                                                      }, 5000);
+                                                      }, 5000); **/
 
                                           }
                                       }).addOnFailureListener(new OnFailureListener() {
@@ -262,7 +315,6 @@ public class SignUp extends AppCompatActivity {
 
           }
       });
-
       loginHere.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -277,6 +329,7 @@ public class SignUp extends AppCompatActivity {
 
 
     }
+
 
 
 
