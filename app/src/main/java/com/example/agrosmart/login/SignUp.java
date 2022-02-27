@@ -236,56 +236,6 @@ public class SignUp extends AppCompatActivity {
 
                                                      });
 
-                                            /**
-                                          uploadTask = fileRef.putFile(imageUri);
-                                            uploadTask.continueWithTask(new Continuation() {
-                                                  @Override
-                                                  public Object then(@NonNull Task task) throws Exception {
-                                                      if(!task.isSuccessful()){
-                                                          throw task.getException();
-                                                      }
-                                                      return fileRef.getDownloadUrl();
-                                                  }
-                                              }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                                  @Override
-                                                  public void onComplete(@NonNull Task<Uri> task) {
-                                                      if(task.isSuccessful()){
-
-                                                          Uri downloadUrl = task.getResult();
-                                                          myUri = downloadUrl.toString();
-
-                                                          HashMap<String, Object> userMap = new HashMap<>();
-                                                          userMap.put("image", myUri);
-
-
-                                                          dbRef.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
-
-
-
-
-
-
-
-                                                      }
-                                                  }
-                                              });
-
-                                              loadingBar.dismiss();
-                                              Toast.makeText(SignUp.this, "User Registration has been Successful!",Toast.LENGTH_SHORT).show();
-
-                                              // run when the delay expires
-
-                                              new Timer().schedule(
-                                                      new TimerTask(){
-
-                                                          @Override
-                                                          public void run(){
-                                                              Intent log = new Intent(SignUp.this, LoginActivity.class);
-                                                              startActivity(log);
-
-                                                          }
-
-                                                      }, 5000); **/
 
                                           }
                                       }).addOnFailureListener(new OnFailureListener() {
