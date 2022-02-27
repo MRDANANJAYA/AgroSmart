@@ -1,24 +1,20 @@
 package com.example.agrosmart;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.agrosmart.login.GlobalUser;
 import com.example.agrosmart.login.LoginActivity;
 import com.example.agrosmart.login.User;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -33,16 +29,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
-     private BottomNavigationView bottomNavigationView;
-     private FloatingActionButton floatingActionButton;
-     private FirebaseAuth mAuth;
-     private TextView Name;
-     private ImageView profilePic;
+    private BottomNavigationView bottomNavigationView;
+    private FloatingActionButton floatingActionButton;
+    private FirebaseAuth mAuth;
+    private TextView Name;
+    private ImageView profilePic;
     private FirebaseStorage storage;
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
@@ -69,45 +64,15 @@ public class MainActivity extends AppCompatActivity {
         dbRef = db.getReference("User");
 
 
-
-        FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/").getReference("User")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        GlobalUser.currentUser = snapshot.getValue(User.class);
-
-                        Name.setText(GlobalUser.currentUser.getUsername());
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
-
-        //Fitch User name
-
-
-
-
         GoogleSignInOptions gso = new GoogleSignInOptions.
                 Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
                 build();
-
-        getUserinfo();
-
-
 
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoogleSignInClient googleSignInClient=GoogleSignIn.getClient(MainActivity.this,gso);
+                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
                 googleSignInClient.signOut();
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(MainActivity.this, "User has been sign out", Toast.LENGTH_SHORT).show();
@@ -120,11 +85,31 @@ public class MainActivity extends AppCompatActivity {
 
 
         GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if(googleSignInAccount != null){
+        if (googleSignInAccount != null) {
 
             Name.setText(googleSignInAccount.getDisplayName());
             Uri photo = googleSignInAccount.getPhotoUrl();
             Picasso.with(this).load(photo).fit().placeholder(R.mipmap.ic_launcher_round).into(profilePic);
+        } else {
+            getUserinfo();
+            //Fitch User name
+            FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/").getReference("User")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            GlobalUser.currentUser = snapshot.getValue(User.class);
+
+                            Name.setText(GlobalUser.currentUser.getUsername());
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
         }
 
 
@@ -177,9 +162,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                if(snapshot.exists() && snapshot.getChildrenCount() > 0){
+                if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
 
-                    if(snapshot.hasChild("image")){
+                    if (snapshot.hasChild("image")) {
 
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.with(MainActivity.this).load(image).fit().placeholder(R.mipmap.ic_launcher_round).into(profilePic);

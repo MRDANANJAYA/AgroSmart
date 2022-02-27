@@ -7,33 +7,30 @@
     tools:context=".login.SignUp">
 
 
-
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-100dp"
+        android:contentDescription="@string/Top_green"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/newcentergreen"
-        android:scaleType="centerCrop"
-        android:layout_marginTop="-100dp"
 
-        android:contentDescription="@string/Top_green" />
+        app:srcCompat="@drawable/newcentergreen" />
 
     <ImageView
         android:id="@+id/BackgroundLeaf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"
+        android:contentDescription="@string/transparent_leaf"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pattern"
-        android:contentDescription="@string/transparent_leaf" />
-
-
+        app:srcCompat="@drawable/pattern" />
 
 
     <RelativeLayout
@@ -214,7 +211,6 @@
             android:scaleType="centerCrop" />
 
 
-
         <TextView
             android:id="@+id/addImageText"
             android:layout_width="wrap_content"
@@ -230,20 +226,18 @@
     </RelativeLayout>
 
 
-
-
     <TextView
         android:id="@+id/loginHereBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="30dp"
-        app:layout_constraintStart_toStartOf="parent"
         android:text="@string/Login_here"
         android:textColor="@color/Green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
-         />
+        />
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -255,23 +249,22 @@
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:lottie_rawRes="@raw/loading_green"
-        app:lottie_speed="1"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_green"
+        app:lottie_speed="1" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignUpText"
-        android:layout_marginTop="50dp"
-        android:visibility="gone"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/SignUpText" />
 
     <TextView
         android:id="@+id/SignUpText"

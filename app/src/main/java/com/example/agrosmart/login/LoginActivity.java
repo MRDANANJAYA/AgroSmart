@@ -1,9 +1,5 @@
 package com.example.agrosmart.login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.agrosmart.InfoMonitoring;
 import com.example.agrosmart.MainActivity;
 import com.example.agrosmart.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -47,21 +43,16 @@ import io.github.muddz.styleabletoast.StyleableToast;
 public class LoginActivity extends AppCompatActivity {
 
 
+    private final static int RC_SIGN_IN = 123; //Signing request code
     private TextView Signup;
-
     private GoogleSignInClient mGoogleSignInClient;
-    private final static int RC_SIGN_IN = 123; //signing request code
-
-    private Button googleBut,login;
+    private Button googleBut, login;
     private String TAG;
     private FirebaseAuth mAuth;
-    //private ProgressBar progressBar;
     private EditText lemail;
     private EditText lpassword;
     private TextView forgotPass;
     private LottieAnimationView lottieLoading;
-
-
 
 
     @Override
@@ -72,10 +63,9 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.Login);
         Signup = findViewById(R.id.createAcc);
         googleBut = findViewById(R.id.Google);
-        //progressBar =findViewById(R.id.progressBar);
-        lemail =findViewById(R.id.UserEmail);
-        lpassword =findViewById(R.id.UserPassword);
-        lottieLoading =findViewById(R.id.lottie);
+        lemail = findViewById(R.id.UserEmail);
+        lpassword = findViewById(R.id.UserPassword);
+        lottieLoading = findViewById(R.id.lottie);
         forgotPass = findViewById(R.id.forgetPassword);
 
         // Initialize Firebase Auth
@@ -84,10 +74,10 @@ public class LoginActivity extends AppCompatActivity {
         //currently signed in user
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            Intent intent= new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        }
-        else {
+
+        } else {
             // user is signed out, show Login-in form
         }
 
@@ -105,10 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                 PasswordResetDialog.setView(forgotPass);
                 forgotPass.setHint("Email");
                 forgotPass.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-
-
-                // LinearLayout linearLayout =new LinearLayout(Login.this);
-
 
                 PasswordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -141,8 +127,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
-
         googleBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,73 +153,66 @@ public class LoginActivity extends AppCompatActivity {
                 String email = lemail.getText().toString();
                 String password = lpassword.getText().toString();
 
-                if(TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     lemail.setError("Email Cannot Be Empty");
                     lemail.requestFocus();
 
                     return;
                 }
 
-                if(TextUtils.isEmpty((password))){
+                if (TextUtils.isEmpty((password))) {
                     lpassword.setError("Password Cannot Be Empty");
                     lpassword.requestFocus();
                     return;
-                }
-
-                else {
+                } else {
 
                     lottieLoading.setVisibility(View.VISIBLE);
                     mAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            if(task.isSuccessful()){
-                                FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/").getReference("User")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (task.isSuccessful()) {
+                                        FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/").getReference("User")
+                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                                GlobalUser.currentUser = snapshot.getValue(User.class);
-                                                lottieLoading.setVisibility(View.GONE);
+                                                        GlobalUser.currentUser = snapshot.getValue(User.class);
+                                                        lottieLoading.setVisibility(View.GONE);
 
-                                                StyleableToast.makeText(LoginActivity.this, "Login Successful", R.style.mytoast).show();
-                                                Intent log = new Intent(LoginActivity.this, MainActivity.class);
-                                                startActivity(log);
-                                                finish();
-                                            }
+                                                        StyleableToast.makeText(LoginActivity.this, "Login Successful", R.style.mytoast).show();
+                                                        Intent log = new Intent(LoginActivity.this, MainActivity.class);
+                                                        startActivity(log);
+                                                        finish();
+                                                    }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                            }
-                                        });
-                            }
+                                                    }
+                                                });
+                                    }
 
 
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
 
-                            Toast.makeText(LoginActivity.this,"Login Failed! "+e.getMessage(), Toast.LENGTH_LONG).show();
-
+                            Toast.makeText(LoginActivity.this, "Login Failed! " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            lottieLoading.setVisibility(View.GONE);
                         }
                     });
 
 
-
-
                 }
-                
+
             }
         });
 
     }
-
-
 
 
     private void createRequest() {
@@ -300,6 +277,8 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
+
+                            lottieLoading.setVisibility(View.GONE);
 
                         }
                     }
