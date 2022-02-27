@@ -184,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 else {
 
+                    lottieLoading.setVisibility(View.VISIBLE);
                     mAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -197,6 +198,7 @@ public class LoginActivity extends AppCompatActivity {
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                                                 GlobalUser.currentUser = snapshot.getValue(User.class);
+                                                lottieLoading.setVisibility(View.GONE);
 
                                                 StyleableToast.makeText(LoginActivity.this, "Login Successful", R.style.mytoast).show();
                                                 Intent log = new Intent(LoginActivity.this, MainActivity.class);
@@ -290,7 +292,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent log = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(log);
-                            finish();
+
 
                             lottieLoading.setVisibility(View.GONE);
 

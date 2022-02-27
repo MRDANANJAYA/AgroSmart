@@ -13,11 +13,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.agrosmart.MainActivity;
+
 import com.example.agrosmart.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,20 +25,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 
 import java.util.HashMap;
-import java.util.concurrent.Delayed;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import io.github.muddz.styleabletoast.StyleableToast;
 
 public class SignUp extends AppCompatActivity {
 
@@ -159,14 +157,16 @@ public class SignUp extends AppCompatActivity {
               else {
 
 
-                  loadingBar.setTitle("Signing up");
-                  loadingBar.setMessage("Please wait. while we are registering ");
-                  loadingBar.setMessage("Please wait. while we are registering ");
-                  loadingBar.show();
+
 
                   mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                       @Override
                       public void onComplete(@NonNull Task<AuthResult> task) {
+
+
+                          loadingBar.setTitle("Signing up");
+                          loadingBar.setMessage("Please wait. while we are registering ");
+                          loadingBar.show();
 
                           if(task.isSuccessful()){
 
@@ -212,15 +212,28 @@ public class SignUp extends AppCompatActivity {
                                                           dbRef.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
 
 
+
                                                       }
                                                   }
                                               });
 
-
+                                              loadingBar.dismiss();
                                               Toast.makeText(SignUp.this, "User Registration has been Successful!",Toast.LENGTH_SHORT).show();
-                                              // StyleableToast.makeText(SignUp.this, "User Registration is Successful", R.style.mytoast).show();
-                                               Intent log = new Intent(SignUp.this, LoginActivity.class);
-                                               startActivity(log);
+
+                                              // run when the delay expires
+
+                                              new Timer().schedule(
+                                                      new TimerTask(){
+
+                                                          @Override
+                                                          public void run(){
+                                                              Intent log = new Intent(SignUp.this, LoginActivity.class);
+                                                              startActivity(log);
+
+                                                          }
+
+                                                      }, 5000);
+
                                           }
                                       }).addOnFailureListener(new OnFailureListener() {
                                   @Override
@@ -240,9 +253,10 @@ public class SignUp extends AppCompatActivity {
 
 
 
+
                       }
                   });
-                  loadingBar.dismiss();
+
 
               }
 

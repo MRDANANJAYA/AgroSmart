@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.agrosmart.login.GlobalUser;
 import com.example.agrosmart.login.LoginActivity;
+import com.example.agrosmart.login.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -68,8 +69,31 @@ public class MainActivity extends AppCompatActivity {
         dbRef = db.getReference("User");
 
 
+
+        FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/").getReference("User")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        GlobalUser.currentUser = snapshot.getValue(User.class);
+
+                        Name.setText(GlobalUser.currentUser.getUsername());
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
         //Fitch User name
-        Name.setText(GlobalUser.currentUser.getUsername());
+
+
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.
                 Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
