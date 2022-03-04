@@ -38,4 +38,9 @@
     <string name="settings_text">Settings</string>
 
 
+
+    //openWeatherAPIkey
+    <string name="weather_api_key">1ac2a860afc2bde2cbc1ebdee97766a3</string>
+
+
 </resources>
