@@ -216,9 +216,7 @@ public class ImageProcessing extends AppCompatActivity {
                 image = ThumbnailUtils.extractThumbnail(image, dimensions, dimensions);
                 //imageView.setImageBitmap(image);
 
-                Glide.with(this).load(imageUri).into(imageView);
-
-
+                Glide.with(this).load(imageUri).centerCrop().into(imageView);
                 image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
                 classifyImage(image);
 
