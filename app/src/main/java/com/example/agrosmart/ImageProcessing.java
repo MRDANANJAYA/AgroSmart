@@ -20,10 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.agrosmart.ml.ModelUnquant;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.squareup.picasso.Picasso;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
@@ -212,7 +214,9 @@ public class ImageProcessing extends AppCompatActivity {
                 Bitmap image = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 int dimensions = Math.min(image.getWidth(), image.getHeight());
                 image = ThumbnailUtils.extractThumbnail(image, dimensions, dimensions);
-                imageView.setImageBitmap(image);
+                //imageView.setImageBitmap(image);
+
+                Glide.with(this).load(imageUri).into(imageView);
 
 
                 image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);

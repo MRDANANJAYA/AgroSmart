@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.agrosmart.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -269,8 +270,9 @@ public class SignUp extends AppCompatActivity {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
 
             imageUri = data.getData();
-            profilePic.setImageURI(imageUri);
-            profilePic.setScaleType(ImageView.ScaleType.CENTER_CROP);
+           // profilePic.setImageURI(imageUri);
+           // profilePic.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            Glide.with(this).load(imageUri).circleCrop().into(profilePic);
             addText.setVisibility(View.INVISIBLE);
 
 

@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
             Name.setText(googleSignInAccount.getDisplayName());
             Uri photo = googleSignInAccount.getPhotoUrl();
-            Picasso.with(this).load(photo).fit().placeholder(R.mipmap.ic_launcher_round).into(profilePic);
+            Picasso.with(this).load(photo).fit().centerCrop().placeholder(R.mipmap.ic_launcher_round).into(profilePic);
         } else {
             getUserinfo();
             //Fitch User name
