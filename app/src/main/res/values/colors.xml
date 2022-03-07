@@ -17,5 +17,6 @@
     <color name="colorPrimaryDark">#004D40</color>      <!--  00574B-->
     <color name="colorAccent">#0F8B62</color>           <!--  D81B60-->
     <color name="colorTemporalFaded">#6A8BF8CC</color>
+    <color name="Current_Weather_Color">#EB6E4B</color>
 
 </resources>

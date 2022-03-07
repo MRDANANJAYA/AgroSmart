@@ -192,28 +192,28 @@ public class InfoMonitoring extends AppCompatActivity {
 
                 switch (weatherDis) {
                     case "broken clouds":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).into(WIcon);
                         break;
                     case "few clouds":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        Glide.with(InfoMonitoring.this).load(R.drawable.few_clouds).into(WIcon);
                         break;
                     case "moderate rain":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                    case "light rain":
+                    case "heavy intensity rain":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.rain).into(WIcon);
                         break;
                     case "shower rain":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        Glide.with(InfoMonitoring.this).load(R.drawable.shower_rain).into(WIcon);
                         break;
                     case "thunderstorm":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        Glide.with(InfoMonitoring.this).load(R.drawable.thunderstorm).into(WIcon);
                         break;
                     case "mist":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                    case "fog":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.mist).into(WIcon);
                         break;
                     case "scattered clouds":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
-                        break;
-                    case "light rain":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        Glide.with(InfoMonitoring.this).load(R.drawable.scattered_clouds).into(WIcon);
                         break;
 
                 }

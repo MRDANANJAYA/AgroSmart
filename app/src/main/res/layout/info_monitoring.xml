@@ -60,7 +60,7 @@
         android:layout_marginEnd="0dp"
 
         android:columnCount="2"
-        android:columnOrderPreserved="false"
+        android:columnOrderPreserved="true"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
         android:rowCount="4">
@@ -105,8 +105,7 @@
                     android:id="@+id/temperature_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
                     android:paddingTop="16dp"
                     android:textColor="#fa7ba5"
                     android:textSize="33sp"
@@ -327,8 +326,7 @@
                     android:id="@+id/light_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
                     android:paddingTop="16dp"
                     android:textColor="#800080"
                     android:textSize="33sp"
@@ -366,26 +364,29 @@
 
                 <ImageView
                     android:id="@+id/WeatherIcon"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
                     android:contentDescription="@string/icons_description"
-                    />
+                    android:elevation="5dp" />
                 <!--android:src="@drawable/c"-->
 
                 <TextView
                     android:id="@+id/wind_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_above="@+id/currentWeather"
+                    android:layout_below="@+id/WeatherIcon"
+                    android:layout_centerHorizontal="true"
+                    android:textAllCaps="true"
                     android:fontFamily="sans-serif-medium"
-
                     android:textAlignment="center"
-                    android:textColor="#FF9800"
-                    android:textSize="16sp"
+                    android:textColor="@color/Current_Weather_Color"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/currentWeather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
