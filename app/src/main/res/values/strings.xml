@@ -9,7 +9,7 @@
     <string name="light_status">Light Status</string>
     <string name="icons_description">Image Icons</string>
     <string name="motor_status">Motor Status</string>
-    <string name="rain_stats">Rain(mm)</string>
+    <string name="rain_stats">Current Weather</string>
     <string name="light_intensity">Light Intensity</string>
     <string name="soil_moisture_2">Soil Moisture 2</string>
     <string name="sensor_information">Sensor information</string>

@@ -378,9 +378,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="sans-serif-medium"
-                    android:textColor="#FF9800"
-                    android:textSize="20sp"
+                    android:text="Weather Report"
                     android:textAlignment="center"
+                    android:textColor="#FF9800"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
