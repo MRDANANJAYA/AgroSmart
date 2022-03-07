@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.example.agrosmart.login.LoginActivity;
 import com.example.agrosmart.login.SignUp;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -160,7 +161,67 @@ public class InfoMonitoring extends AppCompatActivity {
                 //mRain.setText(String.format("%.2f", wind));
                 mRain.setText(weatherDis);
 
-                //Double pressure = currentWeather.getMain().getPressure();
+               /** if(weatherDis.equals("broken clouds")){
+
+                  //  WIcon.setImageURI(R.drawable.clear_sky);
+                    Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                }else if(weatherDis.equals("clear sky")){
+
+                    //  WIcon.setImageURI(R.drawable.clear_sky);
+                    Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                }else if(weatherDis.equals("few clouds")) {
+
+                    //  WIcon.setImageURI(R.drawable.clear_sky);
+                    Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                }else if(weatherDis.equals("moderate rain") ||weatherDis.equals("rain")) {
+
+                    //  WIcon.setImageURI(R.drawable.clear_sky);
+                    Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                }else if(weatherDis.equals("shower rain")) {
+
+                    //  WIcon.setImageURI(R.drawable.clear_sky);
+                    Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                }else if(weatherDis.equals("thunderstorm")) {
+
+                    //  WIcon.setImageURI(R.drawable.clear_sky);
+                    Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                }**/
+
+
+
+
+                switch (weatherDis) {
+                    case "broken clouds":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        break;
+                    case "few clouds":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        break;
+                    case "moderate rain":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        break;
+                    case "shower rain":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        break;
+                    case "thunderstorm":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        break;
+                    case "mist":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        break;
+                    case "scattered clouds":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        break;
+                    case "light rain":
+                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).centerCrop().into(WIcon);
+                        break;
+
+                }
+
+
+
+
+                    //Double pressure = currentWeather.getMain().getPressure();
                 //mPressure.setText(String.format("%.2f", pressure));
                 Log.e(null, "Coordinates: " + currentWeather.getCoord().getLat() + ", "+currentWeather.getCoord().getLon() +"\n"
                         +"Weather Description: " + currentWeather.getWeather().get(0).getDescription() + "\n"

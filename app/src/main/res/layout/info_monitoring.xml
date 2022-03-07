@@ -369,8 +369,9 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_centerHorizontal="true"
-                    android:contentDescription="@string/icons_description" />
-                <!--android:src="@drawable/rain"-->
+                    android:contentDescription="@string/icons_description"
+                    />
+                <!--android:src="@drawable/c"-->
 
                 <TextView
                     android:id="@+id/wind_value"
@@ -378,7 +379,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Weather Report"
+
                     android:textAlignment="center"
                     android:textColor="#FF9800"
                     android:textSize="16sp"
