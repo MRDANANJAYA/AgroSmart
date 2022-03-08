@@ -55,10 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/aa"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-60dp"
+        android:layout_marginTop="-80dp"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-
         android:columnCount="2"
         android:columnOrderPreserved="true"
         android:paddingLeft="25dp"
