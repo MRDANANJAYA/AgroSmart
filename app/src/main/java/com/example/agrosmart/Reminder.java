@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.agrosmart.login.SignUp;
@@ -31,8 +36,16 @@ import java.util.Locale;
 public class Reminder extends AppCompatActivity {
 
     private static final String TAG = "";
+    TimePicker timePicker1;
+    TextView time;
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
+    private Calendar calendar;
+    private String format = "", name ="";
+    RelativeLayout rel2, RemRel;
+    Button timeOk, timeCancel;
+    DatabaseReference mDatabaseref;
+    EditText remindName;
 
 
     @Override
@@ -45,13 +58,54 @@ public class Reminder extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.Fab);
         bottomNavigationView.setBackground(null);
         bottomNavigationView.getMenu().getItem(2).setEnabled(false);
-
+        timePicker1 = (TimePicker) findViewById(R.id.timePicker1);
+        time = (TextView) findViewById(R.id.textTimePick);
+        rel2 = (RelativeLayout) findViewById(R.id.r2);
+        RemRel = (RelativeLayout) findViewById(R.id.reminderCardRel);
+        timeOk = (Button) findViewById(R.id.TimePickOk);
+        timeCancel = (Button) findViewById(R.id.TimePickCancel);
+        remindName = (EditText) findViewById(R.id.RemindName);
 
         // Initialize Firebase Database
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
 
         //Refer database
-        DatabaseReference mDatabaseref = db.getReference();
+        mDatabaseref = db.getReference();
+
+
+        rel2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                RemRel.setVisibility(View.VISIBLE);
+
+
+                timeOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int hour = timePicker1.getCurrentHour();
+                        int min = timePicker1.getCurrentMinute();
+                        name = remindName.getText().toString();
+
+                        showTime(hour, min);
+                        RemRel.setVisibility(View.GONE);
+                    }
+                });
+
+                timeCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RemRel.setVisibility(View.GONE);
+                        time.setText("");
+                    }
+                });
+
+
+            }
+        });
+
+
+
 
 
         String name = "dana";
@@ -60,7 +114,7 @@ public class Reminder extends AppCompatActivity {
         SimpleDateFormat mdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss:a");
         String strDate =  mdFormat.format(calendar.getTime());
         Toast.makeText(Reminder.this, ""+ (strDate), Toast.LENGTH_LONG).show();**/
-        mDatabaseref.child("Reminder"+ (name)).child("Time").setValue(ServerValue.TIMESTAMP);
+      //  mDatabaseref.child("Reminder"+ (name)).child("Time").setValue(ServerValue.TIMESTAMP);
 
 
 
@@ -126,5 +180,31 @@ public class Reminder extends AppCompatActivity {
 
 
 
+    }
+
+
+
+    private void showTime(int hour, int min) {
+
+        if (hour == 0) {
+            hour += 12;
+            format = "AM";
+        } else if (hour == 12) {
+            format = "PM";
+        } else if (hour > 12) {
+            hour -= 12;
+            format = "PM";
+        } else {
+            format = "AM";
+        }
+
+        time.setText(new StringBuilder().append(hour).append(" : ").append(min)
+                .append(" ").append(format));
+
+
+
+        mDatabaseref.child("Reminder").child(name).child("Time").child("Hour").setValue((hour));
+        mDatabaseref.child("Reminder").child(name).child("Time").child("Min").setValue((min));
+        mDatabaseref.child("Reminder").child(name).child("Time").child("Format").setValue((format));
     }
 }

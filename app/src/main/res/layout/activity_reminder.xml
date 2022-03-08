@@ -6,6 +6,222 @@
     android:layout_height="match_parent"
     tools:context=".Reminder">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/newcentergreen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/background_mask_leaf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+        <RelativeLayout
+            android:id="@+id/RemindRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="220dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingHorizontal="15dp">
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/alarmCard"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:elevation="10dp"
+                app:cardBackgroundColor="@color/Green"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <RelativeLayout
+                        android:id="@+id/r1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="15dp">
+
+                        <ImageView
+                            android:id="@+id/image1"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginHorizontal="5dp"
+                            android:padding="12dp"
+                            app:srcCompat="@drawable/icon_documents" />
+
+
+                        <EditText
+                            android:id="@+id/RemindName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="15dp"
+                            android:layout_toEndOf="@+id/image1"
+                            android:layout_toRightOf="@id/image1"
+                            android:backgroundTint="@color/white"
+                            android:ems="10"
+                            android:hint="Reminder Name"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/white" />
+
+                    </RelativeLayout>
+                    <View
+                        android:layout_below="@id/r1"
+                        android:id="@+id/Devide_line_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/white"
+                        android:layout_marginTop="5dp"
+
+                        />
+
+                    <RelativeLayout
+                        android:id="@+id/r2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/Devide_line_1"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+
+                        android:layout_centerVertical="true">
+
+                        <ImageView
+                            android:id="@+id/image2"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="5dp"
+                            android:padding="12dp"
+                            app:srcCompat="@drawable/icon_documents" />
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/image2"
+                            android:layout_toRightOf="@id/image2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Remind me In"
+                            android:textColor="@color/white"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/textTimePick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="70dp"
+                            android:layout_toEndOf="@+id/textView1"
+                            android:layout_toRightOf="@id/textView1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+
+
+
+
+                    </RelativeLayout>
+                    <View
+                        android:layout_below="@id/r2"
+                        android:id="@+id/Devide_line_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/white"
+
+
+                        />
+
+                    <RelativeLayout
+                        android:id="@+id/r3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/Devide_line_2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="15dp">
+
+                        <ImageView
+                            android:id="@+id/image3"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="5dp"
+                            android:padding="12dp"
+                            app:srcCompat="@drawable/icon_documents" />
+
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/image3"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Watering Time"
+                            android:textColor="@color/white"
+                            android:textSize="20dp" />
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <include
+
+            layout="@layout/reminder_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:layout_width="match_parent"
