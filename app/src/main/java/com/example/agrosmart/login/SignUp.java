@@ -98,7 +98,7 @@ public class SignUp extends AppCompatActivity {
             String password = passwordSn.getText().toString();
             String ConfirmPassword = cmfPassword.getText().toString();
             String Username = userName.getText().toString();
-            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"; //email validation
 
 
             if (TextUtils.isEmpty(Username)) {

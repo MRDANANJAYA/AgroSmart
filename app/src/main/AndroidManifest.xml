@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Settings"></activity>
         <activity android:name=".Reminder" />
-        <activity android:name=".ImageProcessing" />
+        <activity android:name=".ml.ImageProcessing" />
         <activity android:name=".login.SignUp" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login.LoginActivity" />

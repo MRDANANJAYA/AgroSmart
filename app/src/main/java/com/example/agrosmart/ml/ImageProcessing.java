@@ -1,6 +1,7 @@
-package com.example.agrosmart;
+package com.example.agrosmart.ml;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -21,11 +22,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.agrosmart.ml.ModelUnquant;
+import com.example.agrosmart.InfoMonitoring;
+import com.example.agrosmart.MainActivity;
+import com.example.agrosmart.R;
+import com.example.agrosmart.Reminder;
+import com.example.agrosmart.Settings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
-import com.squareup.picasso.Picasso;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
@@ -34,6 +38,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+@SuppressWarnings("ALL")
 public class ImageProcessing extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
@@ -65,7 +70,7 @@ public class ImageProcessing extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (ContextCompat.checkSelfPermission(ImageProcessing.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    // Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
                     Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -135,10 +140,11 @@ public class ImageProcessing extends AppCompatActivity {
     }
 
 
+    @SuppressLint("DefaultLocale")
     public void classifyImage(Bitmap image) {
 
         try {
-            ModelUnquant model = ModelUnquant.newInstance(getApplicationContext());
+            com.example.agrosmart.ml.ModelUnquant model = com.example.agrosmart.ml.ModelUnquant.newInstance(getApplicationContext());
 
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
@@ -162,7 +168,7 @@ public class ImageProcessing extends AppCompatActivity {
             inputFeature0.loadBuffer(byteBuffer);
 
             // Runs model inference and gets result.
-            ModelUnquant.Outputs outputs = model.process(inputFeature0);
+            com.example.agrosmart.ml.ModelUnquant.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidence = outputFeature0.getFloatArray();

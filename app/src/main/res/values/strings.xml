@@ -37,10 +37,14 @@
     <string name="add_image">Add \n Image</string>
     <string name="settings_text">Settings</string>
 
+    //image processing activity
+    <string name="create_a_model">Not Detect your Plants? <u>Create A Model</u></string>
+    <string name="select_a_picture">Select A Picture</string>
 
 
     //openWeatherAPIkey
     <string name="weather_api_key">1ac2a860afc2bde2cbc1ebdee97766a3</string>
+
 
 
 </resources>
