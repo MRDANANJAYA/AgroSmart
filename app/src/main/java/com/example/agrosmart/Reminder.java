@@ -3,6 +3,8 @@ package com.example.agrosmart;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,7 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.EventListener;
@@ -36,16 +39,18 @@ import java.util.Locale;
 public class Reminder extends AppCompatActivity {
 
     private static final String TAG = "";
-    TimePicker timePicker1;
     TextView time;
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
-    private Calendar calendar;
-    private String format = "", name ="";
-    RelativeLayout rel2, RemRel;
-    Button timeOk, timeCancel;
+    private String format = "";
+    RelativeLayout rel2;
     DatabaseReference mDatabaseref;
     EditText remindName;
+    Button btOk,btClear;
+    int hour;
+    int min;
+    String alarmName;
+    String alarmTime;
 
 
     @Override
@@ -58,13 +63,12 @@ public class Reminder extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.Fab);
         bottomNavigationView.setBackground(null);
         bottomNavigationView.getMenu().getItem(2).setEnabled(false);
-        timePicker1 = (TimePicker) findViewById(R.id.timePicker1);
-        time = (TextView) findViewById(R.id.textTimePick);
         rel2 = (RelativeLayout) findViewById(R.id.r2);
-        RemRel = (RelativeLayout) findViewById(R.id.reminderCardRel);
-        timeOk = (Button) findViewById(R.id.TimePickOk);
-        timeCancel = (Button) findViewById(R.id.TimePickCancel);
         remindName = (EditText) findViewById(R.id.RemindName);
+        btOk = findViewById(R.id.TimePickOk);
+        btClear = findViewById(R.id.TimePickClear);
+        time = findViewById(R.id.textTimePick);
+
 
         // Initialize Firebase Database
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
@@ -77,43 +81,79 @@ public class Reminder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                RemRel.setVisibility(View.VISIBLE);
 
-
-                timeOk.setOnClickListener(new View.OnClickListener() {
+                TimePickerDialog TimeDialog = new TimePickerDialog(Reminder.this,R.style.Timepicker, new TimePickerDialog.OnTimeSetListener() {
                     @Override
-                    public void onClick(View v) {
-                        int hour = timePicker1.getCurrentHour();
-                        int min = timePicker1.getCurrentMinute();
-                        name = remindName.getText().toString();
+                    public void onTimeSet(TimePicker view,  int hourOfDay, int minute) {
 
-                        showTime(hour, min);
-                        RemRel.setVisibility(View.GONE);
+                        //Initialize hours and minutes
+                         hour = hourOfDay;
+                         min = minute;
+
+                        if (hour == 0) {
+                            hour += 12;
+                            format = "am";
+                        } else if (hour == 12) {
+                            format = "pm";
+                        } else if (hour > 12) {
+                            hour -= 12;
+                            format = "pm";
+                        } else {
+                            format = "am";
+                        }
+
+                      alarmTime = String.format(Locale.getDefault(),"%02d : %02d ", hour,min)+format;
+                        time.setText(alarmTime);
+
                     }
-                });
+                },12,0,false
+                );
 
-                timeCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        RemRel.setVisibility(View.GONE);
-                        time.setText("");
-                    }
-                });
 
+                //display previous selected time
+                TimeDialog.updateTime(hour,min);
+
+                //show dialog
+                TimeDialog.show();
+                  //theme overlay
 
             }
         });
 
 
+        btOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                alarmName = remindName.getText().toString();
+
+                if (alarmName.isEmpty()){
+                    Toast.makeText(Reminder.this,"can not be empty", Toast.LENGTH_LONG).show();
+
+                }if(alarmTime == null){
+                    Toast.makeText(Reminder.this,"Time can not be empty", Toast.LENGTH_LONG).show();
+                }else {
+
+                    mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Hour").setValue((hour));
+                    mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Minutes").setValue((min));
+                    mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Format").setValue((format));
+
+                    Toast.makeText(Reminder.this,"Successfully Completed", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+        btClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                remindName.setText("");
+                time.setText("");
+            }
+        });
 
 
 
-        String name = "dana";
-        // code under construction
-       /** Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss:a");
-        String strDate =  mdFormat.format(calendar.getTime());
-        Toast.makeText(Reminder.this, ""+ (strDate), Toast.LENGTH_LONG).show();**/
       //  mDatabaseref.child("Reminder"+ (name)).child("Time").setValue(ServerValue.TIMESTAMP);
 
 
@@ -184,27 +224,5 @@ public class Reminder extends AppCompatActivity {
 
 
 
-    private void showTime(int hour, int min) {
 
-        if (hour == 0) {
-            hour += 12;
-            format = "AM";
-        } else if (hour == 12) {
-            format = "PM";
-        } else if (hour > 12) {
-            hour -= 12;
-            format = "PM";
-        } else {
-            format = "AM";
-        }
-
-        time.setText(new StringBuilder().append(hour).append(" : ").append(min)
-                .append(" ").append(format));
-
-
-
-        mDatabaseref.child("Reminder").child(name).child("Time").child("Hour").setValue((hour));
-        mDatabaseref.child("Reminder").child(name).child("Time").child("Min").setValue((min));
-        mDatabaseref.child("Reminder").child(name).child("Time").child("Format").setValue((format));
-    }
 }

@@ -42,7 +42,7 @@
             android:id="@+id/RemindRelative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="220dp"
+            android:layout_marginVertical="300dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +53,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/alarmCard"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="220dp"
                 android:elevation="10dp"
                 app:cardBackgroundColor="@color/Green"
                 app:cardCornerRadius="20dp"
@@ -72,7 +72,6 @@
                         android:id="@+id/r1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_marginTop="15dp">
 
                         <ImageView
@@ -116,8 +115,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/Devide_line_1"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
 
                         android:layout_centerVertical="true">
 
@@ -147,7 +146,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="70dp"
+                            android:layout_marginStart="60dp"
                             android:layout_toEndOf="@+id/textView1"
                             android:layout_toRightOf="@id/textView1"
                             android:fontFamily="sans-serif-medium"
@@ -176,8 +175,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/Devide_line_2"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="15dp">
+                        android:layout_alignParentBottom="true">
 
                         <ImageView
                             android:id="@+id/image3"
@@ -208,18 +206,40 @@
 
 
             </androidx.cardview.widget.CardView>
+
+
+
         </RelativeLayout>
 
-        <include
+        <Button
+            android:id="@+id/TimePickOk"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/RemindRelative"
+            android:layout_alignEnd="@+id/RemindRelative"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/google_btn"
+            android:text="Ok"
+            app:backgroundTint="@color/Green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.938"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RemindRelative" />
 
-            layout="@layout/reminder_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-
+        <Button
+            android:id="@+id/TimePickClear"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/RemindRelative"
+            android:layout_alignStart="@+id/RemindRelative"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/google_btn"
+            android:text="Clear"
+            app:backgroundTint="@color/Current_Weather_Color"
+            app:layout_constraintEnd_toStartOf="@+id/TimePickOk"
+            app:layout_constraintHorizontal_bias="0.168"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RemindRelative" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
