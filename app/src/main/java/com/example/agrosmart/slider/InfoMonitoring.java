@@ -1,4 +1,4 @@
-package com.example.agrosmart;
+package com.example.agrosmart.slider;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.example.agrosmart.MainActivity;
+import com.example.agrosmart.R;
 import com.example.agrosmart.ml.ImageProcessing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

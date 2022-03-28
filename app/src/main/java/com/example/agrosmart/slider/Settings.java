@@ -1,6 +1,6 @@
 
 
-package com.example.agrosmart;
+package com.example.agrosmart.slider;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.agrosmart.MainActivity;
+import com.example.agrosmart.R;
 import com.example.agrosmart.ml.ImageProcessing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

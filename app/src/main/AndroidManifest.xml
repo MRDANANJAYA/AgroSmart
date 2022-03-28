@@ -13,8 +13,8 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Settings"></activity>
-        <activity android:name=".Reminder" />
+        <activity android:name=".slider.Settings"></activity>
+        <activity android:name=".slider.Reminder" />
         <activity android:name=".ml.ImageProcessing" />
         <activity android:name=".login.SignUp" />
         <activity android:name=".MainActivity" />
@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfoMonitoring" />
+        <activity android:name=".slider.InfoMonitoring" />
 
         <meta-data
             android:name="preloaded_fonts"
