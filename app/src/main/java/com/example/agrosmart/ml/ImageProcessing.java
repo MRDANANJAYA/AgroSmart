@@ -22,11 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.agrosmart.slider.InfoMonitoring;
+import com.example.agrosmart.InfoMonitoring;
 import com.example.agrosmart.MainActivity;
 import com.example.agrosmart.R;
-import com.example.agrosmart.slider.Reminder;
-import com.example.agrosmart.slider.Settings;
+import com.example.agrosmart.Reminder;
+import com.example.agrosmart.Settings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
