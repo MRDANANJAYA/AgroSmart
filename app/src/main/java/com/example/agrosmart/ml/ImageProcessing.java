@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,7 +44,7 @@ public class ImageProcessing extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
-    TextView result, confidenceX;
+    TextView result, confidenceX, createml;
     ImageView imageView;
     Button picture;
     Uri imageUri;
@@ -64,6 +65,23 @@ public class ImageProcessing extends AppCompatActivity {
         confidenceX = findViewById(R.id.confidence);
         imageView = findViewById(R.id.imageView);
         picture = findViewById(R.id.button);
+        createml = findViewById(R.id.addml);
+
+
+
+
+   createml.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                createml.setText(R.string.create_a_model_long_pressed);
+                Intent intent = new Intent(ImageProcessing.this, CreateModel.class);
+                startActivity(intent);
+            }
+        });
+
+
+
 
 
         picture.setOnClickListener(new View.OnClickListener() {
