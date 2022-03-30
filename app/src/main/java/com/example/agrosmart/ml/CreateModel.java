@@ -1,5 +1,6 @@
 package com.example.agrosmart.ml;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -32,42 +33,76 @@ import java.util.List;
 public class CreateModel extends AppCompatActivity {
 
     private final static int IMAGE_CODE = 120;
-    Button backbt, multiImage, firebaseUploadBt;
-    RecyclerView recyclerView;
-    List<ModelClass> modelClassList;
-    CustomAdapter customAdapter;
-    Uri imageUri;
+    private final static int IMAGE_CODE_DRY = 222;
+    private final ArrayList<Uri> ImageList = new ArrayList<Uri>();
+    private final ArrayList<String> ImageNameList = new ArrayList<String>();
+    private final ArrayList<Uri> ImageListDry = new ArrayList<Uri>();
+    private final ArrayList<String> ImageNameListDry = new ArrayList<String>();
     private ProgressDialog loadingBar;
     private FirebaseAuth mAuth;
-    String imagename, user;
     private StorageReference mStorageRef;
+    RecyclerView recyclerView, recyclerViewDry;
+    List<ModelClassWatered> modelClassWateredList;
+    List<ModelClassDry> modelClassDryList;
+    CustomAdapterWatered customAdapterWatered;
+    CustomAdapterDry customAdapterDry;
+    Uri imageUri, imageUriDry;
+
+    Button backBt, WateredImage, firebaseUploadBt, DryImage;
+    String imageName, imageNameDry, user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_model);
 
 
-        backbt = findViewById(R.id.backBt);
-        multiImage = findViewById(R.id.btnUpload);
+        backBt = findViewById(R.id.backBt);
+        WateredImage = findViewById(R.id.btnUpload);
+        firebaseUploadBt = findViewById(R.id.uploadBt);
+        DryImage = findViewById(R.id.btnUpload_Dry);
+
         recyclerView = findViewById(R.id.recycler_upload);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        firebaseUploadBt = findViewById(R.id.uploadBt);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        //set progressDialog
+
+        recyclerViewDry = findViewById(R.id.recycler_upload2);
+        recyclerViewDry.setHasFixedSize(true);
+        recyclerViewDry.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+
+        // Create Array object to get ModelClassWatered Arraylist
+        modelClassWateredList = new ArrayList<>();
+        UploadImageWatered();
+
+        // Create Array object to get ModelClassWatered Arraylist
+        modelClassDryList = new ArrayList<>();
+        //Create progressDialog object
         loadingBar = new ProgressDialog(this);
-
+        //Refer Storage
         mStorageRef = FirebaseStorage.getInstance().getReference();
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         //currently signed in user
         user = mAuth.getCurrentUser().getUid();
-        Toast.makeText(this, user, Toast.LENGTH_SHORT).show();
 
-        modelClassList = new ArrayList<>();
 
-        multiImage.setOnClickListener(new View.OnClickListener() {
+        DryImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent UploadIntentDry = new Intent();
+                UploadIntentDry.setType("image/*");
+                UploadIntentDry.setAction(Intent.ACTION_GET_CONTENT);
+                UploadIntentDry.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                startActivityForResult(UploadIntentDry, IMAGE_CODE_DRY);
+            }
+        });
+
+
+        WateredImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -80,7 +115,7 @@ public class CreateModel extends AppCompatActivity {
         });
 
 
-        backbt.setOnClickListener(new View.OnClickListener() {
+        backBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -92,80 +127,160 @@ public class CreateModel extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (requestCode == IMAGE_CODE && resultCode == RESULT_OK) {
+        if (requestCode == IMAGE_CODE_DRY && resultCode == RESULT_OK) {
 
             if (data.getClipData() != null) {
 
-                int totalitem = data.getClipData().getItemCount();
+                int TotalItemDry = data.getClipData().getItemCount();
+                for (int k = 0; k < TotalItemDry; k++) {
+                    imageUriDry = data.getClipData().getItemAt(k).getUri();
+                    imageNameDry = getFileNameDry(imageUriDry);
 
-                for (int i = 0; i < totalitem; i++) {
+                    ImageListDry.add(imageUriDry);
+                    ImageNameListDry.add(imageNameDry);
+
+                    ModelClassDry modelClassDry = new ModelClassDry(imageNameDry, imageUriDry);
+                    modelClassDryList.add(modelClassDry);
+
+                    customAdapterDry = new CustomAdapterDry(CreateModel.this, modelClassDryList);
+                    recyclerViewDry.setAdapter(customAdapterDry);
+                    UploadImageDry();
+
+                }
+
+            } else if (data.getData() != null) {
+                Toast.makeText(this, "Add More Images", Toast.LENGTH_SHORT).show();
+            }
+
+
+        } else if (requestCode == IMAGE_CODE && resultCode == RESULT_OK) {
+
+            if (data.getClipData() != null) {
+
+                int TotalItem = data.getClipData().getItemCount();
+
+
+                for (int i = 0; i < TotalItem; i++) {
 
                     imageUri = data.getClipData().getItemAt(i).getUri();
-                    imagename = getFileName(imageUri);
+                    imageName = getFileNameWatered(imageUri);
+                    ImageList.add(imageUri);
+                    ImageNameList.add(imageName);
 
-                    ModelClass modelClass = new ModelClass(imagename,imageUri);
-                    modelClassList.add(modelClass);
+                    ModelClassWatered modelClassWatered = new ModelClassWatered(imageName, imageUri);
+                    modelClassWateredList.add(modelClassWatered);
 
-                    customAdapter = new CustomAdapter(CreateModel.this, modelClassList);
-                    recyclerView.setAdapter(customAdapter);
+                    customAdapterWatered = new CustomAdapterWatered(CreateModel.this, modelClassWateredList);
+                    recyclerView.setAdapter(customAdapterWatered);
 
-                    UploadImage();
 
                 }
 
 
             } else if (data.getData() != null) {
-                Toast.makeText(this, "single", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Add More Images", Toast.LENGTH_SHORT).show();
             }
 
         }
 
+
     }
 
-    private void UploadImage() {
+    private void UploadImageDry() {
+    }
+
+
+    private void UploadImageWatered() {
+
 
         firebaseUploadBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                loadingBar.setTitle("Registering");
-                loadingBar.show();
 
-                StorageReference mRef = mStorageRef.child("image").child(imagename);
+                if (ImageList.size() != 0 && ImageListDry.size() != 0) {
 
-                mRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    loadingBar.setTitle("Uploading");
+                    loadingBar.show();
 
-                        loadingBar.dismiss();
-                        Toast.makeText(CreateModel.this, "Upload has been Done", Toast.LENGTH_LONG).show();
+
+                    for (int uploadsDry = 0; uploadsDry < ImageList.size(); uploadsDry++) {
+
+                        StorageReference mRefDry = mStorageRef.child("imageDry").child(user).child(ImageNameListDry.get(uploadsDry));
+
+                        mRefDry.putFile(ImageList.get(uploadsDry)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(CreateModel.this, "Upload Fail" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                loadingBar.setTitle("Uploading Dry Plant Images");
+                                double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                                loadingBar.setMessage("Please wait.While we are Uploading... " + (int) progressPercent + "%");
+
+                            }
+                        });
+
 
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CreateModel.this, "Fail" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
 
-                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        loadingBar.setMessage("Please wait. while we are Uploading... " + (int) progressPercent + "%");
 
+                    for (int uploads = 0; uploads < ImageList.size(); uploads++) {
+                        // Uri Image = ImageList.get(uploads);
+
+
+                        StorageReference mRef = mStorageRef.child("imageWatered").child(user).child(ImageNameList.get(uploads));
+
+                        mRef.putFile(ImageList.get(uploads)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                loadingBar.dismiss();
+                                Toast.makeText(CreateModel.this, "Upload has been Completed", Toast.LENGTH_LONG).show();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(CreateModel.this, "Upload Fail" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                loadingBar.setTitle("Uploading Watered Plant Images");
+                                double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                                loadingBar.setMessage("Please wait. While we are Uploading... " + (int) progressPercent + "%");
+
+                            }
+                        });
                     }
-                });
+
+                } else if (ImageList.size() == 0 || ImageListDry.size() == 0) {
+                    Toast.makeText(CreateModel.this, "There is no images to upload", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
+
+
     }
 
 
-    public String getFileName(Uri uri) {
+    @SuppressLint("Range")
+    public String getFileNameWatered(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
@@ -186,4 +301,30 @@ public class CreateModel extends AppCompatActivity {
         }
         return result;
     }
+
+
+    @SuppressLint("Range")
+    public String getFileNameDry(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
+    }
+
+
 }

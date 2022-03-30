@@ -12,37 +12,40 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.agrosmart.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
-    Context context;
-    List<ModelClass> mList;
 
-    public CustomAdapter(Context context, List<ModelClass> mList) {
-        this.context = context;
-        this.mList = mList;
+public class CustomAdapterDry extends RecyclerView.Adapter<CustomAdapterDry.MyViewHolder> {
+
+    Context contextDry;
+    List<ModelClassDry> mListDry;
+
+
+
+    public CustomAdapterDry(Context contextDry, List<ModelClassDry> mListDry) {
+        this.contextDry = contextDry;
+        this.mListDry = mListDry;
     }
 
 
     @NonNull
     @Override
-    public CustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomAdapterDry.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(contextDry);
         View view = inflater.inflate(R.layout.recycle_image, parent, false);
 
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomAdapterDry.MyViewHolder holder, int position) {
 
 
-        holder.textView.setText(mList.get(position).getImagename());
-        Glide.with(context).load(mList.get(position).getImage()).centerCrop().placeholder(R.drawable.app_logo).into(holder.imageView);
+        holder.textView.setText(mListDry.get(position).getImagename());
+        Glide.with(contextDry).load(mListDry.get(position).getImage()).centerCrop().placeholder(R.drawable.app_logo).into(holder.imageView);
 
 
 
@@ -50,7 +53,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mListDry.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

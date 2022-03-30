@@ -3,16 +3,16 @@ package com.example.agrosmart.ml;
 import android.net.Uri;
 
 
-public class ModelClass {
+public class ModelClassWatered {
 
     String imagename;
     Uri image;
 
-    public ModelClass() {
+    public ModelClassWatered() {
     }
 
 
-    public ModelClass(String imagename, Uri image) {
+    public ModelClassWatered(String imagename, Uri image) {
         this.imagename = imagename;
         this.image = image;
     }
