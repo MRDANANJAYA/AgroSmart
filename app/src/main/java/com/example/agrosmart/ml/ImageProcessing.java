@@ -31,6 +31,8 @@ import com.example.agrosmart.Settings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
@@ -49,7 +51,7 @@ public class ImageProcessing extends AppCompatActivity {
     Button picture;
     Uri imageUri;
     int imageSize = 224;
-
+    DatabaseReference mDatabaseref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,11 @@ public class ImageProcessing extends AppCompatActivity {
         picture = findViewById(R.id.button);
         createml = findViewById(R.id.addml);
 
+        // Initialize Firebase Database
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
+
+        //Refer database
+         mDatabaseref = db.getReference();
 
 
 
@@ -210,10 +217,15 @@ public class ImageProcessing extends AppCompatActivity {
 
             if (maxPos == 0) {
                 Toast.makeText(ImageProcessing.this, "No need to be watered", Toast.LENGTH_LONG).show();
+                mDatabaseref.child("pump").child("level").setValue(1);
+                mDatabaseref.child("pump").child("status").setValue(3);
             } else if (maxPos == 1) {
                 Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly", Toast.LENGTH_LONG).show();
+                mDatabaseref.child("pump").child("level").setValue(3);
+                mDatabaseref.child("pump").child("status").setValue(1);
             } else if (maxPos == 2) {
                 Toast.makeText(ImageProcessing.this, "Need to be watered Lighty", Toast.LENGTH_LONG).show();
+                mDatabaseref.child("pump").child("level").setValue(2);
             } else if (maxPos == 3) {
                 Toast.makeText(ImageProcessing.this, "Not recognized", Toast.LENGTH_LONG).show();
             } else {

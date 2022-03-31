@@ -150,7 +150,7 @@ public class CreateModel extends AppCompatActivity {
 
                     customAdapterDry = new CustomAdapterDry(CreateModel.this, modelClassDryList);
                     recyclerViewDry.setAdapter(customAdapterDry);
-                    UploadImageDry();
+
 
                 }
 
@@ -192,8 +192,7 @@ public class CreateModel extends AppCompatActivity {
 
     }
 
-    private void UploadImageDry() {
-    }
+
 
 
     private void UploadImageWatered() {
