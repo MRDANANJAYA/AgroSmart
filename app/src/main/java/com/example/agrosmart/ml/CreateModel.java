@@ -203,10 +203,12 @@ public class CreateModel extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                    loadingBar.setTitle("Uploading");
 
                 if (ImageList.size() != 0 && ImageListDry.size() != 0) {
 
-                    loadingBar.setTitle("Uploading");
+
+                    loadingBar.setCancelable(false);
                     loadingBar.show();
 
 
@@ -217,6 +219,8 @@ public class CreateModel extends AppCompatActivity {
                         mRefDry.putFile(ImageList.get(uploadsDry)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                Toast.makeText(CreateModel.this, "We will Notify you once Your model is ready", Toast.LENGTH_LONG).show();
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -249,7 +253,7 @@ public class CreateModel extends AppCompatActivity {
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                                 loadingBar.dismiss();
-                                Toast.makeText(CreateModel.this, "Upload has been Completed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(CreateModel.this, "Upload has been Completed", Toast.LENGTH_SHORT).show();
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
