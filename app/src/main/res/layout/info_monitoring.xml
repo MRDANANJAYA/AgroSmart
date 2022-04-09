@@ -32,8 +32,24 @@
         android:layout_marginTop="70dp"
         android:gravity="center_horizontal"
         android:text="@string/sensor_information"
+        android:fontFamily="@font/allerta_stencil"
         android:textColor="@color/white"
         android:textSize="33sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/TimeStamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/aa"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+
+        android:fontFamily="@font/allerta_stencil"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="10sp"
         android:textStyle="bold" />
 
     <ImageView

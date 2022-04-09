@@ -35,14 +35,7 @@ public class InfoMonitoring extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
-    private TextView mHumid;
-    private TextView mTemp;
-    private TextView mLight;
-    private TextView mMoisture;
-    private TextView mMoisture2;
-    private TextView lStatus;
-    private TextView mStatus;
-    private TextView mRain;
+    private TextView mHumid, mTemp, mLight, mMoisture, mMoisture2, lStatus, mStatus, mRain, tStamp;
     private ImageView WIcon;
     private LottieAnimationView lottieAnimationLoading;
 
@@ -62,6 +55,7 @@ public class InfoMonitoring extends AppCompatActivity {
         mStatus = findViewById(R.id.Motor_Status);
         mLight = findViewById(R.id.light_value);
         mRain = findViewById(R.id.wind_value);
+        tStamp = findViewById(R.id.TimeStamp);
         WIcon = findViewById(R.id.WeatherIcon);
         lottieAnimationLoading = findViewById(R.id.lottieMonitor);
 
@@ -213,6 +207,10 @@ public class InfoMonitoring extends AppCompatActivity {
 
                 Integer Light = snapshot.child("light").getValue(Integer.class);
                 mLight.setText(Integer.toString(Light));
+
+                String Date = snapshot.child("Datestamp").getValue(String.class);
+                String Time = snapshot.child("timestamp").getValue(String.class);
+                tStamp.setText("Last Sync :  "+ Date +"  "+ Time);
 
                 lottieAnimationLoading.setVisibility(View.GONE);
 
