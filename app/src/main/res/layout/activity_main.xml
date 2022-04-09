@@ -38,7 +38,6 @@
     </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relativeLayout4"
         android:layout_width="match_parent"
         android:layout_height="122dp"
         android:layout_marginTop="30dp"
@@ -47,7 +46,6 @@
         tools:layout_editor_absoluteY="26dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

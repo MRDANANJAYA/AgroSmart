@@ -7,7 +7,6 @@
     tools:context=".Settings">
 
     <ImageView
-        android:id="@+id/imageView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +78,6 @@
 
 
                 <TextView
-                    android:id="@+id/settings_notif_enabler_text"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="14dp"
@@ -145,7 +143,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/settings_notif_timing_text"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="14dp"
@@ -213,7 +210,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/settings_notif_remind_text"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="14dp"
@@ -290,7 +286,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/settings_delete_text"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:gravity="center_vertical"
@@ -343,7 +338,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/settings_license_text"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:gravity="center_vertical"
@@ -397,7 +391,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/settings_about_text"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:gravity="center_vertical"
@@ -453,7 +446,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/settings_about_text2"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:gravity="center_vertical"
@@ -481,7 +473,6 @@
             app:layout_constraintTop_toBottomOf="@id/settings_about_box2" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/settings_about_box3"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/settings_box_height"
                 android:background="@drawable/settings_cell_round_down"
@@ -508,7 +499,6 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/settings_about_text3"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:gravity="center_vertical"
