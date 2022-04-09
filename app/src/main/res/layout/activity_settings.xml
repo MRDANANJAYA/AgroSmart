@@ -16,7 +16,6 @@
         app:srcCompat="@drawable/newcentergreen"
         android:scaleType="centerCrop"
         android:layout_marginTop="-120dp"
-
         android:contentDescription="@string/Top_green" />
 
     <ImageView

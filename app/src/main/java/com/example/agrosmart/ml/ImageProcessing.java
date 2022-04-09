@@ -2,6 +2,7 @@ package com.example.agrosmart.ml;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,8 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +32,9 @@ import com.example.agrosmart.Settings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -48,10 +52,12 @@ public class ImageProcessing extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     TextView result, confidenceX, createml;
     ImageView imageView;
-    Button picture;
+    Button picture, Okay, Cancel;
     Uri imageUri;
     int imageSize = 224;
+    String Moisture, Moisture2;
     DatabaseReference mDatabaseref;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +75,57 @@ public class ImageProcessing extends AppCompatActivity {
         picture = findViewById(R.id.button);
         createml = findViewById(R.id.addml);
 
+
+        //Create the Dialog
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom_dialog_layout);
+        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.round_rectangle));
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false); //Optional
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
+        Okay = dialog.findViewById(R.id.btn_okay);
+        Cancel = dialog.findViewById(R.id.btn_cancel);
+
+
         // Initialize Firebase Database
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
 
         //Refer database
-         mDatabaseref = db.getReference();
+        mDatabaseref = db.getReference();
+
+        mDatabaseref.child("TempData").orderByKey().limitToLast(1).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                Moisture = snapshot.child("moisture").getValue(String.class);
+                Moisture2 = snapshot.child("moisture2").getValue(String.class);
+                Toast.makeText(ImageProcessing.this, Moisture+" "+Moisture2, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Moisture = snapshot.child("moisture").getValue(String.class);
+                Moisture2 = snapshot.child("moisture2").getValue(String.class);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
-
-   createml.setOnClickListener(new View.OnClickListener() {
+        createml.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -220,9 +268,8 @@ public class ImageProcessing extends AppCompatActivity {
                 mDatabaseref.child("pump").child("level").setValue(1);
                 mDatabaseref.child("pump").child("status").setValue(3);
             } else if (maxPos == 1) {
-                Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly", Toast.LENGTH_LONG).show();
-                mDatabaseref.child("pump").child("level").setValue(3);
-                mDatabaseref.child("pump").child("status").setValue(1);
+                //Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly", Toast.LENGTH_LONG).show();
+                displayDialog();
             } else if (maxPos == 2) {
                 Toast.makeText(ImageProcessing.this, "Need to be watered Lighty", Toast.LENGTH_LONG).show();
                 mDatabaseref.child("pump").child("level").setValue(2);
@@ -240,9 +287,50 @@ public class ImageProcessing extends AppCompatActivity {
         }
     }
 
+    private void displayDialog() {
+        dialog.show(); // Showing the dialog here
+        Okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (Moisture.equals("Dry") && Moisture2.equals("Wet") || Moisture.equals("Wet") && Moisture2.equals("Dry")) {
+
+                    Toast.makeText(ImageProcessing.this, "Its dry wet", Toast.LENGTH_SHORT).show();
+
+
+                }
+                if (Moisture.equals("Wet") && Moisture2.equals("Wet")) {
+
+                    Toast.makeText(ImageProcessing.this, "Its wet wet", Toast.LENGTH_SHORT).show();
+
+
+                }
+                if (Moisture.equals("Dry") && Moisture2.equals("Dry")) {
+
+                    Toast.makeText(ImageProcessing.this, "Its dry dry", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+            }
+        });
+        Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDatabaseref.child("pump").child("level").setValue(3);
+                mDatabaseref.child("pump").child("status").setValue(1);
+                Toast.makeText(ImageProcessing.this, "Cancel", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+       // super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             imageUri = data.getData();
 
@@ -264,6 +352,8 @@ public class ImageProcessing extends AppCompatActivity {
 
 
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
+
+
 }
