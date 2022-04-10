@@ -34,6 +34,15 @@
     <string name="add_image">Add \n Image</string>
     <string name="settings_text">Settings</string>
 
+    <string name="settings_notif_enabler_text">Notifications</string>
+    <string name="settings_notif_timing_text">Notify at</string>
+    <string name="settings_notif_postpone_text">Postpone for</string>
+    <string name="settings_delete_text">Delete data</string>
+    <string name="settings_license_text">Licenses</string>
+    <string name="settings_about_text">About</string>
+    <string name="settings_dialog_explanation1">You can postpone the watering reminders to be <b>notified later in the day</b>. </string>
+    <string name="settings_dialog_explanation2">Specify <b>the delaying time</b> to be used.</string>
+
     //image processing activity
     <string name="create_a_model_long_pressed">Not Detect your Plants? Create A Model</string>
     <string name="create_a_model">Not Detect your Plants? <u>Create A Model</u></string>

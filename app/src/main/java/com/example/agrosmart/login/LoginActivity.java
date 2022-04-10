@@ -6,6 +6,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.agrosmart.MainActivity;
 import com.example.agrosmart.R;
+import com.example.agrosmart.dialogs.OnBoarding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -62,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         lpassword = findViewById(R.id.UserPassword);
         lottieLoading = findViewById(R.id.lottie);
         forgotPass = findViewById(R.id.forgetPassword);
+
+
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();

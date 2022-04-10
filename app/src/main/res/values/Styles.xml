@@ -17,12 +17,11 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <string name="settings_notif_enabler_text">Notifications</string>
-    <string name="settings_notif_timing_text">Notify at</string>
-    <string name="settings_notif_postpone_text">Postpone for</string>
-    <string name="settings_delete_text">Delete data</string>
-    <string name="settings_license_text">Licenses</string>
-    <string name="settings_about_text">About</string>
+    <style name="NumberPickerGreenStyle">
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/allerta_stencil</item>
+    </style>
 
 
     <style name="Notification_Switch" parent="Theme.AppCompat.Light">
@@ -39,6 +38,9 @@
 
     </style>
 
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
 
     <!--<style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
 
@@ -49,5 +51,20 @@
 
     </style>-->
 
+
+    <plurals name="days">
+        <item quantity="one">day</item>
+        <item quantity="zero">days</item>
+        <item quantity="other">days</item>
+    </plurals>
+
+    <plurals name="hours">
+        <item quantity="one">hour</item>
+        <item quantity="zero">hours</item>
+        <item quantity="two">hours</item>
+        <item quantity="few">hours</item>
+        <item quantity="many">hours</item>
+        <item quantity="other">hours</item>
+    </plurals>
 
 </resources>

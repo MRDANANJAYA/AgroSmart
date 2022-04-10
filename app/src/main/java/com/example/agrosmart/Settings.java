@@ -2,27 +2,70 @@
 
 package com.example.agrosmart;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.example.agrosmart.NumberPickers.GreenNumberPicker;
+import com.example.agrosmart.dialogs.NotificationShow;
 import com.example.agrosmart.ml.ImageProcessing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 public class Settings extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
+    int hour;
+    int min;
+    String alarmTime;
+    private SwitchCompat notifEnablerSwitch;
+    private NotificationShow settings;
+    private ConstraintLayout notifTimingBox;
+    private TextView notifTimingTextView;
+    private TimePickerDialog notifTimingTimePickerDialog;
+    private String format = "";
+    private ConstraintLayout notifPostponeBox;
+    private TextView notifPostponeNumberTextView;
+    private TextView notifPostponeHourTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+
+        settings = new NotificationShow(this);
+        //Prepare Notification Timing UI
+        notifTimingBox = findViewById(R.id.settings_notif_timing_box);
+        notifTimingTextView = findViewById(R.id.settings_notif_timing_hour);
+        formatNotifTimingTextView();
+
+        //Prepare Notification Postpone UI
+        notifPostponeBox = findViewById(R.id.settings_notif_remind_box);
+        notifPostponeNumberTextView = findViewById(R.id.settings_notif_remind_num_hours);
+        notifPostponeHourTextView = findViewById(R.id.settings_notif_remind_text_hours);
+        notifPostponeNumberTextView.setText(String.valueOf(settings.getNotifRepetInterval()));
+        notifPostponeHourTextView.setText(getResources().getQuantityString(R.plurals.hours, settings.getNotifRepetInterval()));
 
         //Define bottom Navigation bar
         bottomNavigationView = findViewById(R.id.bottomNavigation);
@@ -30,15 +73,99 @@ public class Settings extends AppCompatActivity {
         bottomNavigationView.setBackground(null);
         bottomNavigationView.getMenu().getItem(2).setEnabled(false);
 
+        notifTimingBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog TimeDialog = new TimePickerDialog(Settings.this, R.style.Timepicker, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                        //Initialize hours and minutes
+                        hour = hourOfDay;
+                        min = minute;
+
+                        /**  if (hour == 0) {
+                         hour += 12;
+                         format = "am";
+                         } else if (hour == 12) {
+                         format = "pm";
+                         } else if (hour > 12) {
+                         hour -= 12;
+                         format = "pm";
+                         } else {
+                         format = "am";
+                         }*/
+                        settings.setNotifHour(hour);
+                        settings.setNotifMinute(min);
+
+                        // alarmTime = String.format(Locale.getDefault(),"%02d : %02d ", hour,min)+format;
+                        //notifTimingTextView.setText(alarmTime);
+                        formatNotifTimingTextView();
+
+                    }
+                }, settings.getNotifHour(), settings.getNotifMinute(), false);
+
+
+                //display previous selected time
+                TimeDialog.updateTime(hour, min);
+
+                //show dialog
+                TimeDialog.show();
+                //theme overlay
+            }
+        });
+
+        notifPostponeBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this, R.style.AlertDialogTheme);
+
+                View view = LayoutInflater.from(Settings.this).inflate(
+                        R.layout.settings_postpone_dialog,
+                        findViewById(R.id.layout_dialog_container)
+                );
+
+                builder.setView(view);
+                final AlertDialog alertDialog = builder.create();
+
+                final GreenNumberPicker numberPicker = view.findViewById(R.id.settings_postpone_numberpicker);
+                numberPicker.setMinValue(1);
+                numberPicker.setMaxValue(23);
+                numberPicker.setValue(settings.getNotifRepetInterval());
+                numberPicker.setWrapSelectorWheel(false);
+
+                view.findViewById(R.id.postpone_accept_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Store new value
+                        settings.setNotifRepetInterval(numberPicker.getValue());
+                        // Update visual text:
+                        notifPostponeNumberTextView.setText(String.valueOf(settings.getNotifRepetInterval()));
+                        notifPostponeHourTextView.setText(getResources().getQuantityString(R.plurals.hours, settings.getNotifRepetInterval()));
+                        alertDialog.dismiss();
+                    }
+                });
+
+                if (alertDialog.getWindow() != null) {
+                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                }
+                alertDialog.show();
+            }
+        });
+
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent main= new Intent(Settings.this, MainActivity.class);
+                Intent main = new Intent(Settings.this, MainActivity.class);
                 startActivity(main);
 
 
             }
         });
+
+
 
         //set default select
         bottomNavigationView.setSelectedItemId(R.id.Settings);
@@ -80,7 +207,74 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        // Prepare Notification Enabler UI    (after everything because it can modify the upper ones)
+        notifEnablerSwitch = findViewById(R.id.settings_notif_enabler_switch);
+        notifEnablerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    onNotifEnablerSwitchChangedOn();
+                } else {
+                    onNotifEnablerSwitchChangedOff();
+                }
+            }
+        });
+        notifEnablerSwitch.setChecked(settings.getNotifEnabled());      // Triggers onCheckedChanged call bc after it
 
 
     }
+
+    private void formatNotifTimingTextView() {
+
+       // String unpadded = "" + settings.getNotifHour();
+       // String result = "00".substring(unpadded.length()) + unpadded;
+       // unpadded = "" + settings.getNotifMinute();
+       // result = result + ":" + "00".substring(unpadded.length()) + unpadded;
+        int resultHour = settings.getNotifHour();
+        int resultMini = settings.getNotifMinute();
+
+        if (resultHour == 0) {
+            resultHour += 12;
+            format = "am";
+        } else if (resultHour == 12) {
+            format = "pm";
+        } else if (resultHour > 12) {
+            resultHour -= 12;
+            format = "pm";
+        } else {
+            format = "am";
+        }
+
+        alarmTime = String.format(Locale.getDefault(),"%02d : %02d ", resultHour,resultMini)+format;
+        notifTimingTextView.setText(alarmTime);
+
+    }
+
+    public void onNotifEnablerSwitchChangedOn() {
+        settings.setNotifEnabled(true);
+
+        int orange = getResources().getColor(R.color.white);
+
+        notifTimingTextView.setTextColor(orange);
+        notifTimingBox.setClickable(true);
+
+        notifPostponeBox.setClickable(true);
+        notifPostponeNumberTextView.setTextColor(orange);
+        notifPostponeHourTextView.setTextColor(orange);
+    }
+
+    public void onNotifEnablerSwitchChangedOff() {
+        settings.setNotifEnabled(false);
+
+        int grey = getResources().getColor(R.color.Gray);
+
+        notifTimingBox.setClickable(false);
+        notifTimingTextView.setTextColor(grey);
+
+        notifPostponeBox.setClickable(false);
+        notifPostponeNumberTextView.setTextColor(grey);
+        notifPostponeHourTextView.setTextColor(grey);
+    }
+
+
 }

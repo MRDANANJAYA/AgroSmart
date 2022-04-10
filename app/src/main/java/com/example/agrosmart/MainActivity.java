@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.agrosmart.dialogs.OnBoarding;
 import com.example.agrosmart.login.GlobalUser;
 import com.example.agrosmart.login.LoginActivity;
 import com.example.agrosmart.login.User;
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+        OnBoarding.checkOnboardingDialog(this, viewGroup);
+
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         floatingActionButton = findViewById(R.id.Fab);
@@ -58,11 +63,15 @@ public class MainActivity extends AppCompatActivity {
         profilePic = findViewById(R.id.Photo);
 
 
+
+
         storage = FirebaseStorage.getInstance();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
 
         dbRef = db.getReference("User");
+
+
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.
