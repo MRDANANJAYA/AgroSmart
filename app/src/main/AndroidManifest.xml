@@ -36,6 +36,13 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <!-- Register the Alarm Receiver -->
+        <receiver
+            android:name=".dialogs.AlarmReceiver"
+            android:exported="false" />
+
+
     </application>
 
 </manifest>

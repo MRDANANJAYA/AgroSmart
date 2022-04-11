@@ -99,7 +99,7 @@ public class ImageProcessing extends AppCompatActivity {
 
                 Moisture = snapshot.child("moisture").getValue(String.class);
                 Moisture2 = snapshot.child("moisture2").getValue(String.class);
-                Toast.makeText(ImageProcessing.this, Moisture+" "+Moisture2, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

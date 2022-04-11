@@ -15,15 +15,14 @@
         android:background="@drawable/dialog_background"
         app:layout_constraintTop_toTopOf="parent"
         >
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="33dp"
-            android:layout_marginVertical="24dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/baloo_bhai"
             android:gravity="center_horizontal"
-            android:text="next"
+            android:text="Watering Time"
             android:textAllCaps="true"
             android:textColor="@color/Green"
             android:textSize="@dimen/dimen_settings_about_dialog_title_size"
@@ -31,53 +30,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintBottom_toTopOf="@id/text"
-            android:layout_marginVertical="16dp"
-            app:srcCompat="@drawable/ic_farmer_analyzing_data"
-            />
-
-
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/explanation1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
+            android:paddingTop="24dp"
             android:textColor="@color/Green"
             android:textSize="16sp"
-            android:paddingHorizontal="8dp"
-            android:text="add Texts"
-            app:layout_constraintTop_toBottomOf="@id/icon"
+            android:layout_marginHorizontal="@dimen/dimen_settings_margin_right"
+            android:text="@string/reminder_dialog_explanation1"
+            app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center"
-            android:textStyle="italic"
             />
+        <com.example.agrosmart.NumberPickers.GreenNumberPicker
+            android:id="@+id/reminder_watering_numberpicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            app:layout_constraintEnd_toStartOf="@id/settings_postpone_hours_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/explanation1" />
+
+        <TextView
+            android:id="@+id/settings_postpone_hours_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_settings_margin_right"
+            android:textColor="@color/colorPrimary"
+            android:text="minutes"
+            android:textSize="@dimen/dimen_cell_days_font_size"
+            app:layout_constraintTop_toTopOf="@id/reminder_watering_numberpicker"
+            app:layout_constraintBottom_toBottomOf="@id/reminder_watering_numberpicker"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/postpone_accept_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_settings_dialog_accept_button_height"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text"
-            android:background="@drawable/google_btn"
+            app:layout_constraintTop_toBottomOf="@id/reminder_watering_numberpicker"
+            android:background="@drawable/round_rectangle"
             android:backgroundTint="@color/Green"
             android:layout_margin="@dimen/dimen_settings_dialog_accept_button_margin"
             style="?android:attr/borderlessButtonStyle"
-            android:text="Next"
+            android:text="Accept"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="22sp"
             />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.constraintlayout.widget.ConstraintLayout>

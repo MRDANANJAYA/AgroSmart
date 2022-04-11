@@ -70,9 +70,6 @@ public class OnBoarding {
                 (ConstraintLayout) viewGroup.findViewById(R.id.layout_dialog_container)
         );
 
-        TextView textView = (TextView) view.findViewById(R.id.plant_days);
-        textView.setText(context.getResources().getQuantityString(R.plurals.days, 3));
-
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
 

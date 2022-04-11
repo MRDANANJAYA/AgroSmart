@@ -44,7 +44,7 @@ public class InfoMonitoring extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.info_monitoring);
+        setContentView(R.layout.activity_info_monitoring);
 
 
         mHumid = findViewById(R.id.humidity_value);
@@ -161,6 +161,7 @@ public class InfoMonitoring extends AppCompatActivity {
                         Glide.with(InfoMonitoring.this).load(R.drawable.mist).into(WIcon);
                         break;
                     case "scattered clouds":
+                    case "overcast clouds":
                         Glide.with(InfoMonitoring.this).load(R.drawable.scattered_clouds).into(WIcon);
                         break;
 

@@ -14,7 +14,7 @@ public class GreenNumberPicker extends NumberPicker {
     }
 
     public GreenNumberPicker(Context context, AttributeSet attrs) {
-        // wrap the current context in the style we defined before
+        // wrap the current context in the style defined before
         super(new ContextThemeWrapper(context, R.style.NumberPickerGreenStyle), attrs);
     }
 }

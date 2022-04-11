@@ -20,64 +20,51 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="33dp"
-            android:layout_marginVertical="24dp"
+            android:layout_marginTop="@dimen/dimen_settings_dialog_margin_top"
             android:fontFamily="@font/baloo_bhai"
             android:gravity="center_horizontal"
-            android:text="next"
+            android:text="License"
             android:textAllCaps="true"
             android:textColor="@color/Green"
-            android:textSize="@dimen/dimen_settings_about_dialog_title_size"
+            android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintBottom_toTopOf="@id/text"
-            android:layout_marginVertical="16dp"
-            app:srcCompat="@drawable/ic_farmer_analyzing_data"
-            />
-
-
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/settings_license_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
-            android:textColor="@color/Green"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="24dp"
+            android:textColor="@color/Gray"
             android:textSize="16sp"
-            android:paddingHorizontal="8dp"
-            android:text="add Texts"
-            app:layout_constraintTop_toBottomOf="@id/icon"
+            android:layout_marginHorizontal="24dp"
+            android:text="@string/settings_license_dialog_text"
+            app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center"
-            android:textStyle="italic"
+            android:gravity="start"
+            android:clickable="true"
+            android:focusable="true"
             />
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/license_close_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_settings_dialog_accept_button_height"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text"
+            app:layout_constraintTop_toBottomOf="@id/settings_license_text"
             android:background="@drawable/google_btn"
             android:backgroundTint="@color/Green"
             android:layout_margin="@dimen/dimen_settings_dialog_accept_button_margin"
-            style="?android:attr/borderlessButtonStyle"
-            android:text="Next"
+            android:theme="@style/Button.White"
+            android:text="Close"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="22sp"
             />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,7 +33,7 @@ public class CustomAdapterWatered extends RecyclerView.Adapter<CustomAdapterWate
     public CustomAdapterWatered.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycle_image, parent, false);
+        View view = inflater.inflate(R.layout.create_model_recycle_image, parent, false);
 
         return new MyViewHolder(view);
     }

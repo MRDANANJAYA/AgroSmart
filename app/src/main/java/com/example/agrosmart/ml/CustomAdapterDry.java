@@ -35,7 +35,7 @@ public class CustomAdapterDry extends RecyclerView.Adapter<CustomAdapterDry.MyVi
     public CustomAdapterDry.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(contextDry);
-        View view = inflater.inflate(R.layout.recycle_image, parent, false);
+        View view = inflater.inflate(R.layout.create_model_recycle_image, parent, false);
 
         return new MyViewHolder(view);
     }

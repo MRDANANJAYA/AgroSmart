@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">AgroSmart</string>
+    <string name="app_version">v1.4.2</string>
+
     <string name="Login_here">Already a member? <u>Login here</u>.</string>
     <string name="Register_Now">Don\'t have an account? <u>Register now</u>.</string>
     <string name="go_back">Go back</string>
@@ -34,6 +36,22 @@
     <string name="add_image">Add \n Image</string>
     <string name="settings_text">Settings</string>
 
+    <string name="settings_about_dialog_text"><b>Hi!</b> I\'m Dananjaya Bandara, the developer of Agrosmart.
+        \n
+        \nI\'m a <b>Software Engineering student at <a href="https://www.nsbm.ac.lk/">NSBM University</a></b> and a plant lover myself.
+        \n
+        \nCombining <b>my two hobbies</b>, I designed Agrosmart to <b>simplify plant care tasks</b> and bring the world of farming closer <b>to everyone</b>.
+        \n
+        \nThanks for using it! </string>
+
+    <string name="settings_license_dialog_text">Wateria\'s development wouldn\'t have been possible without the help of this projects:
+        \n
+        \n<b>Firebase API</b> by google <a href="https://firebase.google.com/">Firebase</a>
+        \n
+        \nModel Trained with <a href="https://teachablemachine.withgoogle.com/">Teachable Machine</a> API and <a href ="https://www.tensorflow.org/lite/api_docs">TensorFlow lite</a> API Powered by <b>Tensorflow</b>
+        \n
+        \n<b>Icons and images</b> designed by <a href="https://www.freepik.com">Freepik</a> and published at <a href="https://www.flaticon.com/">Flaticon</a>
+    </string>
     <string name="settings_notif_enabler_text">Notifications</string>
     <string name="settings_notif_timing_text">Notify at</string>
     <string name="settings_notif_postpone_text">Postpone for</string>
@@ -42,7 +60,7 @@
     <string name="settings_about_text">About</string>
     <string name="settings_dialog_explanation1">You can postpone the watering reminders to be <b>notified later in the day</b>. </string>
     <string name="settings_dialog_explanation2">Specify <b>the delaying time</b> to be used.</string>
-
+    <string name="reminder_dialog_explanation1">You can assign the watering time. \n  But you can only possible up to <b>60 minutes</b>. </string>
     //image processing activity
     <string name="create_a_model_long_pressed">Not Detect your Plants? Create A Model</string>
     <string name="create_a_model">Not Detect your Plants? <u>Create A Model</u></string>
@@ -51,6 +69,11 @@
 
     //openWeatherAPIkey
     <string name="weather_api_key">1ac2a860afc2bde2cbc1ebdee97766a3</string>
+    <!--<string name="admin" >crmQ5LZXvAQBGn5cEje7S0Svu3x1</string>-->
+
+    <string name="admin">SqF2o8KwNjgjIyIWmepOgWj7EFC2</string>
+    <string name="delete_data">Do you want to delete all <b>TempData</b> ? \nby pressing okayit will start deleting files</string>
+    <string name="default_notification_channel_id">myChannel</string>
 
 
 </resources>

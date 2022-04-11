@@ -14,12 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.agrosmart.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -73,7 +76,7 @@ public class SignUp extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
 
         dbRef = db.getReference("User");
-        // Create a storage reference from our app
+        // Create a storage reference from the app
         storageRef = storage.getReference();
 
         profilePic.setOnClickListener(v -> {
@@ -162,42 +165,45 @@ public class SignUp extends AppCompatActivity {
 
 
                         dbRef.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).setValue(user)
-                                .addOnCompleteListener(task1 -> {
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task1) {
 
 
-                                    final StorageReference fileRef = storageRef
-                                            .child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid() + "jpg");
+                                        final StorageReference fileRef = storageRef
+                                                .child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid() + "jpg");
 
-                                    uploadTask = fileRef.putFile(imageUri)
-                                            .addOnSuccessListener(taskSnapshot -> {
-                                                loadingBar.dismiss();
-                                                Toast.makeText(SignUp.this, "User Registration has been Successful!", Toast.LENGTH_SHORT).show();
-                                                Intent log = new Intent(SignUp.this, LoginActivity.class);
-                                                startActivity(log);
-
-
-                                            }).addOnFailureListener(e -> {
-
-                                                Toast.makeText(SignUp.this, "Upload image Unsuccessful!" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                loadingBar.dismiss();
-                                            }).addOnProgressListener(snapshot -> {
-
-                                                fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                                                    myUri = uri.toString();
-
-                                                    HashMap<String, Object> userMap = new HashMap<>();
-                                                    userMap.put("image", myUri);
+                                        uploadTask = fileRef.putFile(imageUri)
+                                                .addOnSuccessListener(taskSnapshot -> {
+                                                    loadingBar.dismiss();
+                                                    Toast.makeText(SignUp.this, "User Registration has been Successful!", Toast.LENGTH_SHORT).show();
+                                                    Intent log = new Intent(SignUp.this, LoginActivity.class);
+                                                    SignUp.this.startActivity(log);
 
 
-                                                    dbRef.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
+                                                }).addOnFailureListener(e -> {
+
+                                                    Toast.makeText(SignUp.this, "Upload image Unsuccessful!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    loadingBar.dismiss();
+                                                }).addOnProgressListener(snapshot -> {
+
+                                                    fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                                        myUri = uri.toString();
+
+                                                        HashMap<String, Object> userMap = new HashMap<>();
+                                                        userMap.put("image", myUri);
+
+
+                                                        dbRef.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
+                                                    });
+
+                                                    double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                                                    loadingBar.setMessage("Please wait. while we are registering... " + (int) progressPercent + "%");
+
                                                 });
 
-                                                double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                                                loadingBar.setMessage("Please wait. while we are registering... " + (int) progressPercent + "%");
 
-                                            });
-
-
+                                    }
                                 }).addOnFailureListener(e -> Toast.makeText(SignUp.this, "Registration Unsuccessful!" + e.getMessage(), Toast.LENGTH_SHORT).show());
 
                     } else {

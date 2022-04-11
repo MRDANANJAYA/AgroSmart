@@ -1,13 +1,14 @@
 package com.example.agrosmart;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,57 +18,62 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.agrosmart.login.SignUp;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.example.agrosmart.NumberPickers.GreenNumberPicker;
+import com.example.agrosmart.dialogs.NotificationShow;
 import com.example.agrosmart.ml.ImageProcessing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.EventListener;
 import java.util.Locale;
 
 public class Reminder extends AppCompatActivity {
 
     private static final String TAG = "";
-    TextView time;
+    TextView time, water_time;
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
+    RelativeLayout rel2, wateringLayout;
     private String format = "";
-    RelativeLayout rel2;
+    Button btOk, btClear;
     DatabaseReference mDatabaseref;
     EditText remindName;
-    Button btOk,btClear;
     int hour;
     int min;
     String alarmName;
     String alarmTime;
-
+    private NotificationShow settings;
+    private final int notificationId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
 
+
         //Define bottom Navigation bar
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         floatingActionButton = findViewById(R.id.Fab);
         bottomNavigationView.setBackground(null);
         bottomNavigationView.getMenu().getItem(2).setEnabled(false);
-        rel2 = (RelativeLayout) findViewById(R.id.r2);
-        remindName = (EditText) findViewById(R.id.RemindName);
+        rel2 = findViewById(R.id.r2);
+        wateringLayout = findViewById(R.id.watering_Relative_layout);
+        remindName = findViewById(R.id.RemindName);
         btOk = findViewById(R.id.TimePickOk);
         btClear = findViewById(R.id.TimePickClear);
         time = findViewById(R.id.textTimePick);
+        water_time = findViewById(R.id.interval_text);
+
+        // create a notification object
+        settings = new NotificationShow(this);
 
 
         // Initialize Firebase Database
@@ -76,50 +82,42 @@ public class Reminder extends AppCompatActivity {
         //Refer database
         mDatabaseref = db.getReference();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel =
+                    new NotificationChannel("My channel", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+        }
+
 
         rel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                TimePickerDialog TimeDialog = new TimePickerDialog(Reminder.this,R.style.Timepicker, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog TimeDialog = new TimePickerDialog(Reminder.this, R.style.Timepicker, new TimePickerDialog.OnTimeSetListener() {
                     @Override
-                    public void onTimeSet(TimePicker view,  int hourOfDay, int minute) {
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
                         //Initialize hours and minutes
-                         hour = hourOfDay;
-                         min = minute;
+                        hour = hourOfDay;
+                        min = minute;
 
-                        if (hour == 0) {
-                            hour += 12;
-                            format = "am";
-                        } else if (hour == 12) {
-                            format = "pm";
-                        } else if (hour > 12) {
-                            hour -= 12;
-                            format = "pm";
-                        } else {
-                            format = "am";
-                        }
-
-                      alarmTime = String.format(Locale.getDefault(),"%02d : %02d ", hour,min)+format;
-                        time.setText(alarmTime);
+                        //settings.setNotifHour(hour);
+                        // settings.setNotifMinute(min);
+                        formatNotifTimingTextView();
 
                     }
-                },12,0,false
-                );
-
+                }, settings.getNotifHour(), settings.getNotifMinute(), false);
 
                 //display previous selected time
-                TimeDialog.updateTime(hour,min);
+                TimeDialog.updateTime(hour, min);
 
                 //show dialog
                 TimeDialog.show();
-                  //theme overlay
 
             }
         });
-
 
         btOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,18 +125,20 @@ public class Reminder extends AppCompatActivity {
 
                 alarmName = remindName.getText().toString();
 
-                if (alarmName.isEmpty()){
-                    Toast.makeText(Reminder.this,"can not be empty", Toast.LENGTH_LONG).show();
+                if (alarmName.isEmpty()) {
+                    Toast.makeText(Reminder.this, "can not be empty", Toast.LENGTH_LONG).show();
 
-                }if(alarmTime == null){
-                    Toast.makeText(Reminder.this,"Time can not be empty", Toast.LENGTH_LONG).show();
-                }else {
+                }
+                if (alarmTime == null) {
+                    Toast.makeText(Reminder.this, "Time can not be empty", Toast.LENGTH_LONG).show();
+                } else {
 
+                    addNotification();
                     mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Hour").setValue((hour));
                     mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Minutes").setValue((min));
                     mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Format").setValue((format));
 
-                    Toast.makeText(Reminder.this,"Successfully Completed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Reminder.this, "Reminder Set!", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -147,21 +147,49 @@ public class Reminder extends AppCompatActivity {
         btClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                remindName.clearFocus();
                 remindName.setText("");
                 time.setText("");
             }
         });
 
 
+        wateringLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-      //  mDatabaseref.child("Reminder"+ (name)).child("Time").setValue(ServerValue.TIMESTAMP);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Reminder.this, R.style.AlertDialogTheme);
 
+                View view = LayoutInflater.from(Reminder.this).inflate(
+                        R.layout.reminder_watering_time_dialog,
+                        findViewById(R.id.layout_dialog_container)
+                );
 
+                builder.setView(view);
+                final AlertDialog alertDialog = builder.create();
 
+                final GreenNumberPicker numberPicker = view.findViewById(R.id.reminder_watering_numberpicker);
+                numberPicker.setMinValue(0);
+                numberPicker.setMaxValue(60);
+                numberPicker.setWrapSelectorWheel(false);
 
+                view.findViewById(R.id.postpone_accept_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int minutes = numberPicker.getValue();
+                        String plural = getResources().getQuantityString(R.plurals.minutes, minutes);
+                        water_time.setText(String.valueOf(minutes)+" "+plural);
+                        alertDialog.dismiss();
+                    }
+                });
 
+                if (alertDialog.getWindow() != null) {
+                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                }
+                alertDialog.show();
 
-
+            }
+        });
 
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -215,14 +243,43 @@ public class Reminder extends AppCompatActivity {
         });
 
 
-
-
-
-
-
     }
 
+    private void addNotification() {
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this, "My channel")
+                        .setSmallIcon(R.drawable.set_icon_notif_bell) //set icon for notification
+                        .setContentTitle(alarmName) //set title of notification
+                        .setContentText("This is a notification message")//this is notification message
+                        .setAutoCancel(true) // makes auto cancel of notification
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT); //set priority of notification
 
+
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+        manager.notify(1, builder.build());
+    }
+
+    private void formatNotifTimingTextView() {
+
+        int resultHour = settings.getNotifHour();
+        int resultMini = settings.getNotifMinute();
+
+        if (resultHour == 0) {
+            resultHour += 12;
+            format = "am";
+        } else if (resultHour == 12) {
+            format = "pm";
+        } else if (resultHour > 12) {
+            resultHour -= 12;
+            format = "pm";
+        } else {
+            format = "am";
+        }
+
+        alarmTime = String.format(Locale.getDefault(), "%02d : %02d ", resultHour, resultMini) + format;
+        time.setText(alarmTime);
+
+    }
 
 
 }

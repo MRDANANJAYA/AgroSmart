@@ -20,64 +20,63 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="33dp"
-            android:layout_marginVertical="24dp"
-            android:fontFamily="@font/baloo_bhai"
+            android:layout_marginTop="@dimen/dimen_settings_dialog_margin_top"
             android:gravity="center_horizontal"
-            android:text="next"
+            android:text="@string/app_name"
             android:textAllCaps="true"
             android:textColor="@color/Green"
-            android:textSize="@dimen/dimen_settings_about_dialog_title_size"
+            android:textSize="28sp"
+            app:fontFamily="@font/baloo_bhai"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/icon"
+        <TextView
+            android:id="@+id/app_version"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dimen_settings_about_dialog_version_padding"
+            android:textColor="@color/Gray"
+            android:textSize="18sp"
+            android:text="@string/app_version"
+            app:fontFamily="@font/allerta_stencil"
+            app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintBottom_toTopOf="@id/text"
-            android:layout_marginVertical="16dp"
-            app:srcCompat="@drawable/ic_farmer_analyzing_data"
-            />
-
+            android:gravity="center"/>
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/settings_about_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
+            android:paddingVertical="24dp"
             android:textColor="@color/Green"
-            android:textSize="16sp"
-            android:paddingHorizontal="8dp"
-            android:text="add Texts"
-            app:layout_constraintTop_toBottomOf="@id/icon"
+            android:textSize="17sp"
+            android:layout_marginHorizontal="24dp"
+            android:text="@string/settings_about_dialog_text"
+            app:layout_constraintTop_toBottomOf="@id/app_version"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center"
-            android:textStyle="italic"
+            android:gravity="start"
             />
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/about_close_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_settings_dialog_accept_button_height"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text"
+            app:layout_constraintTop_toBottomOf="@id/settings_about_text"
             android:background="@drawable/google_btn"
             android:backgroundTint="@color/Green"
             android:layout_margin="@dimen/dimen_settings_dialog_accept_button_margin"
             style="?android:attr/borderlessButtonStyle"
-            android:text="Next"
+            android:onClick="onAcceptButtonClicked"
+            android:text="Close"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="22sp"
             />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.constraintlayout.widget.ConstraintLayout>

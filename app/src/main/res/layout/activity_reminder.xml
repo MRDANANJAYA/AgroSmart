@@ -16,24 +16,26 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-100dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/newcentergreen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="-50dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/newcentergreen"
+
+            />
 
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:scaleType="center"
-            android:src="@drawable/background_mask_leaf"
+            android:id="@+id/BackgroundLeaf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:rotation="10"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/pattern" />
 
         <TextView
             android:id="@+id/SignUpText"
@@ -41,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/allerta_stencil"
-            android:text="@string/settings_text"
+            android:text="@string/reminder"
             android:textColor="@color/white"
             android:textSize="34sp"
             android:textStyle="bold"
@@ -64,7 +66,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="200dp"
                 android:elevation="10dp"
                 app:cardBackgroundColor="@color/Green"
                 app:cardCornerRadius="20dp"
@@ -83,32 +85,39 @@
                         android:id="@+id/r1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp">
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp">
 
                         <ImageView
                             android:id="@+id/image1"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_marginHorizontal="5dp"
-                            android:padding="12dp"
-                            app:srcCompat="@drawable/icon_documents" />
+                            android:padding="8dp"
+                            app:srcCompat="@drawable/ic_reminder_icon" />
 
-
-                        <EditText
-                            android:id="@+id/RemindName"
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_alignParentTop="true"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="15dp"
+                            android:layout_marginEnd="20dp"
                             android:layout_toEndOf="@+id/image1"
-                            android:layout_toRightOf="@id/image1"
-                            android:backgroundTint="@color/white"
-                            android:ems="10"
-                            android:hint="Reminder Name"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/white" />
+                            android:background="@drawable/onboarding_notif_background">
+
+                            <EditText
+                                android:id="@+id/RemindName"
+                                android:layout_width="250dp"
+                                android:layout_height="50dp"
+                                android:layout_marginStart="15dp"
+                                android:backgroundTint="@color/Green"
+                                android:ems="10"
+                                android:focusable="auto"
+                                android:hint="Reminder Name"
+                                android:inputType="textPersonName"
+                                android:textColor="@color/Green"
+                                android:textSize="@dimen/settings_font_size" />
+
+                        </RelativeLayout>
 
                     </RelativeLayout>
 
@@ -127,19 +136,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/Devide_line_1"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="10dp"
-
-                        android:layout_marginBottom="10dp">
+                        android:elevation="2dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp">
 
                         <ImageView
                             android:id="@+id/image2"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
+                            android:adjustViewBounds="true"
                             android:layout_centerVertical="true"
                             android:layout_marginHorizontal="5dp"
-                            android:padding="12dp"
-                            app:srcCompat="@drawable/icon_documents" />
+                            android:padding="8dp"
+                            app:srcCompat="@drawable/set_icon_notif_bell" />
 
                         <TextView
                             android:id="@+id/textView1"
@@ -147,31 +156,27 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/image2"
-                            android:layout_toRightOf="@id/image2"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Remind me In"
+                            android:text="Remind me at"
                             android:textColor="@color/white"
-                            android:textSize="20dp" />
+                            android:textSize="@dimen/settings_font_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textTimePick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="60dp"
-                            android:layout_toEndOf="@+id/textView1"
-                            android:layout_toRightOf="@id/textView1"
+                            android:layout_marginEnd="25dp"
                             android:fontFamily="sans-serif-medium"
                             android:text=""
                             android:textColor="@color/white"
-                            android:textSize="20dp"
-                            android:textStyle="bold" />
-
+                            android:textSize="@dimen/settings_font_size" />
 
                     </RelativeLayout>
 
                     <View
-                        android:id="@+id/Devide_line_2"
+                        android:id="@+id/divide_line_2"
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_below="@id/r2"
@@ -181,31 +186,47 @@
                         />
 
                     <RelativeLayout
+                        android:id="@+id/watering_Relative_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/Devide_line_2"
-                        android:layout_alignParentBottom="true">
+                        android:layout_below="@id/divide_line_2"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="2dp">
 
                         <ImageView
-                            android:id="@+id/image3"
+                            android:id="@+id/watering_icon"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_centerVertical="true"
                             android:layout_marginHorizontal="5dp"
-                            android:padding="12dp"
-                            app:srcCompat="@drawable/icon_documents" />
+                            android:adjustViewBounds="true"
+                            android:padding="5dp"
+                            app:srcCompat="@drawable/icon_clock_remind_later_white" />
 
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/Watering_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toEndOf="@+id/image3"
-                            android:fontFamily="sans-serif-medium"
+                            android:layout_toEndOf="@+id/watering_icon"
                             android:text="Watering Time"
                             android:textColor="@color/white"
-                            android:textSize="20dp" />
+                            android:textSize="@dimen/settings_font_size"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/interval_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="25dp"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/settings_font_size" />
 
                     </RelativeLayout>
 

@@ -14,25 +14,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/newcentergreen"
         android:scaleType="centerCrop"
-        android:layout_marginTop="-120dp"
+        android:layout_marginTop="-50dp"
         android:contentDescription="@string/Top_green" />
 
     <ImageView
         android:id="@+id/BackgroundLeaf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
+        android:rotation="10"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pattern"
-        android:contentDescription="@string/transparent_leaf" />
+        app:srcCompat="@drawable/pattern" />
+
     <TextView
         android:id="@+id/SignUpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/allerta_stencil"
         android:text="@string/settings_text"
         android:textColor="@color/white"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="250dp"
             android:layout_marginHorizontal="15dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
