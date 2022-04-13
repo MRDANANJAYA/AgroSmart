@@ -1,5 +1,6 @@
 package com.example.agrosmart;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -205,6 +206,8 @@ public class Reminder extends AppCompatActivity {
 
         //select Menu items with listener
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -229,7 +232,6 @@ public class Reminder extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
 
-
                     case R.id.ImagePro:
                         startActivity(new Intent(getApplicationContext(),
                                 ImageProcessing.class));
@@ -241,8 +243,6 @@ public class Reminder extends AppCompatActivity {
             }
         });
     }
-
-
 
     //set the Notification time
     private void startAlert() {

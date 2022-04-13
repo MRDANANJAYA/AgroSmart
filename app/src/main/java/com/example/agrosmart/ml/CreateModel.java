@@ -210,7 +210,7 @@ public class CreateModel extends AppCompatActivity {
                     loadingBar.setCancelable(false);
                     loadingBar.show();
 
-
+                    // get values of the array
                     for (int uploadsDry = 0; uploadsDry < ImageList.size(); uploadsDry++) {
 
                         StorageReference mRefDry = mStorageRef.child("imageDry").child(user).child(ImageNameListDry.get(uploadsDry));
