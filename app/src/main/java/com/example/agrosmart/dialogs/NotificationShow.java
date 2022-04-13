@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 
 public class NotificationShow {
 
-    private SharedPreferences prefs;
+    private final SharedPreferences prefs;
 
     private final String notifEnabledKey = "notif_enabled";
     private final boolean notifEnabledDefault = true;
@@ -20,17 +20,44 @@ public class NotificationShow {
     private final String notifRepetIntervalKey = "notif_repetition";
     private final int notifRepetIntervalDefault = 1;
 
+    private final String alarmHourKey = "Alarm_hour";
+    private final int alarmHourDefault = 00;
 
-    public NotificationShow(Context context){
+    private final String alarmMinuteKey = "Alarm_minute";
+    private final int alarmMinuteDefault = 00;
+
+
+    public int getAlarmHour() {
+        return prefs.getInt(alarmHourKey, alarmHourDefault);
+    }
+
+    public void setAlarmHour(int newValue) {
+        if (newValue >= 0 && newValue <= 23){
+            prefs.edit().putInt(alarmHourKey, newValue).apply();
+        }
+    }
+
+    public int getAlarmMinute() {
+        return prefs.getInt(alarmMinuteKey, alarmMinuteDefault);
+    }
+
+    public void setAlarmMinute(int newValue){
+        if (newValue >= 0 && newValue <= 59){
+            prefs.edit().putInt(alarmMinuteKey, newValue).apply();
+        }
+    }
+
+
+    public NotificationShow(Context context) {
         prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 
-    public int getNotifHour(){
+    public int getNotifHour() {
 
         return prefs.getInt(notifHourKey, notifHourDefault);
     }
 
-    public void setNotifHour(int newValue){
+    public void setNotifHour(int newValue) {
         if (newValue >= 0 && newValue <= 23){
             prefs.edit().putInt(notifHourKey, newValue).apply();
         }
@@ -53,7 +80,7 @@ public class NotificationShow {
     }
 
     public void setNotifRepetInterval(int newValue){
-        if (newValue >= 1 && newValue <= 23){
+        if (newValue >= 0 && newValue <= 23){
             prefs.edit().putInt(notifRepetIntervalKey, newValue).apply();
         }
     }
