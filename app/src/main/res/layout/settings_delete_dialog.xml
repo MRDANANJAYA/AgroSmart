@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:paddingBottom="30dp"
-            android:textColor="@color/Gray"
+            android:textColor="@color/Grey"
             android:textSize="17sp"
             android:layout_marginHorizontal="24dp"
             android:text="@string/delete_data"

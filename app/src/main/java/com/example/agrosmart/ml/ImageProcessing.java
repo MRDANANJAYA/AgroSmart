@@ -6,29 +6,35 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.agrosmart.InfoMonitoring;
+import com.example.agrosmart.InfoMonitoringActivity;
 import com.example.agrosmart.MainActivity;
+import com.example.agrosmart.NumberPickers.GreenNumberPicker;
 import com.example.agrosmart.R;
-import com.example.agrosmart.Reminder;
-import com.example.agrosmart.Settings;
+import com.example.agrosmart.ReminderActivity;
+import com.example.agrosmart.SettingsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -50,14 +56,18 @@ public class ImageProcessing extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
-    TextView result, confidenceX, createml;
+    TextView result, confidenceX, createml, dialog_result, compare_water_time, sensor2, sensor1, compare_dialog_text, water_time_placeholder;
     ImageView imageView;
-    Button picture, Okay, Cancel;
+    Button picture, Okay, Cancel, Compare, start, compare_cancel;
+    RelativeLayout watering_layout;
     Uri imageUri;
     int imageSize = 224;
     String Moisture, Moisture2;
     DatabaseReference mDatabaseref;
-    private Dialog dialog;
+    int maxPos;
+    int WateringMinute = 0;
+    String Plurals;
+    private Dialog dialog, compDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +86,33 @@ public class ImageProcessing extends AppCompatActivity {
         createml = findViewById(R.id.addml);
 
 
-        //Create the Dialog
+        //Create the Mian Dialog
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_layout);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.round_rectangle));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false); //Optional
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
+        dialog_result = dialog.findViewById(R.id.Dialog_recognized_textView);
         Okay = dialog.findViewById(R.id.btn_okay);
         Cancel = dialog.findViewById(R.id.btn_cancel);
+        Compare = dialog.findViewById(R.id.btn_compare);
+
+        //Create the Compare Dialog
+        compDialog = new Dialog(this);
+        compDialog.setContentView(R.layout.compare_dialog);
+        compDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.round_rectangle));
+        compDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        compDialog.setCancelable(false);
+        compDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
+        sensor2 = compDialog.findViewById(R.id.sensor_value_text_2);
+        sensor1 = compDialog.findViewById(R.id.sensor_value_text_1);
+        start = compDialog.findViewById(R.id.compare_btn_start);
+        compare_cancel = compDialog.findViewById(R.id.compare_btn_cancel);
+        watering_layout = compDialog.findViewById(R.id.watering_layout);
+        compare_water_time = compDialog.findViewById(R.id.watering_timer);
+        compare_dialog_text = compDialog.findViewById(R.id.compare_text);
+        water_time_placeholder = compDialog.findViewById(R.id.compare_dialog_watering_time);
 
 
         // Initialize Firebase Database
@@ -136,9 +164,6 @@ public class ImageProcessing extends AppCompatActivity {
         });
 
 
-
-
-
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,19 +207,19 @@ public class ImageProcessing extends AppCompatActivity {
 
                     case R.id.reminder:
                         startActivity(new Intent(getApplicationContext(),
-                                Reminder.class));
+                                ReminderActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.Sensor:
                         startActivity(new Intent(getApplicationContext(),
-                                InfoMonitoring.class));
+                                InfoMonitoringActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.Settings:
                         startActivity(new Intent(getApplicationContext(),
-                                Settings.class));
+                                SettingsActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
@@ -235,7 +260,6 @@ public class ImageProcessing extends AppCompatActivity {
                     byteBuffer.putFloat((val & 0xFF) * (1.f / 255.f));
 
                 }
-
             }
 
             inputFeature0.loadBuffer(byteBuffer);
@@ -245,7 +269,7 @@ public class ImageProcessing extends AppCompatActivity {
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidence = outputFeature0.getFloatArray();
-            int maxPos = 0;
+            maxPos = 0;
             float maxConfidence = 0;
             for (int i = 0; i < confidence.length; i++) {
                 if (confidence[i] > maxConfidence) {
@@ -261,56 +285,61 @@ public class ImageProcessing extends AppCompatActivity {
 
             }
 
-            confidenceX.setText(s);
+            confidenceX.setText(s);//set confidence values
 
-            if (maxPos == 0) {
-                Toast.makeText(ImageProcessing.this, "No need to be watered", Toast.LENGTH_LONG).show();
-                mDatabaseref.child("pump").child("level").setValue(1);
-                mDatabaseref.child("pump").child("status").setValue(3);
-            } else if (maxPos == 1) {
-                //Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly", Toast.LENGTH_LONG).show();
-                displayDialog();
-            } else if (maxPos == 2) {
-                Toast.makeText(ImageProcessing.this, "Need to be watered Lighty", Toast.LENGTH_LONG).show();
-                mDatabaseref.child("pump").child("level").setValue(2);
-            } else if (maxPos == 3) {
+            if (maxPos == 3) {
                 Toast.makeText(ImageProcessing.this, "Not recognized", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(ImageProcessing.this, "invalid", Toast.LENGTH_LONG).show();
+                displayDialog();
             }
-
 
             // Releases model resources if no longer used.
             model.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private void displayDialog() {
+        //set result acording to maxPos
+        switch (maxPos) {
+            case 0:
+                dialog_result.setText("No need to be watered");
+                break;
+            case 1:
+                dialog_result.setText("Need to be watered thoroughly");
+                break;
+            case 2:
+                dialog_result.setText("Need to be watered Lighty");
+                break;
+        }
+
         dialog.show(); // Showing the dialog here
+
+
         Okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (maxPos == 0) {
+                    Toast.makeText(ImageProcessing.this, "No need to water", Toast.LENGTH_SHORT).show();
+
+                } else if (maxPos == 1) {
+                    Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly", Toast.LENGTH_SHORT).show();
+                    mDatabaseref.child("pump").child("status").setValue(1);// turn the pump on
+                    mDatabaseref.child("pump").child("level").setValue(3); // pump On for 5000 millis
+
+                } else if (maxPos == 2) {
+                    mDatabaseref.child("pump").child("level").setValue(2);
+                    mDatabaseref.child("pump").child("status").setValue(1);
+                    Toast.makeText(ImageProcessing.this, "Need to be watered Lighty", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(ImageProcessing.this, "invalid", Toast.LENGTH_SHORT).show();
+                }
+
                 dialog.dismiss();
-                if (Moisture.equals("Dry") && Moisture2.equals("Wet") || Moisture.equals("Wet") && Moisture2.equals("Dry")) {
-
-                    Toast.makeText(ImageProcessing.this, "Its dry wet", Toast.LENGTH_SHORT).show();
-
-
-                }
-                if (Moisture.equals("Wet") && Moisture2.equals("Wet")) {
-
-                    Toast.makeText(ImageProcessing.this, "Its wet wet", Toast.LENGTH_SHORT).show();
-
-
-                }
-                if (Moisture.equals("Dry") && Moisture2.equals("Dry")) {
-
-                    Toast.makeText(ImageProcessing.this, "Its dry dry", Toast.LENGTH_SHORT).show();
-
-
-                }
 
 
             }
@@ -318,19 +347,128 @@ public class ImageProcessing extends AppCompatActivity {
         Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabaseref.child("pump").child("level").setValue(3);
-                mDatabaseref.child("pump").child("status").setValue(1);
+
                 Toast.makeText(ImageProcessing.this, "Cancel", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
+            }
+        });
+        Compare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+
+                //set sensor values
+                sensor1.setText(Moisture);
+                sensor2.setText(Moisture2);
+
+                compDialog.show();
+                Plurals = (getResources().getQuantityString(R.plurals.minutes, WateringMinute));
+                compare_water_time.setText(String.valueOf(WateringMinute) + " " + Plurals);
+
+
+                compare_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        compDialog.dismiss();
+                        dialog.show();
+
+                    }
+                });
+
+                if (Moisture.equals("Wet") && Moisture2.equals("Wet")) {
+
+                    int grey = getResources().getColor(R.color.Grey);
+                    watering_layout.setClickable(false);
+                    compare_water_time.setTextColor(grey);
+                    start.setTextColor(grey);
+                    water_time_placeholder.setTextColor(grey);
+                    compDialog.findViewById(R.id.compare_dialog_watering_time);
+                    compare_dialog_text.setText(R.string.dialog_compare_text_wet);
+                    return;
+
+                } else if (Moisture.equals("Dry") && Moisture2.equals("Wet") || Moisture.equals("Wet") && Moisture2.equals("Dry")) {
+
+                    watering_layout.setClickable(true);
+                    compare_water_time.setTextColor(0xFF669900);
+                    start.setTextColor(getColor(R.color.Green));
+                    water_time_placeholder.setTextColor(0xFF669900);
+                    compare_dialog_text.setText(R.string.dialog_compare_text_oneDry);
+
+
+                } else if (Moisture.equals("Dry") && Moisture2.equals("Dry")) {
+
+                    watering_layout.setClickable(true);
+                    compare_water_time.setTextColor(0xFF669900);
+                    water_time_placeholder.setTextColor(0xFF669900);
+                    compare_dialog_text.setText(R.string.dialog_compare_text_allDry);
+
+                }
+
+                watering_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //call Timepicker Dialog
+                        timePickDialog();
+
+                    }
+                });
+
+                start.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        mDatabaseref.child("pump").child("status").setValue(1);
+                        mDatabaseref.child("pump").child("time").setValue(WateringMinute);
+                        Toast.makeText(ImageProcessing.this, "Time set " + (WateringMinute)+" min", Toast.LENGTH_SHORT).show();
+
+                        compDialog.dismiss();
+
+                    }
+                });
             }
         });
 
     }
 
+    private void timePickDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ImageProcessing.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(ImageProcessing.this).inflate(
+                R.layout.reminder_watering_time_dialog,
+                compDialog.findViewById(R.id.layout_compare_dialog_container), false);
+
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+
+        final GreenNumberPicker numberPicker = view.findViewById(R.id.reminder_watering_numberpicker);
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(60);
+        numberPicker.setValue(WateringMinute);
+        numberPicker.setWrapSelectorWheel(false);
+
+
+        view.findViewById(R.id.Watering_accept_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WateringMinute = numberPicker.getValue();
+
+                // Update visual text:
+                compare_water_time.setText(String.valueOf(WateringMinute) + " " + Plurals);
+                alertDialog.dismiss();
+            }
+        });
+        if (alertDialog.getWindow() != null) {
+
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        alertDialog.show();
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-       // super.onActivityResult(requestCode, resultCode, data);
+        // super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             imageUri = data.getData();
 
@@ -347,8 +485,6 @@ public class ImageProcessing extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
 
 
         }

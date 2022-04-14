@@ -31,7 +31,7 @@ import com.kwabenaberko.openweathermaplib.implementation.callback.CurrentWeather
 import com.kwabenaberko.openweathermaplib.model.currentweather.CurrentWeather;
 
 
-public class InfoMonitoring extends AppCompatActivity {
+public class InfoMonitoringActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
@@ -67,7 +67,7 @@ public class InfoMonitoring extends AppCompatActivity {
         weatherData();
 
         floatingActionButton.setOnClickListener(view -> {
-            Intent main = new Intent(InfoMonitoring.this, MainActivity.class);
+            Intent main = new Intent(InfoMonitoringActivity.this, MainActivity.class);
             startActivity(main);
             finish();
 
@@ -87,19 +87,19 @@ public class InfoMonitoring extends AppCompatActivity {
 
                 case R.id.reminder:
                     startActivity(new Intent(getApplicationContext(),
-                            Reminder.class));
+                            ReminderActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
 
                 case R.id.Sensor:
                     startActivity(new Intent(getApplicationContext(),
-                            InfoMonitoring.class));
+                            InfoMonitoringActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
 
                 case R.id.Settings:
                     startActivity(new Intent(getApplicationContext(),
-                            Settings.class));
+                            SettingsActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
 
@@ -137,32 +137,32 @@ public class InfoMonitoring extends AppCompatActivity {
 
                 switch (weatherDis) {
                     case "broken clouds":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.broken_clouds).into(WIcon);
+                        Glide.with(InfoMonitoringActivity.this).load(R.drawable.broken_clouds).into(WIcon);
                         break;
                     case "few clouds":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.few_clouds).into(WIcon);
+                        Glide.with(InfoMonitoringActivity.this).load(R.drawable.few_clouds).into(WIcon);
                         break;
                     case "clear sky":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.clear_sky).into(WIcon);
+                        Glide.with(InfoMonitoringActivity.this).load(R.drawable.clear_sky).into(WIcon);
                         break;
                     case "moderate rain":
                     case "light rain":
                     case "heavy intensity rain":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.rain).into(WIcon);
+                        Glide.with(InfoMonitoringActivity.this).load(R.drawable.rain).into(WIcon);
                         break;
                     case "shower rain":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.shower_rain).into(WIcon);
+                        Glide.with(InfoMonitoringActivity.this).load(R.drawable.shower_rain).into(WIcon);
                         break;
                     case "thunderstorm":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.thunderstorm).into(WIcon);
+                        Glide.with(InfoMonitoringActivity.this).load(R.drawable.thunderstorm).into(WIcon);
                         break;
                     case "mist":
                     case "fog":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.mist).into(WIcon);
+                        Glide.with(InfoMonitoringActivity.this).load(R.drawable.mist).into(WIcon);
                         break;
                     case "scattered clouds":
                     case "overcast clouds":
-                        Glide.with(InfoMonitoring.this).load(R.drawable.scattered_clouds).into(WIcon);
+                        Glide.with(InfoMonitoringActivity.this).load(R.drawable.scattered_clouds).into(WIcon);
                         break;
 
                 }

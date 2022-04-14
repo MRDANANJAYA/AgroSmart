@@ -17,6 +17,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+
+
+
     <style name="NumberPickerGreenStyle">
         <item name="android:textColorPrimary">@color/Green</item>
         <item name="android:textSize">20sp</item>
@@ -26,7 +29,7 @@
 
     <style name="Notification_Switch" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/Gray</item>
+        <item name="colorPrimaryDark">@color/Grey</item>
         <item name="colorAccent">@color/white</item>
     </style>
 

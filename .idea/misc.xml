@@ -36,7 +36,8 @@
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_settings.xml" value="0.3089887640449438" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/activity_splash_screen.xml" value="0.17222222222222222" />
-        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/custom_dialog_layout.xml" value="0.15855855855855855" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/compare_dialog.xml" value="0.33" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/custom_dialog_layout.xml" value="0.5472061657032755" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/cutom_dialog.xml" value="0.23513513513513515" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/info_monitoring.xml" value="0.33" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/onboarding_dialog_1.xml" value="0.31351351351351353" />
@@ -49,6 +50,8 @@
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/settings_delete_dialog.xml" value="0.31351351351351353" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/settings_licenses_dialog.xml" value="0.31351351351351353" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/settings_postpone_dialog.xml" value="0.31351351351351353" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/test.xml" value="0.31351351351351353" />
+        <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/layout/watering_time_picker.xml" value="0.31351351351351353" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/menu/bottom_navigation_bar.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/Gf63/Desktop/AgroSmart/app/src/main/res/menu/bottom_navigationbar.xml" value="0.17222222222222222" />
       </map>

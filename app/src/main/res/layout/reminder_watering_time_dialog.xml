@@ -66,7 +66,7 @@
             />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/postpone_accept_button"
+            android:id="@+id/Watering_accept_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_settings_dialog_accept_button_height"
             app:layout_constraintBottom_toBottomOf="parent"

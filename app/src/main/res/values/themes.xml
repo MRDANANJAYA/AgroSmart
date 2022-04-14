@@ -13,14 +13,11 @@
 
     <style name="Button.Green" parent="ThemeOverlay.AppCompat">
         <item name="colorPrimary">@color/Green</item>
-
     </style>
 
     <style name="Button.White" parent="ThemeOverlay.AppCompat">
         <item name="colorPrimary">@color/white</item>
-
     </style>
-
 
     <style name="DialogAnimation" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>

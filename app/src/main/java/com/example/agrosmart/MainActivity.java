@@ -136,19 +136,19 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.reminder:
                         startActivity(new Intent(getApplicationContext(),
-                                Reminder.class));
+                                ReminderActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.Sensor:
                         startActivity(new Intent(getApplicationContext(),
-                                InfoMonitoring.class));
+                                InfoMonitoringActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.Settings:
                         startActivity(new Intent(getApplicationContext(),
-                                Settings.class));
+                                SettingsActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 

@@ -17,7 +17,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -25,7 +24,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.agrosmart.NumberPickers.GreenNumberPicker;
 import com.example.agrosmart.dialogs.NotificationShow;
-import com.example.agrosmart.login.SignUp;
 import com.example.agrosmart.ml.ImageProcessing;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,13 +33,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Locale;
 
-public class Settings extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
@@ -109,8 +106,8 @@ public class Settings extends AppCompatActivity {
         licenseDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this, R.style.AlertDialogTheme);
-                View view = LayoutInflater.from(Settings.this).inflate(
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this, R.style.AlertDialogTheme);
+                View view = LayoutInflater.from(SettingsActivity.this).inflate(
                         R.layout.settings_licenses_dialog,
                         findViewById(R.id.layout_dialog_container)
                 );
@@ -143,8 +140,8 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this, R.style.AlertDialogTheme);
-                View view = LayoutInflater.from(Settings.this).inflate(
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this, R.style.AlertDialogTheme);
+                View view = LayoutInflater.from(SettingsActivity.this).inflate(
                         R.layout.settings_about_dialog,
                         findViewById(R.id.layout_dialog_container)
                 );
@@ -177,8 +174,8 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this, R.style.AlertDialogTheme);
-                View view = LayoutInflater.from(Settings.this).inflate(
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this, R.style.AlertDialogTheme);
+                View view = LayoutInflater.from(SettingsActivity.this).inflate(
                         R.layout.settings_delete_dialog,
                         findViewById(R.id.layout_dialog_container)
                 );
@@ -194,13 +191,13 @@ public class Settings extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
-                                Toast.makeText(Settings.this, "Data has been Successfully Deleted!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SettingsActivity.this, "Data has been Successfully Deleted!", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
 
-                                Toast.makeText(Settings.this, "Deleting Unsuccessful!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SettingsActivity.this, "Deleting Unsuccessful!" + e.getMessage(), Toast.LENGTH_SHORT).show();
 
                             }
                         });
@@ -230,7 +227,7 @@ public class Settings extends AppCompatActivity {
         notifTimingBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog TimeDialog = new TimePickerDialog(Settings.this, R.style.Timepicker, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog TimeDialog = new TimePickerDialog(SettingsActivity.this, R.style.Timepicker, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
@@ -273,9 +270,9 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this, R.style.AlertDialogTheme);
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this, R.style.AlertDialogTheme);
 
-                View view = LayoutInflater.from(Settings.this).inflate(
+                View view = LayoutInflater.from(SettingsActivity.this).inflate(
                         R.layout.settings_postpone_dialog,
                         findViewById(R.id.layout_dialog_container)
                 );
@@ -312,14 +309,12 @@ public class Settings extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent main = new Intent(Settings.this, MainActivity.class);
+                Intent main = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(main);
 
 
             }
         });
-
-
 
         //set default select
         bottomNavigationView.setSelectedItemId(R.id.Settings);
@@ -334,19 +329,19 @@ public class Settings extends AppCompatActivity {
 
                     case R.id.reminder:
                         startActivity(new Intent(getApplicationContext(),
-                                Reminder.class));
+                                ReminderActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.Sensor:
                         startActivity(new Intent(getApplicationContext(),
-                                InfoMonitoring.class));
+                                InfoMonitoringActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.Settings:
                         startActivity(new Intent(getApplicationContext(),
-                                Settings.class));
+                                SettingsActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
@@ -380,10 +375,6 @@ public class Settings extends AppCompatActivity {
 
     private void formatNotifTimingTextView() {
 
-       // String unpadded = "" + settings.getNotifHour();
-       // String result = "00".substring(unpadded.length()) + unpadded;
-       // unpadded = "" + settings.getNotifMinute();
-       // result = result + ":" + "00".substring(unpadded.length()) + unpadded;
         int resultHour = settings.getNotifHour();
         int resultMini = settings.getNotifMinute();
 
@@ -420,7 +411,7 @@ public class Settings extends AppCompatActivity {
     public void onNotifEnablerSwitchChangedOff() {
         settings.setNotifEnabled(false);
 
-        int grey = getResources().getColor(R.color.Gray);
+        int grey = getResources().getColor(R.color.Grey);
 
         notifTimingBox.setClickable(false);
         notifTimingTextView.setTextColor(grey);

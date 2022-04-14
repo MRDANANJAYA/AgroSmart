@@ -16,8 +16,8 @@
         <activity
             android:name=".ml.CreateModel"
             android:exported="false" />
-        <activity android:name=".Settings" />
-        <activity android:name=".Reminder" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ReminderActivity" />
         <activity android:name=".ml.ImageProcessing" />
         <activity android:name=".login.SignUp" />
         <activity android:name=".MainActivity" />
@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfoMonitoring" />
+        <activity android:name=".InfoMonitoringActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

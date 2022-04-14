@@ -26,7 +26,7 @@ public class OnBoarding {
             showOnboardingDialog1(context, viewGroup);
 
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean(sharedPrefFirstTimeKey, false).apply();
+            editor.putBoolean(sharedPrefFirstTimeKey, true).apply();
         }
     }
 

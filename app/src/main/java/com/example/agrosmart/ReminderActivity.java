@@ -35,7 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class Reminder extends AppCompatActivity {
+public class ReminderActivity extends AppCompatActivity {
 
     private static final String TAG = "";
     int hour;
@@ -51,7 +51,7 @@ public class Reminder extends AppCompatActivity {
     RelativeLayout rel2, wateringLayout;
     Button btOk, btClear;
     private NotificationShow settings;
-
+    private String Plurals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +81,8 @@ public class Reminder extends AppCompatActivity {
         //Refer database
         mDatabaseref = db.getReference();
 
+        Plurals= (getResources().getQuantityString(R.plurals.minutes, settings.getWateringMinute()));
+
         /**   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
          NotificationChannel channel =
          new NotificationChannel("My channel", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
@@ -96,20 +98,21 @@ public class Reminder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                TimePickerDialog TimeDialog = new TimePickerDialog(Reminder.this, R.style.Timepicker, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog TimeDialog = new TimePickerDialog(ReminderActivity.this, R.style.Timepicker, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
                         //Initialize hours and minutes
                         hour = hourOfDay;
                         min = minute;
-
                         settings.setAlarmHour(hour);
                         settings.setAlarmMinute(min);
                         formatNotifTimingTextView();
 
                     }
+
                 }, settings.getNotifHour(), settings.getNotifMinute(), false);
+
 
                 //display previous selected time
                 TimeDialog.updateTime(hour, min);
@@ -128,16 +131,15 @@ public class Reminder extends AppCompatActivity {
 
 
                 if (alarmName.isEmpty()) {
-                    Toast.makeText(Reminder.this, "Reminder name can not be empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReminderActivity.this, "ReminderActivity name can not be empty", Toast.LENGTH_LONG).show();
 
                 } else if (alarmTime == null) {
-                    Toast.makeText(Reminder.this, "Reminding Time can not be empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReminderActivity.this, "Reminding Time can not be empty", Toast.LENGTH_LONG).show();
                 } else {
 
-                    mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Hour").setValue((hour));
-                    mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Minutes").setValue((min));
-                    mDatabaseref.child("Reminder").child(alarmName).child("Time").child("Format").setValue((format));
-                    //Toast.makeText(Reminder.this, "Reminder Set!", Toast.LENGTH_SHORT).show();
+                    mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Hour").setValue((hour));
+                    mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Minutes").setValue((min));
+                    mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Format").setValue((format));
 
                     startAlert(); // set alarm time
 
@@ -152,6 +154,7 @@ public class Reminder extends AppCompatActivity {
                 remindName.clearFocus();
                 remindName.setText("");
                 time.setText("");
+                water_time.setText("");
             }
         });
 
@@ -159,12 +162,14 @@ public class Reminder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Reminder.this, R.style.AlertDialogTheme);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ReminderActivity.this, R.style.AlertDialogTheme);
 
-                View view = LayoutInflater.from(Reminder.this).inflate(
+                View view = LayoutInflater.from(ReminderActivity.this).inflate(
                         R.layout.reminder_watering_time_dialog,
-                        findViewById(R.id.layout_dialog_container)
+                        findViewById(R.id.layout_compare_dialog_container)
                 );
+
+
 
                 builder.setView(view);
                 final AlertDialog alertDialog = builder.create();
@@ -172,15 +177,21 @@ public class Reminder extends AppCompatActivity {
                 final GreenNumberPicker numberPicker = view.findViewById(R.id.reminder_watering_numberpicker);
                 numberPicker.setMinValue(0);
                 numberPicker.setMaxValue(60);
+                numberPicker.setValue(settings.getWateringMinute());
                 numberPicker.setWrapSelectorWheel(false);
 
                 view.findViewById(R.id.postpone_accept_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int minutes = numberPicker.getValue();
-                        String plural = getResources().getQuantityString(R.plurals.minutes, minutes);
-                        water_time.setText(String.valueOf(minutes)+" "+plural);
+                        // Store new value
+                        settings.setWateringMinute(numberPicker.getValue());
+
+                        Plurals= (getResources().getQuantityString(R.plurals.minutes, settings.getWateringMinute()));
+                        // Update visual text:
+                        water_time.setText(String.valueOf(settings.getWateringMinute())+" "+ Plurals);
+
                         alertDialog.dismiss();
+
                     }
                 });
 
@@ -196,7 +207,7 @@ public class Reminder extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent main= new Intent(Reminder.this, MainActivity.class);
+                Intent main= new Intent(ReminderActivity.this, MainActivity.class);
                 startActivity(main);
             }
         });
@@ -216,19 +227,19 @@ public class Reminder extends AppCompatActivity {
 
                     case R.id.reminder:
                         startActivity(new Intent(getApplicationContext(),
-                                Reminder.class));
+                                ReminderActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.Sensor:
                         startActivity(new Intent(getApplicationContext(),
-                                InfoMonitoring.class));
+                                InfoMonitoringActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.Settings:
                         startActivity(new Intent(getApplicationContext(),
-                                Settings.class));
+                                SettingsActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
 
@@ -265,11 +276,11 @@ public class Reminder extends AppCompatActivity {
             if (settings.getNotifRepetInterval() > 0) {
                 //set Trigger alarm
                 am.set(AlarmManager.RTC_WAKEUP, alarmStartTime + (settings.getNotifRepetInterval() * 60 * 60 * 1000L), pendingIntent);
-                Toast.makeText(this, "Reminder set for: " + side, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "ReminderActivity set for: " + side, Toast.LENGTH_SHORT).show();
             } else {
                 //set Trigger alarm
                 am.set(AlarmManager.RTC_WAKEUP, alarmStartTime, pendingIntent);
-                Toast.makeText(this, "Reminder set for: " + hour + "h " + min + "m " + s +"s", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "ReminderActivity set for: " + hour + "h " + min + "m " + s +"s", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this, "Notification is disabled! Turn on first before set the alarm", Toast.LENGTH_SHORT).show();
@@ -296,6 +307,8 @@ public class Reminder extends AppCompatActivity {
 
         alarmTime = String.format(Locale.getDefault(), "%02d : %02d ", resultHour, resultMini) + format;
         time.setText(alarmTime);
+        Plurals= (getResources().getQuantityString(R.plurals.minutes, settings.getWateringMinute()));
+        water_time.setText(String.valueOf(settings.getWateringMinute())+" "+Plurals);
 
     }
 

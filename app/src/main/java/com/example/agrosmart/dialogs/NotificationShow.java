@@ -26,6 +26,9 @@ public class NotificationShow {
     private final String alarmMinuteKey = "Alarm_minute";
     private final int alarmMinuteDefault = 00;
 
+    private final String waterMinuteKey = "Alarm_minute";
+    private final int waterMinuteDefault = 00;
+
 
     public int getAlarmHour() {
         return prefs.getInt(alarmHourKey, alarmHourDefault);
@@ -73,6 +76,15 @@ public class NotificationShow {
         }
     }
 
+    public int getWateringMinute(){
+        return prefs.getInt(waterMinuteKey, waterMinuteDefault);
+    }
+
+    public void setWateringMinute(int newValue){
+        if (newValue >= 0 && newValue <= 59){
+            prefs.edit().putInt(waterMinuteKey, newValue).apply();
+        }
+    }
 
 
     public int getNotifRepetInterval(){

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Reminder">
+    tools:context=".ReminderActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -211,7 +211,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/watering_icon"
-                            android:text="Watering Time"
+                            android:text="@string/watering_time"
                             android:textColor="@color/white"
                             android:textSize="@dimen/settings_font_size"
                             android:textStyle="bold" />
@@ -241,33 +241,35 @@
 
         <Button
             android:id="@+id/TimePickOk"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_below="@id/RemindRelative"
             android:layout_alignEnd="@+id/RemindRelative"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="44dp"
             android:background="@drawable/google_btn"
-            android:text="Ok"
-            app:backgroundTint="@color/Green"
+            android:text="Set the Reminder"
+            android:textColor="@color/white"
+            android:theme="@style/Button.Green"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.938"
+            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/RemindRelative" />
 
         <Button
             android:id="@+id/TimePickClear"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_below="@+id/RemindRelative"
             android:layout_alignStart="@+id/RemindRelative"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/google_btn"
-            android:text="Clear"
-            app:backgroundTint="@color/Current_Weather_Color"
-            app:layout_constraintEnd_toStartOf="@+id/TimePickOk"
-            app:layout_constraintHorizontal_bias="0.168"
+            android:text="Reset"
+            android:textColor="@color/Current_Weather_Color"
+            android:theme="@style/Button.White"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/RemindRelative" />
+            app:layout_constraintTop_toBottomOf="@+id/TimePickOk" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

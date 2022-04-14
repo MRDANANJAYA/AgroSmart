@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingBottom="24dp"
-            android:textColor="@color/Gray"
+            android:textColor="@color/Grey"
             android:textSize="16sp"
             android:layout_marginHorizontal="24dp"
             android:text="@string/settings_license_dialog_text"
