@@ -166,7 +166,7 @@ public class ReminderActivity extends AppCompatActivity {
 
                 View view = LayoutInflater.from(ReminderActivity.this).inflate(
                         R.layout.reminder_watering_time_dialog,
-                        findViewById(R.id.layout_compare_dialog_container)
+                        findViewById(R.id.layout_Reminder_dialog_container),false
                 );
 
 
@@ -180,7 +180,7 @@ public class ReminderActivity extends AppCompatActivity {
                 numberPicker.setValue(settings.getWateringMinute());
                 numberPicker.setWrapSelectorWheel(false);
 
-                view.findViewById(R.id.postpone_accept_button).setOnClickListener(new View.OnClickListener() {
+                view.findViewById(R.id.Watering_accept_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         // Store new value

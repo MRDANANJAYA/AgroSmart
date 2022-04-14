@@ -169,6 +169,7 @@ public class ImageProcessing extends AppCompatActivity {
             public void onClick(View view) {
                 if (ContextCompat.checkSelfPermission(ImageProcessing.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
                     Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -178,6 +179,7 @@ public class ImageProcessing extends AppCompatActivity {
                 } else {
                     //Request storage permission if  don't have it.
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
+
                 }
             }
         });
@@ -321,19 +323,28 @@ public class ImageProcessing extends AppCompatActivity {
         Okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //pump_state 1 : Pump turn on
+                //pump_state 0 : Pump turn off
+                //pump_state 2 : default settings[automatic]
+                mDatabaseref.child("pump").child("status").setValue(2);// default settings
 
                 if (maxPos == 0) {
-                    Toast.makeText(ImageProcessing.this, "No need to water", Toast.LENGTH_SHORT).show();
+
+                    mDatabaseref.child("pump").child("status").setValue(0);// turn the pump off
+                    mDatabaseref.child("pump").child("level").setValue(3);
+                    Toast.makeText(ImageProcessing.this, "No need to water[stay]", Toast.LENGTH_SHORT).show();
 
                 } else if (maxPos == 1) {
-                    Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly", Toast.LENGTH_SHORT).show();
+
                     mDatabaseref.child("pump").child("status").setValue(1);// turn the pump on
-                    mDatabaseref.child("pump").child("level").setValue(3); // pump On for 5000 millis
+                    mDatabaseref.child("pump").child("level").setValue(3); // pump On for 50000 millis[50sec]
+                    Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly[sent]", Toast.LENGTH_SHORT).show();
 
                 } else if (maxPos == 2) {
-                    mDatabaseref.child("pump").child("level").setValue(2);
-                    mDatabaseref.child("pump").child("status").setValue(1);
-                    Toast.makeText(ImageProcessing.this, "Need to be watered Lighty", Toast.LENGTH_SHORT).show();
+
+                    mDatabaseref.child("pump").child("status").setValue(1);// turn the pump on
+                    mDatabaseref.child("pump").child("level").setValue(2);// pump On for 10000 millis[10sec]
+                    Toast.makeText(ImageProcessing.this, "Need to be watered Lighty[sent]", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(ImageProcessing.this, "invalid", Toast.LENGTH_SHORT).show();

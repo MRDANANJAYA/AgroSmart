@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/newcentergreen"
+        android:src="@drawable/newcentergreen"
         android:scaleType="centerCrop"
         android:layout_marginTop="-50dp"
 
@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pattern" />
+        android:src="@drawable/pattern" />
 
     <RelativeLayout
         android:layout_width="match_parent"

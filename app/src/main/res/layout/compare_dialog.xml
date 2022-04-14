@@ -118,7 +118,7 @@
             android:layout_height="25dp"
             android:adjustViewBounds="true"
             android:padding="2dp"
-            app:srcCompat="@drawable/icon_clock_remind_later_white"
+            android:src="@drawable/icon_clock_remind_later_white"
             app:tint="@android:color/darker_gray" />
 
         <TextView
@@ -130,7 +130,7 @@
             android:layout_toEndOf="@id/watering_icon"
             android:text="@string/watering_time"
             android:textAlignment="center"
-            android:textColor="@color/material_dynamic_neutral10"
+            android:textColor="#FF191C1E"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent" />
