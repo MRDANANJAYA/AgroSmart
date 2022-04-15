@@ -419,7 +419,6 @@ public class ImageProcessing extends AppCompatActivity {
                         AlarmManager am = (AlarmManager) ImageProcessing.this.getSystemService(ALARM_SERVICE);
                         am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + WateringMinute, pendingIntent);
 
-
                         compDialog.dismiss();
 
                     }
