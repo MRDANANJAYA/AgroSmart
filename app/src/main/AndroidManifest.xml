@@ -40,6 +40,9 @@
         <receiver
             android:name=".dialogs.AlarmReceiver"
           />
+        <receiver
+            android:name=".ml.WaterTimerReceiver"
+            />
 
     </application>
 

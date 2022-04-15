@@ -2,7 +2,9 @@ package com.example.agrosmart.ml;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -50,6 +52,7 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Calendar;
 
 @SuppressWarnings("ALL")
 public class ImageProcessing extends AppCompatActivity {
@@ -328,28 +331,6 @@ public class ImageProcessing extends AppCompatActivity {
                 //pump_state 2 : default settings[automatic]
                 mDatabaseref.child("pump").child("status").setValue(2);// default settings
 
-                if (maxPos == 0) {
-
-                    mDatabaseref.child("pump").child("status").setValue(0);// turn the pump off
-                    mDatabaseref.child("pump").child("level").setValue(3);
-                    Toast.makeText(ImageProcessing.this, "No need to water[stay]", Toast.LENGTH_SHORT).show();
-
-                } else if (maxPos == 1) {
-
-                    mDatabaseref.child("pump").child("status").setValue(1);// turn the pump on
-                    mDatabaseref.child("pump").child("level").setValue(3); // pump On for 50000 millis[50sec]
-                    Toast.makeText(ImageProcessing.this, "Need to be watered thoroughly[sent]", Toast.LENGTH_SHORT).show();
-
-                } else if (maxPos == 2) {
-
-                    mDatabaseref.child("pump").child("status").setValue(1);// turn the pump on
-                    mDatabaseref.child("pump").child("level").setValue(2);// pump On for 10000 millis[10sec]
-                    Toast.makeText(ImageProcessing.this, "Need to be watered Lighty[sent]", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(ImageProcessing.this, "invalid", Toast.LENGTH_SHORT).show();
-                }
-
                 dialog.dismiss();
 
 
@@ -430,9 +411,14 @@ public class ImageProcessing extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+                        long S = WateringMinute * 60 * 1000;
                         mDatabaseref.child("pump").child("status").setValue(1);
-                        mDatabaseref.child("pump").child("time").setValue(WateringMinute);
-                        Toast.makeText(ImageProcessing.this, "Time set " + (WateringMinute)+" min", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImageProcessing.this, "Time set " + (WateringMinute) + " min", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ImageProcessing.this, WaterTimerReceiver.class);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(ImageProcessing.this, 1, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager am = (AlarmManager) ImageProcessing.this.getSystemService(ALARM_SERVICE);
+                        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + WateringMinute, pendingIntent);
+
 
                         compDialog.dismiss();
 
