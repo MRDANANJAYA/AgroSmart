@@ -57,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+        OnBoarding.checkOnboardingDialog(this, viewGroup);
+
         login = findViewById(R.id.Login);
         signup = findViewById(R.id.createAcc);
         googleBut = findViewById(R.id.Google);

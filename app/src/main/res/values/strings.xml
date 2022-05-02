@@ -79,7 +79,7 @@
     <string name="recognize_dialog_text"><b>Are you satisfied with these Results?</b> By pressing okay will be continued with default settings.\npress <b>Compare</b> for comparing with the sensors whether values are tallie with the outcome
     </string>
     <string name="recognized_dialog_title">Are you satisfied with these Results?</string>
-    <string name="onboard_dialog_1_text">Welcome to Agrosmart! the Automated Smart Watering System</string>
+    <string name="onboard_dialog_1_text">Welcome to Agrosmart! 🌱 The Automated Smart Watering System app that helps you and your plants thrive.</string>
     <string name="watering_time">Watering Time :</string>
     <string name="dialog_compare_text_oneDry">According to the sensors, one sensor that detects soil moisture is <b>dry</b>. We recommend watering the plant for at least <b>15 minutes</b>.</string>
     <string name="dialog_compare_text_wet">According to the sensors, the soil moisture is detected as <b>wet</b>. Therefore watering is <b>not necessary</b>.</string>

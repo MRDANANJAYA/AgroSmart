@@ -46,6 +46,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.checkerframework.checker.units.qual.C;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
@@ -410,6 +411,8 @@ public class ImageProcessing extends AppCompatActivity {
                 start.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Calendar startTime = Calendar.getInstance();
+                        long alarmStartTime = startTime.getTimeInMillis();
 
                         long S = WateringMinute * 60 * 1000;
                         mDatabaseref.child("pump").child("status").setValue(1);
@@ -417,7 +420,7 @@ public class ImageProcessing extends AppCompatActivity {
                         Intent intent = new Intent(ImageProcessing.this, WaterTimerReceiver.class);
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(ImageProcessing.this, 1, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
                         AlarmManager am = (AlarmManager) ImageProcessing.this.getSystemService(ALARM_SERVICE);
-                        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + WateringMinute, pendingIntent);
+                        am.set(AlarmManager.RTC_WAKEUP, alarmStartTime + S, pendingIntent); //trigger at specified time
 
                         compDialog.dismiss();
 

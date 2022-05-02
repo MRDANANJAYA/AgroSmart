@@ -11,6 +11,14 @@ public class NotificationShow {
     private final String notifEnabledKey = "notif_enabled";
     private final boolean notifEnabledDefault = true;
 
+    private final String pumpEnabledKey = "pump_enabled";
+    private final boolean pumpEnabledDefault = true;
+
+    private final String lightEnabledKey = "light_enabled";
+    private final boolean lightEnabledDefault = true;
+
+
+
     private final String notifHourKey = "notif_hour";
     private final int notifHourDefault = 18;
 
@@ -103,5 +111,22 @@ public class NotificationShow {
 
     public void setNotifEnabled(boolean value){
         prefs.edit().putBoolean(notifEnabledKey, value).apply();
+    }
+
+
+    public boolean getPumpEnabled(){
+        return prefs.getBoolean(pumpEnabledKey, pumpEnabledDefault);
+    }
+
+    public void setPumpEnabled(boolean value){
+        prefs.edit().putBoolean(pumpEnabledKey, value).apply();
+    }
+
+    public boolean getLightEnabled(){
+        return prefs.getBoolean(lightEnabledKey, lightEnabledDefault);
+    }
+
+    public void setLightEnabled(boolean value){
+        prefs.edit().putBoolean(lightEnabledKey, value).apply();
     }
 }

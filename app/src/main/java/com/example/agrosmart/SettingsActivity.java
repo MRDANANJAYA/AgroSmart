@@ -2,6 +2,7 @@
 
 package com.example.agrosmart;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -235,17 +236,6 @@ public class SettingsActivity extends AppCompatActivity {
                         hour = hourOfDay;
                         min = minute;
 
-                        /**  if (hour == 0) {
-                         hour += 12;
-                         format = "am";
-                         } else if (hour == 12) {
-                         format = "pm";
-                         } else if (hour > 12) {
-                         hour -= 12;
-                         format = "pm";
-                         } else {
-                         format = "am";
-                         }*/
                         settings.setNotifHour(hour);
                         settings.setNotifMinute(min);
 
@@ -321,6 +311,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //select Menu items
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -410,12 +401,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onNotifEnablerSwitchChangedOff() {
         settings.setNotifEnabled(false);
-
         int grey = getResources().getColor(R.color.Grey);
-
         notifTimingBox.setClickable(false);
         notifTimingTextView.setTextColor(grey);
-
         notifPostponeBox.setClickable(false);
         notifPostponeNumberTextView.setTextColor(grey);
         notifPostponeHourTextView.setTextColor(grey);

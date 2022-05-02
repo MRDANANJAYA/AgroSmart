@@ -46,16 +46,18 @@
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
-            android:textColor="@color/Green"
-            android:text="@string/onboard_dialog_1_text"
-            android:paddingHorizontal="8dp"
-            android:textSize="@dimen/settings_font_size"
-            app:layout_constraintTop_toBottomOf="@id/icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="sans-serif"
             android:gravity="center"
-            android:textStyle="italic" />
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="16dp"
+            android:text="@string/onboard_dialog_1_text"
+            android:textAllCaps="false"
+            android:textColor="@color/Green"
+            android:textSize="@dimen/settings_font_size"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/icon" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button"
@@ -67,7 +69,7 @@
             android:backgroundTint="@color/Green"
             android:layout_margin="@dimen/dimen_settings_dialog_accept_button_margin"
             style="?android:attr/borderlessButtonStyle"
-            android:text="Continue"
+            android:text="Next"
             android:textAllCaps="false"
             android:textColor="@color/white"
 
