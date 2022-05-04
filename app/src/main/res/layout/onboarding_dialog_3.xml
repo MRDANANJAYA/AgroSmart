@@ -36,14 +36,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/Green"
-            android:paddingTop="190dp"
-            app:layout_constraintBottom_toBottomOf="@+id/notif_row2"
+            android:paddingTop="290dp"
+            app:layout_constraintBottom_toBottomOf="@+id/notif_row3"
             app:layout_constraintTop_toTopOf="@id/notif_row" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/notif_row"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="85dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
             android:layout_marginHorizontal="8dp"
@@ -115,7 +115,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/notif_row2"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="85dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:layout_marginHorizontal="8dp"
@@ -128,43 +128,36 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                >
+                app:layout_constraintEnd_toStartOf="@+id/plant_image2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/notif_title2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:gravity="center_vertical"
                     android:singleLine="true"
+                    android:text="☘️ Plant Status"
                     android:textColor="@color/Green"
-                    android:text="🌿 Plant Status"
-                    android:textStyle="bold"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@id/notif_text2"
-                    app:layout_constraintVertical_chainStyle="packed"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/notif_text2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/colorPrimary"
-                    android:text="since you are new to app how about login first"
-                    android:textSize="15sp"
                     android:paddingTop="2dp"
+                    android:text="@string/info_text2"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/notif_title2"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    />
-
-
+                    app:layout_constraintTop_toBottomOf="@+id/notif_title2" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -182,21 +175,70 @@
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <TextView
-            android:id="@+id/text"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/notif_row3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="30dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="24dp"
-            android:text="add Text"
-            app:layout_constraintTop_toBottomOf="@id/plant_backgound"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="85dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/onboarding_notif_background"
+            app:layout_constraintTop_toBottomOf="@id/notif_row2"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="start"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/plant_image3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/notif_title3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:singleLine="true"
+                    android:text="🎍 Image Classification"
+                    android:textColor="@color/Green"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/notif_text3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/info_text2"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/notif_title3" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/plant_image3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="8dp"
+                app:srcCompat="@drawable/brightness"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -216,7 +258,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text" />
+            app:layout_constraintTop_toBottomOf="@+id/plant_backgound" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

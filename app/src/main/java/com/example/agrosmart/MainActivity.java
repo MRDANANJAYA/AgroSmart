@@ -1,12 +1,13 @@
 package com.example.agrosmart;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,11 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.agrosmart.dialogs.NotificationShow;
-import com.example.agrosmart.dialogs.OnBoarding;
 import com.example.agrosmart.login.GlobalUser;
 import com.example.agrosmart.login.LoginActivity;
 import com.example.agrosmart.login.User;
 import com.example.agrosmart.ml.ImageProcessing;
+import com.example.agrosmart.ml.WaterTimerReceiver;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -35,8 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private SwitchCompat default_settings;
     private SwitchCompat pump_switch;
     private SwitchCompat light_switch;
-
 
 
     @Override
@@ -70,33 +71,53 @@ public class MainActivity extends AppCompatActivity {
         default_settings = findViewById(R.id.default_on_off);
 
         // create a pump Switch object
-        NotificationShow swicht_enabler = new NotificationShow(this);
+        NotificationShow switch_enabler = new NotificationShow(this);
         //FirebaseStorage storage = FirebaseStorage.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://agrismartwatering-default-rtdb.firebaseio.com/");
 
         dbRef = db.getReference();
 
+        boolean message = getIntent().getBooleanExtra("TestOne", false);
+        if(message == true){
+            Calendar startTime = Calendar.getInstance();
+            long alarmStartTime = startTime.getTimeInMillis();
+
+            long WT = (long) switch_enabler.getWateringMinute() * 60 * 1000;
+            dbRef.child("pump").child("status").setValue(1);
+
+            Intent intent = new Intent(MainActivity.this, WaterTimerReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,
+                    1, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, alarmStartTime + WT, pendingIntent); //trigger at specified time
+
+            Toast.makeText(this, "Watering started" , Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(this, "false" , Toast.LENGTH_SHORT).show();
+        }
+
+
         dbRef.child("led").child("status").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Integer light_value = (int) snapshot.getValue(Integer.class);
-                if(light_value == 0){
+                if (light_value == 0) {
                     light_switch.setChecked(false);
-                    swicht_enabler.setLightEnabled(false);
+                    switch_enabler.setLightEnabled(false);
 
-                }else if(light_value == 1){
+                } else if (light_value == 1) {
                     light_switch.setChecked(true);
-                    swicht_enabler.setLightEnabled(true);
+                    switch_enabler.setLightEnabled(true);
 
-                }else if(light_value == 2){
+                } else if (light_value == 2) {
 
                     default_settings.setChecked(true);
 
 
-
                 }
-
 
 
             }
@@ -111,15 +132,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Integer pump_value = (int) snapshot.getValue(Integer.class);
-                if(pump_value == 0){
+                if (pump_value == 0) {
                     pump_switch.setChecked(false);
-                    swicht_enabler.setPumpEnabled(false);
+                    switch_enabler.setPumpEnabled(false);
 
-                }else if(pump_value == 1){
+                } else if (pump_value == 1) {
                     pump_switch.setChecked(true);
-                    swicht_enabler.setPumpEnabled(true);
+                    switch_enabler.setPumpEnabled(true);
 
-                }else if(pump_value == 2) {
+                } else if (pump_value == 2) {
 
                     default_settings.setChecked(true);
                 }
@@ -161,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getUserinfo();
             //Fitch User name
-           db.getReference("User")
+            db.getReference("User")
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -186,10 +207,10 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dbRef.child("pump").child("status").setValue(1);
-                    swicht_enabler.setPumpEnabled(true);
+                    switch_enabler.setPumpEnabled(true);
                 } else {
                     dbRef.child("pump").child("status").setValue(0);
-                    swicht_enabler.setPumpEnabled(false);
+                    switch_enabler.setPumpEnabled(false);
                 }
             }
         });
@@ -200,10 +221,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (isChecked) {
                     dbRef.child("led").child("status").setValue(1);
-                    swicht_enabler.setLightEnabled(true);
+                    switch_enabler.setLightEnabled(true);
                 } else {
                     dbRef.child("led").child("status").setValue(0);
-                    swicht_enabler.setLightEnabled(false);
+                    switch_enabler.setLightEnabled(false);
                 }
 
             }
@@ -221,11 +242,11 @@ public class MainActivity extends AppCompatActivity {
                     dbRef.child("led").child("status").setValue(2);
                     dbRef.child("pump").child("status").setValue(2);
                 } else {
-                    pump_switch.setChecked(swicht_enabler.getPumpEnabled());
-                    if(swicht_enabler.getPumpEnabled() == true){
+                    pump_switch.setChecked(switch_enabler.getPumpEnabled());
+                    if (switch_enabler.getPumpEnabled() == true) {
                         dbRef.child("led").child("status").setValue(1);
                         dbRef.child("pump").child("status").setValue(1);
-                    }else {
+                    } else {
                         dbRef.child("led").child("status").setValue(0);
                         dbRef.child("pump").child("status").setValue(0);
                     }
@@ -234,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
         //set default select
@@ -279,7 +299,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     public void SwitchChangedOn() {
@@ -300,8 +319,9 @@ public class MainActivity extends AppCompatActivity {
         pump_switch_text.setTextColor(grey);
     }
 
+    public void newma(){
 
-
+    }
 
     private void getUserinfo() {
 

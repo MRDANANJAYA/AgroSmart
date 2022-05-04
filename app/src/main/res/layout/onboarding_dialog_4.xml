@@ -31,13 +31,12 @@
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="170dp"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintBottom_toTopOf="@id/text"
             android:layout_marginVertical="16dp"
-            app:srcCompat="@drawable/ic_onboard_icon"
+            app:srcCompat="@drawable/ic__lets_login"
             />
 
 
@@ -49,11 +48,10 @@
             android:gravity="center"
             android:paddingHorizontal="8dp"
             android:paddingVertical="16dp"
-            android:text="Seems like your newbie huh.. Since you are new to app how about login first"
+            android:text="@string/onboard_dialog_4"
             android:textAllCaps="false"
             android:textColor="@color/Green"
             android:textSize="@dimen/settings_font_size"
-            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/icon" />

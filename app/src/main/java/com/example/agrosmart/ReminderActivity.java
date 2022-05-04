@@ -83,13 +83,6 @@ public class ReminderActivity extends AppCompatActivity {
 
         Plurals= (getResources().getQuantityString(R.plurals.minutes, settings.getWateringMinute()));
 
-        /**   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-         NotificationChannel channel =
-         new NotificationChannel("My channel", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
-         NotificationManager manager = getSystemService(NotificationManager.class);
-         manager.createNotificationChannel(channel);
-
-         }*/
 
 
         formatNotifTimingTextView();
@@ -267,7 +260,8 @@ public class ReminderActivity extends AppCompatActivity {
         String s = String.valueOf(Calendar.SECOND);
 
         if (settings.getNotifEnabled()) {
-           String side =  String.valueOf(alarmStartTime + (settings.getNotifRepetInterval() * 60 * 60 * 1000L));
+           //String side =  settings.getNotifRepetInterval() * 60 * 60 * 1000L));
+           String addedHour = String.valueOf( hour + settings.getNotifRepetInterval());
             // getBroadcast(context, requestCode, intent, flags)
             Intent intent = new Intent(this, AlarmReceiver.class);
             intent.putExtra("NAME_ID", alarmName);
@@ -275,8 +269,8 @@ public class ReminderActivity extends AppCompatActivity {
             AlarmManager am = (AlarmManager) this.getSystemService(ALARM_SERVICE);
             if (settings.getNotifRepetInterval() > 0) {
                 //set Trigger alarm
-                am.set(AlarmManager.RTC_WAKEUP, alarmStartTime + (settings.getNotifRepetInterval() * 60 * 60 * 1000L), pendingIntent);
-                Toast.makeText(this, "ReminderActivity set for: " + side, Toast.LENGTH_SHORT).show();
+                am.set(AlarmManager.RTC_WAKEUP, alarmStartTime + (settings.getNotifRepetInterval() * 60 * 60 * 1000L) , pendingIntent);
+                Toast.makeText(this, "[PostponedActive] ReminderActivity set for: "  + addedHour + "h " + min + "m " + s +"s", Toast.LENGTH_SHORT).show();
             } else {
                 //set Trigger alarm
                 am.set(AlarmManager.RTC_WAKEUP, alarmStartTime, pendingIntent);
