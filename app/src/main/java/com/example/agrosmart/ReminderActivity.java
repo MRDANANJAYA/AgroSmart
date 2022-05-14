@@ -177,11 +177,12 @@ public class ReminderActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         // Store new value
+
                         settings.setWateringMinute(numberPicker.getValue());
 
                         Plurals= (getResources().getQuantityString(R.plurals.minutes, settings.getWateringMinute()));
                         // Update visual text:
-                        water_time.setText(String.valueOf(settings.getWateringMinute())+" "+ Plurals);
+                        water_time.setText(String.format("%s %s", settings.getWateringMinute(), Plurals));
 
                         alertDialog.dismiss();
 
@@ -269,7 +270,7 @@ public class ReminderActivity extends AppCompatActivity {
             AlarmManager am = (AlarmManager) this.getSystemService(ALARM_SERVICE);
             if (settings.getNotifRepetInterval() > 0) {
                 //set Trigger alarm
-                am.set(AlarmManager.RTC_WAKEUP, alarmStartTime + (settings.getNotifRepetInterval() * 60 * 60 * 1000L) , pendingIntent);
+                am.setExact(AlarmManager.RTC_WAKEUP, alarmStartTime + (settings.getNotifRepetInterval() * 60 * 60 * 1000L) , pendingIntent);
                 Toast.makeText(this, "[PostponedActive] ReminderActivity set for: "  + addedHour + "h " + min + "m " + s +"s", Toast.LENGTH_SHORT).show();
             } else {
                 //set Trigger alarm
