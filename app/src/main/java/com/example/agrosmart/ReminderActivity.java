@@ -37,7 +37,7 @@ import java.util.Locale;
 
 public class ReminderActivity extends AppCompatActivity {
 
-    private static final String TAG = "";
+
     int hour;
     int min;
     String alarmName;
@@ -283,6 +283,7 @@ public class ReminderActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void formatNotifTimingTextView() {
 
         int resultHour = settings.getAlarmHour();
