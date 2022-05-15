@@ -37,6 +37,7 @@ import com.example.agrosmart.NumberPickers.GreenNumberPicker;
 import com.example.agrosmart.R;
 import com.example.agrosmart.ReminderActivity;
 import com.example.agrosmart.SettingsActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -45,11 +46,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ml.modeldownloader.CustomModel;
+import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions;
+import com.google.firebase.ml.modeldownloader.DownloadType;
+import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader;
 
 import org.checkerframework.checker.units.qual.C;
 import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -72,6 +79,7 @@ public class ImageProcessing extends AppCompatActivity {
     int WateringMinute = 0;
     String Plurals;
     private Dialog dialog, compDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +125,7 @@ public class ImageProcessing extends AppCompatActivity {
         compare_water_time = compDialog.findViewById(R.id.watering_timer);
         compare_dialog_text = compDialog.findViewById(R.id.compare_text);
         water_time_placeholder = compDialog.findViewById(R.id.compare_dialog_watering_time);
+
 
 
         // Initialize Firebase Database
@@ -239,9 +248,8 @@ public class ImageProcessing extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
+
 
 
     @SuppressLint("DefaultLocale")
@@ -271,7 +279,8 @@ public class ImageProcessing extends AppCompatActivity {
             inputFeature0.loadBuffer(byteBuffer);
 
             // Runs model inference and gets result.
-            com.example.agrosmart.ml.ModelUnquant.Outputs outputs = model.process(inputFeature0);
+           com.example.agrosmart.ml.ModelUnquant.Outputs outputs = model.process(inputFeature0);
+
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidence = outputFeature0.getFloatArray();
