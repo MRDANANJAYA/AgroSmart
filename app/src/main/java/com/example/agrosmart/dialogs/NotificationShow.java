@@ -11,13 +11,15 @@ public class NotificationShow {
     private final String notifEnabledKey = "notif_enabled";
     private final boolean notifEnabledDefault = true;
 
+    private final String notifEnabledWateringReminderKey = "notif_Enabled_Watering_Reminder_enabled";
+    private final boolean notifEnabledWateringReminderDefault = false;
+
+
     private final String pumpEnabledKey = "pump_enabled";
     private final boolean pumpEnabledDefault = true;
 
     private final String lightEnabledKey = "light_enabled";
     private final boolean lightEnabledDefault = true;
-
-
 
     private final String notifHourKey = "notif_hour";
     private final int notifHourDefault = 18;
@@ -25,8 +27,8 @@ public class NotificationShow {
     private final String notifMinuteKey = "notif_minute";
     private final int notifMinuteDefault = 00;
 
-    private final String notifRepetIntervalKey = "notif_repetition";
-    private final int notifRepetIntervalDefault = 1;
+    private final String notifPostponedTimeKey = "notif_postponed";
+    private final int notifPostponedTimeDefault = 0;
 
     private final String alarmHourKey = "Alarm_hour";
     private final int alarmHourDefault = 00;
@@ -34,7 +36,7 @@ public class NotificationShow {
     private final String alarmMinuteKey = "Alarm_minute";
     private final int alarmMinuteDefault = 00;
 
-    private final String waterMinuteKey = "Alarm_minute";
+    private final String waterMinuteKey = "Watering_minute";
     private final int waterMinuteDefault = 00;
 
 
@@ -56,6 +58,14 @@ public class NotificationShow {
         if (newValue >= 0 && newValue <= 59){
             prefs.edit().putInt(alarmMinuteKey, newValue).apply();
         }
+    }
+
+    public boolean getNotifEnabledWateringReminder(){
+        return prefs.getBoolean(notifEnabledWateringReminderKey, notifEnabledWateringReminderDefault);
+    }
+
+    public void setNotifEnabledWateringReminder(boolean value){
+        prefs.edit().putBoolean(notifEnabledWateringReminderKey, value).apply();
     }
 
 
@@ -95,13 +105,13 @@ public class NotificationShow {
     }
 
 
-    public int getNotifRepetInterval(){
-        return prefs.getInt(notifRepetIntervalKey, notifRepetIntervalDefault);
+    public int getPostponedTime(){
+        return prefs.getInt(notifPostponedTimeKey, notifPostponedTimeDefault);
     }
 
-    public void setNotifRepetInterval(int newValue){
+    public void setPostponedTime(int newValue){
         if (newValue >= 0 && newValue <= 23){
-            prefs.edit().putInt(notifRepetIntervalKey, newValue).apply();
+            prefs.edit().putInt(notifPostponedTimeKey, newValue).apply();
         }
     }
 
@@ -129,4 +139,6 @@ public class NotificationShow {
     public void setLightEnabled(boolean value){
         prefs.edit().putBoolean(lightEnabledKey, value).apply();
     }
+
+
 }

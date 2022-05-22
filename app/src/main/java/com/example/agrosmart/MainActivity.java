@@ -79,24 +79,26 @@ public class MainActivity extends AppCompatActivity {
         dbRef = db.getReference();
 
         boolean message = getIntent().getBooleanExtra("TestOne", false);
+
         if(message == true){
-            Calendar startTime = Calendar.getInstance();
-            long alarmStartTime = startTime.getTimeInMillis();
+           // Calendar startTime = Calendar.getInstance();
+           // long alarmStartTime = startTime.getTimeInMillis();
 
             long WT = (long) switch_enabler.getWateringMinute() * 60 * 1000;
             dbRef.child("pump").child("status").setValue(1);
 
-            Intent intent = new Intent(MainActivity.this, WaterTimerReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,
-                    1, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent intent = new Intent(this, WaterTimerReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
+                    25, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
-            AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(ALARM_SERVICE);
-            am.set(AlarmManager.RTC_WAKEUP, alarmStartTime + WT, pendingIntent); //trigger at specified time
+            AlarmManager am = (AlarmManager) this.getSystemService(ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + WT, pendingIntent); //trigger at specified time
 
-            Toast.makeText(this, "Watering started" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Watering has been started" , Toast.LENGTH_SHORT).show();
+
 
         }else{
-            Toast.makeText(this, "false" , Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "false" , Toast.LENGTH_SHORT).show();
         }
 
 

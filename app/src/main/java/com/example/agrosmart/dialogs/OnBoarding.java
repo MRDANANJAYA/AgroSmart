@@ -105,6 +105,38 @@ public class OnBoarding {
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
 
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                alertDialog.dismiss();
+                showOnboardingDialog4(context, viewGroup);
+            }
+        });
+
+        view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        alertDialog.show();
+    }
+
+    private static void showOnboardingDialog4(final Context context, final ViewGroup viewGroup){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(context).inflate(
+                R.layout.onboarding_dialog_4,
+                (ConstraintLayout) viewGroup.findViewById(R.id.layout_dialog_container)
+        );
+
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+
         view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

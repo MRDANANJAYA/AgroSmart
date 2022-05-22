@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -81,11 +82,12 @@ public class ReminderActivity extends AppCompatActivity {
         //Refer database
         mDatabaseref = db.getReference();
 
-        Plurals= (getResources().getQuantityString(R.plurals.minutes, settings.getWateringMinute()));
+
 
 
 
         formatNotifTimingTextView();
+        GetTime();
 
         rel2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,21 +263,25 @@ public class ReminderActivity extends AppCompatActivity {
         String s = String.valueOf(Calendar.SECOND);
 
         if (settings.getNotifEnabled()) {
-           //String side =  settings.getNotifRepetInterval() * 60 * 60 * 1000L));
-           String addedHour = String.valueOf( hour + settings.getNotifRepetInterval());
+           //String side =  settings.getPostponedTime() * 60 * 60 * 1000L));
+           String addedHour = String.valueOf( hour + settings.getPostponedTime());
             // getBroadcast(context, requestCode, intent, flags)
-            Intent intent = new Intent(this, AlarmReceiver.class);
+            Intent intent = new Intent(ReminderActivity.this, AlarmReceiver.class);
             intent.putExtra("NAME_ID", alarmName);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager am = (AlarmManager) this.getSystemService(ALARM_SERVICE);
-            if (settings.getNotifRepetInterval() > 0) {
+
+            PendingIntent pendingIntent = PendingIntent
+                    .getBroadcast(ReminderActivity.this, 5, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) ReminderActivity.this.getSystemService(ALARM_SERVICE);
+
+            if (settings.getPostponedTime() > 0) {
                 //set Trigger alarm
-                am.setExact(AlarmManager.RTC_WAKEUP, alarmStartTime + (settings.getNotifRepetInterval() * 60 * 60 * 1000L) , pendingIntent);
+                am.set(AlarmManager.RTC_WAKEUP,  alarmStartTime + (settings.getPostponedTime() * 60 * 60 * 1000L) , pendingIntent);
                 Toast.makeText(this, "[PostponedActive] ReminderActivity set for: "  + addedHour + "h " + min + "m " + s +"s", Toast.LENGTH_SHORT).show();
             } else {
                 //set Trigger alarm
-                am.set(AlarmManager.RTC_WAKEUP, alarmStartTime, pendingIntent);
-                Toast.makeText(this, "ReminderActivity set for: " + hour + "h " + min + "m " + s +"s", Toast.LENGTH_SHORT).show();
+               am.set(AlarmManager.RTC_WAKEUP,  alarmStartTime, pendingIntent);
+             Toast.makeText(this, "ReminderActivity set for: " + hour + "h " + min + "m " + s +"s", Toast.LENGTH_SHORT).show();
+
             }
         } else {
             Toast.makeText(this, "Notification is disabled! Turn on first before set the alarm", Toast.LENGTH_SHORT).show();
@@ -285,6 +291,8 @@ public class ReminderActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void formatNotifTimingTextView() {
+
+
 
         int resultHour = settings.getAlarmHour();
         int resultMini = settings.getAlarmMinute();
@@ -303,9 +311,13 @@ public class ReminderActivity extends AppCompatActivity {
 
         alarmTime = String.format(Locale.getDefault(), "%02d : %02d ", resultHour, resultMini) + format;
         time.setText(alarmTime);
-        Plurals= (getResources().getQuantityString(R.plurals.minutes, settings.getWateringMinute()));
-        water_time.setText(String.valueOf(settings.getWateringMinute())+" "+Plurals);
 
+
+    }
+
+    private void GetTime(){
+        Plurals= (getResources().getQuantityString(R.plurals.minutes, settings.getWateringMinute()));
+        water_time.setText(settings.getWateringMinute() +" "+Plurals);
     }
 
 

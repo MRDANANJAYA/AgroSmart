@@ -50,7 +50,6 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
     implementation 'com.google.firebase:firebase-ml-modeldownloader:24.0.3'
-    implementation 'com.google.firebase:firebase-ml-vision:24.1.0'
     testImplementation 'junit:junit:'
     testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

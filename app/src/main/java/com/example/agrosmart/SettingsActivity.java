@@ -91,8 +91,8 @@ public class SettingsActivity extends AppCompatActivity {
         notifPostponeBox = findViewById(R.id.settings_notif_remind_box);
         notifPostponeNumberTextView = findViewById(R.id.settings_notif_remind_num_hours);
         notifPostponeHourTextView = findViewById(R.id.settings_notif_remind_text_hours);
-        notifPostponeNumberTextView.setText(String.valueOf(settings.getNotifRepetInterval()));
-        notifPostponeHourTextView.setText(getResources().getQuantityString(R.plurals.hours, settings.getNotifRepetInterval()));
+        notifPostponeNumberTextView.setText(String.valueOf(settings.getPostponedTime()));
+        notifPostponeHourTextView.setText(getResources().getQuantityString(R.plurals.hours, settings.getPostponedTime()));
 
         //Define bottom Navigation bar
         bottomNavigationView = findViewById(R.id.bottomNavigation);
@@ -273,17 +273,17 @@ public class SettingsActivity extends AppCompatActivity {
                 final GreenNumberPicker numberPicker = view.findViewById(R.id.settings_postpone_numberpicker);
                 numberPicker.setMinValue(0);
                 numberPicker.setMaxValue(23);
-                numberPicker.setValue(settings.getNotifRepetInterval());
+                numberPicker.setValue(settings.getPostponedTime());
                 numberPicker.setWrapSelectorWheel(false);
 
                 view.findViewById(R.id.postpone_accept_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Store new value
-                        settings.setNotifRepetInterval(numberPicker.getValue());
+                        settings.setPostponedTime(numberPicker.getValue());
                         // Update visual text:
-                        notifPostponeNumberTextView.setText(String.valueOf(settings.getNotifRepetInterval()));
-                        notifPostponeHourTextView.setText(getResources().getQuantityString(R.plurals.hours, settings.getNotifRepetInterval()));
+                        notifPostponeNumberTextView.setText(String.valueOf(settings.getPostponedTime()));
+                        notifPostponeHourTextView.setText(getResources().getQuantityString(R.plurals.hours, settings.getPostponedTime()));
                         alertDialog.dismiss();
                     }
                 });
