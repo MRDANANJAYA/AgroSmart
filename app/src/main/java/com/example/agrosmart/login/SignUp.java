@@ -49,6 +49,7 @@ public class SignUp extends AppCompatActivity {
     private ProgressDialog loadingBar;
     private String myUri = "";
     private DatabaseReference dbRef;
+    private static final int PICK_FROM_GALLERY = 103;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,7 @@ public class SignUp extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE);
 
             } else {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
             }
 
         });
@@ -226,7 +227,26 @@ public class SignUp extends AppCompatActivity {
 
 
     }
-
+    // called when the user permition accepts
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PICK_FROM_GALLERY)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                //Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE);
+            }
+            else
+            {
+                //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -72,7 +72,7 @@ public class ImageProcessing extends AppCompatActivity {
     int WateringMinute = 0;
     String Plurals;
     private Dialog dialog, compDialog;
-
+    private static final int PICK_FROM_GALLERY = 103;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +118,7 @@ public class ImageProcessing extends AppCompatActivity {
         compare_water_time = compDialog.findViewById(R.id.watering_timer);
         compare_dialog_text = compDialog.findViewById(R.id.compare_text);
         water_time_placeholder = compDialog.findViewById(R.id.compare_dialog_watering_time);
+
 
 
         // Initialize Firebase Database
@@ -174,20 +175,19 @@ public class ImageProcessing extends AppCompatActivity {
             public void onClick(View view) {
                 if (ContextCompat.checkSelfPermission(ImageProcessing.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
                     Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
 
-
                 } else {
                     //Request storage permission if  don't have it.
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 103);
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
 
                 }
             }
         });
+
 
         //set show dialogue again
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -475,8 +475,28 @@ public class ImageProcessing extends AppCompatActivity {
         }
         alertDialog.show();
     }
+        // called when the user permition accepts
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PICK_FROM_GALLERY)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                //Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+            }
+            else
+            {
+                //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
-
+    // called when the user pick image
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // super.onActivityResult(requestCode, resultCode, data);
