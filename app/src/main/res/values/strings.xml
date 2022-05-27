@@ -86,6 +86,7 @@
     <string name="dialog_compare_text_allDry">According to the sensors, all the sensors that detect soil moisture <b>dry out</b>. We recommend watering the plant for at least <b>35 minutes</b>.</string>
     <string name="onboard_dialog_4">It seems like you are a newbie,<b> huh..</b>💁🏻 \n Since you are new to the app, <b>how about login first?</b></string>
     <string name="info_text2">Check every information of the field such as <b>humidity, temperature, Light Intensity, soil moisture</b> via your app.</string>
+    <string name="info_text3">Create you Own model for your plants <b> Just by adding images </b>if default model is not recognizing your plant.</string>
 
 
 </resources>

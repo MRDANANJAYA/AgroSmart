@@ -51,7 +51,7 @@
         </receiver>
         <!-- android:process=":remote"-->
         <receiver
-            android:name="com.example.agrosmart.ml.WaterTimerReceiver"
+            android:name="com.example.agrosmart.dialogs.WaterTimerReceiver"
             android:exported="false"
 
             android:enabled="true">

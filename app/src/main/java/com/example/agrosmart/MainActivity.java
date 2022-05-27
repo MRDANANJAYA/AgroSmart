@@ -16,13 +16,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.agrosmart.dialogs.NotificationShow;
 import com.example.agrosmart.login.GlobalUser;
 import com.example.agrosmart.login.LoginActivity;
 import com.example.agrosmart.login.User;
 import com.example.agrosmart.ml.ImageProcessing;
-import com.example.agrosmart.ml.WaterTimerReceiver;
+import com.example.agrosmart.dialogs.WaterTimerReceiver;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,8 +38,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,9 +80,8 @@ public class MainActivity extends AppCompatActivity {
         boolean message = getIntent().getBooleanExtra("TestOne", false);
 
         if(message == true){
-           // Calendar startTime = Calendar.getInstance();
-           // long alarmStartTime = startTime.getTimeInMillis();
 
+            NotificationManagerCompat.from(this).cancel(null, 1);// cancel the notification
             long WT = (long) switch_enabler.getWateringMinute() * 60 * 1000;
             dbRef.child("pump").child("status").setValue(1);
 

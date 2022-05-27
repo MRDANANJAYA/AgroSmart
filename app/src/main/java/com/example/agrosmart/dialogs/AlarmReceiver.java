@@ -27,7 +27,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
-        Toast.makeText(context, "Called" , Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Called" , Toast.LENGTH_LONG).show();
 
         // create a notification object
         NotificationShow Watering_time = new NotificationShow(context);
@@ -73,6 +73,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         manager.notify(1, builder.build());
+
 
 
 

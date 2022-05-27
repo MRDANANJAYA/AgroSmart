@@ -37,6 +37,7 @@ import com.example.agrosmart.NumberPickers.GreenNumberPicker;
 import com.example.agrosmart.R;
 import com.example.agrosmart.ReminderActivity;
 import com.example.agrosmart.SettingsActivity;
+import com.example.agrosmart.dialogs.WaterTimerReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -85,7 +86,7 @@ public class ImageProcessing extends AppCompatActivity {
         bottomNavigationView.getMenu().getItem(2).setEnabled(false);
         result = findViewById(R.id.result);
         confidenceX = findViewById(R.id.confidence);
-        imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imageView_Processing);
         picture = findViewById(R.id.button);
         createml = findViewById(R.id.addml);
 
@@ -188,6 +189,18 @@ public class ImageProcessing extends AppCompatActivity {
             }
         });
 
+        //set show dialogue again
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(imageUri != null){
+                    displayDialog();
+
+                }
+
+            }
+        });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

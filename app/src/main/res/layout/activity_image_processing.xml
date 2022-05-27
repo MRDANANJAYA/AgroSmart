@@ -69,7 +69,7 @@
             app:cardCornerRadius="20dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageView_Processing"
                 android:layout_width="280sp"
                 android:layout_height="280sp"
                 android:layout_centerHorizontal="true"
