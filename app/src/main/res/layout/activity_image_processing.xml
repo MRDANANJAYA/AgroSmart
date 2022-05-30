@@ -9,12 +9,12 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/newcentergreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/newcentergreen"
-        android:scaleType="centerCrop"
-        android:layout_marginTop="-50dp"
 
         />
 
@@ -24,10 +24,24 @@
         android:layout_height="match_parent"
         android:rotation="10"
         android:scaleType="centerCrop"
+        android:src="@drawable/pattern"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/pattern" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_after_image_get"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="45dp"
+        android:elevation="5dp"
+        android:text="Click the image to get dialogue again"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -68,6 +82,8 @@
             android:layout_marginTop="80dp"
             app:cardCornerRadius="20dp">
 
+
+
             <ImageView
                 android:id="@+id/imageView_Processing"
                 android:layout_width="280sp"
@@ -75,6 +91,7 @@
                 android:layout_centerHorizontal="true"
 
                 />
+
 
         </androidx.cardview.widget.CardView>
 
@@ -151,11 +168,11 @@
         android:id="@+id/Fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/Green"
         android:contentDescription="Go Back"
         android:src="@drawable/arrow_back"
-        app:tint="@null"
-        app:layout_anchor="@id/BottomApp" />
+        app:backgroundTint="@color/Green"
+        app:layout_anchor="@id/BottomApp"
+        app:tint="@null" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

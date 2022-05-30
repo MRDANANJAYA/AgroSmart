@@ -60,7 +60,7 @@ public class ImageProcessing extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton floatingActionButton;
-    TextView result, confidenceX, createml, dialog_result, compare_water_time, sensor2, sensor1, compare_dialog_text, water_time_placeholder;
+    TextView result, confidenceX, createml, dialog_result, compare_water_time, sensor2, sensor1, compare_dialog_text, water_time_placeholder, imageAfterText;
     ImageView imageView;
     Button picture, Okay, Cancel, Compare, start, compare_cancel;
     RelativeLayout watering_layout;
@@ -89,6 +89,7 @@ public class ImageProcessing extends AppCompatActivity {
         imageView = findViewById(R.id.imageView_Processing);
         picture = findViewById(R.id.button);
         createml = findViewById(R.id.addml);
+        imageAfterText = findViewById(R.id.text_after_image_get);
 
 
         //Create the Mian Dialog
@@ -189,13 +190,17 @@ public class ImageProcessing extends AppCompatActivity {
         });
 
 
+
+
         //set show dialogue again
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(imageUri != null){
+
                     displayDialog();
+
 
                 }
 
@@ -440,6 +445,13 @@ public class ImageProcessing extends AppCompatActivity {
                 });
             }
         });
+
+
+        //add text when image is loaded
+        if(imageUri != null){
+            imageAfterText.setVisibility(View.VISIBLE);
+        }
+
 
     }
 
