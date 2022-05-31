@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.agrosmart.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,6 +40,8 @@ public class SignUp extends AppCompatActivity {
 
 
     final static int REQUEST_CODE = 215;
+    private static final String TAG = "";
+    private static final int PICK_FROM_GALLERY = 103;
     StorageReference storageRef;
     FirebaseStorage storage;
     StorageTask uploadTask;
@@ -49,7 +53,6 @@ public class SignUp extends AppCompatActivity {
     private ProgressDialog loadingBar;
     private String myUri = "";
     private DatabaseReference dbRef;
-    private static final int PICK_FROM_GALLERY = 103;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +100,12 @@ public class SignUp extends AppCompatActivity {
 
         signUp.setOnClickListener(v -> {
 
-
+            // validate values
             String email = emailAdd.getText().toString().trim();
             String password = passwordSn.getText().toString();
             String ConfirmPassword = cmfPassword.getText().toString();
             String Username = userName.getText().toString();
-            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"; //email validation
+            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"; //email pattern validation
 
 
             if (TextUtils.isEmpty(Username)) {
@@ -132,6 +135,18 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
+            if(password.length() < 6){
+                passwordSn.setError("Password should be at least 6 characters");
+                passwordSn.requestFocus();
+                return;
+            }
+
+            if (TextUtils.isEmpty(ConfirmPassword)) {
+                cmfPassword.setError("Confirm Password Cannot Be Empty");
+                cmfPassword.requestFocus();
+                return;
+            }
+
             if (TextUtils.isEmpty(ConfirmPassword)) {
                 cmfPassword.setError("Confirm Password Cannot Be Empty");
                 cmfPassword.requestFocus();
@@ -149,15 +164,15 @@ public class SignUp extends AppCompatActivity {
             } else {
 
 
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener((Task<AuthResult> task) -> {
 
-
-                    loadingBar.setTitle("Registering");
-                    loadingBar.show();
 
                     if (task.isSuccessful()) {
 
                         //set data into User.class
+                        loadingBar.setTitle("Registering");
+                        loadingBar.show();
+                        loadingBar.setCancelable(false);
 
                         User user = new User();
                         user.setEmail(emailAdd.getText().toString());
@@ -205,11 +220,14 @@ public class SignUp extends AppCompatActivity {
 
 
                                     }
-                                }).addOnFailureListener(e -> Toast.makeText(SignUp.this, "Registration Unsuccessful!" + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                }).addOnFailureListener((Exception e) -> {
+                            Toast.makeText(SignUp.this, "Registration Unsuccessful!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
 
                     } else {
-
+                        Log.w(TAG, "signInWithCustomToken:failure", task.getException());
                         Toast.makeText(SignUp.this, "Something Wrong!", Toast.LENGTH_SHORT).show();
+                        loadingBar.dismiss();
                     }
 
 
@@ -227,22 +245,18 @@ public class SignUp extends AppCompatActivity {
 
 
     }
+
     // called when the user permition accepts
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PICK_FROM_GALLERY)
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
+        if (requestCode == PICK_FROM_GALLERY) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE);
-            }
-            else
-            {
+            } else {
                 //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
             }
         }
