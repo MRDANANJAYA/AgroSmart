@@ -132,9 +132,9 @@ public class ReminderActivity extends AppCompatActivity {
                     Toast.makeText(ReminderActivity.this, "Reminding Time can not be empty", Toast.LENGTH_LONG).show();
                 } else {
 
-                    mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Hour").setValue((hour));
-                    mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Minutes").setValue((min));
-                    mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Format").setValue((format));
+                 //   mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Hour").setValue((hour));
+                  //  mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Minutes").setValue((min));
+                  //  mDatabaseref.child("ReminderActivity").child(alarmName).child("Time").child("Format").setValue((format));
 
                     startAlert(); // set alarm time
 
