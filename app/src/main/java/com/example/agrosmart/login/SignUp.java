@@ -187,7 +187,7 @@ public class SignUp extends AppCompatActivity {
 
 
                                         final StorageReference fileRef = storageRef
-                                                .child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid() + "jpg");
+                                                .child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid() + ".jpg");
 
                                         uploadTask = fileRef.putFile(imageUri)
                                                 .addOnSuccessListener(taskSnapshot -> {

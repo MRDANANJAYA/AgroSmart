@@ -28,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -37,6 +38,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
@@ -235,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
         //pump_state 2 : default settings[automatic]
 
         default_settings.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressWarnings("PointlessBooleanExpression")
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -319,14 +323,20 @@ public class MainActivity extends AppCompatActivity {
         pump_switch_text.setTextColor(grey);
     }
 
-    public void newma(){
 
-    }
 
     private void getUserinfo() {
 
+        StorageReference ImageUserRef = FirebaseStorage.getInstance().getReference(mAuth.getCurrentUser().getUid()+".jpg");
+        ImageUserRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(MainActivity.this).load(uri).fit().placeholder(R.mipmap.ic_launcher_round).into(profilePic);
+            }
+        });
 
-        dbRef.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+
+       /* dbRef.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -346,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
     }
 
 }

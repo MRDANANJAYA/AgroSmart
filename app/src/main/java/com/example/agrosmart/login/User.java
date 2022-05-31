@@ -1,18 +1,25 @@
 package com.example.agrosmart.login;
 
+import android.net.Uri;
+
 public class User {
 
-     private String email , password, username;
+     private String email;
+    private String password;
+    private String username;
+
 
     public User() {
 
     }
-
-    public User(String email, String password, String username) {
+     public User(String email, String password, String username) {
         this.email = email;
         this.password = password;
         this.username = username;
+
     }
+
+
 
     public String getEmail() {
         return email;
