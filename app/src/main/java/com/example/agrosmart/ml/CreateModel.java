@@ -207,20 +207,22 @@ public class CreateModel extends AppCompatActivity {
 
                 loadingBar.setTitle("Uploading");
 
-                if (ImageList.size() != 0) {
+                if (ImageListDry.size() != 0) {
 
                     loadingBar.setCancelable(false);
                     loadingBar.show();
                     // get values of the array
                     for (int uploadsDry = 0; uploadsDry < ImageListDry.size(); uploadsDry++) {
 
+
                         StorageReference mRefDry = mStorageRef.child("imageDry").child(user).child(ImageNameListDry.get(uploadsDry));
 
                         mRefDry.putFile(ImageListDry.get(uploadsDry)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                                 // Toast.makeText(CreateModel.this, "We will Notify you once Your model is ready", Toast.LENGTH_LONG).show();
-                                loadingBar.dismiss();
+                                //loadingBar.dismiss();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -241,7 +243,7 @@ public class CreateModel extends AppCompatActivity {
                     }
                 }
 
-                if (ImageListDry.size() != 0) {
+                if (ImageList.size() != 0) {
 
                     loadingBar.setCancelable(false);
                     loadingBar.show();
@@ -249,33 +251,38 @@ public class CreateModel extends AppCompatActivity {
                     for (int uploads = 0; uploads < ImageList.size(); uploads++) {
 
                         StorageReference mRef = mStorageRef.child("imageWatered").child(user).child(ImageNameList.get(uploads));
-
                         mRef.putFile(ImageList.get(uploads)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                loadingBar.dismiss();
-                                //Toast.makeText(CreateModel.this, "Upload has been Completed", Toast.LENGTH_SHORT).show();
-                                NotificationCompat.Builder uploadBuilder =
-                                        new NotificationCompat.Builder(CreateModel.this, "NewChannelId")
-                                                .setSmallIcon(R.drawable.set_icon_notif_bell) //set icon for notification
-                                                .setContentTitle("Upload Has been Completed! ") //set title of notification
-                                                .setContentText("We will let you know once your model is created. We will send a new Updated app to your email.")//this is notification message
-                                                .setAutoCancel(true) // makes auto cancel of notification
-                                                .setPriority(Notification.PRIORITY_DEFAULT); //set priority of notification
-                                NotificationManager manager = (NotificationManager) CreateModel.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                                // === Removed some obsoletes
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    String channelId = "My channel";
-                                    NotificationChannel channel = new NotificationChannel(
-                                            channelId,
-                                            "Channel human readable title",
-                                            NotificationManager.IMPORTANCE_HIGH);
-                                    manager.createNotificationChannel(channel);
-                                    uploadBuilder.setChannelId(channelId);
-                                }
 
-                                manager.notify(1, uploadBuilder.build());
+                                //Toast.makeText(CreateModel.this, "Upload has been Completed", Toast.LENGTH_SHORT).show();
+
+                                    loadingBar.dismiss();
+                                    NotificationCompat.Builder uploadBuilder =
+                                            new NotificationCompat.Builder(CreateModel.this, "NewChannelId")
+                                                    .setSmallIcon(R.drawable.set_icon_notif_bell) //set icon for notification
+                                                    .setContentTitle("Upload Has been Completed! ") //set title of notification
+                                                    .setContentText("We will let you know once your model is created.")
+                                                    .setContentText(" We will send a new Updated app to your email.")//this is notification message
+                                                    .setAutoCancel(true) // makes auto cancel of notification
+                                                    .setPriority(Notification.PRIORITY_DEFAULT); //set priority of notification
+                                    NotificationManager manager = (NotificationManager) CreateModel.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                                    // === Removed some obsoletes
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        String channelId = "My channel";
+                                        NotificationChannel channel = new NotificationChannel(
+                                                channelId,
+                                                "Channel human readable title",
+                                                NotificationManager.IMPORTANCE_HIGH);
+                                        manager.createNotificationChannel(channel);
+                                        uploadBuilder.setChannelId(channelId);
+                                    }
+
+                                    manager.notify(1, uploadBuilder.build());
+
+
+
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -295,6 +302,7 @@ public class CreateModel extends AppCompatActivity {
                     }
 
                 } else if (ImageList.size() == 0 || ImageListDry.size() == 0) {
+
                     Toast.makeText(CreateModel.this, "There is no images to upload", Toast.LENGTH_SHORT).show();
                 }
 

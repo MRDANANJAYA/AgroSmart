@@ -192,7 +192,11 @@ public class SettingsActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
-                                Toast.makeText(SettingsActivity.this, "Data has been Successfully Deleted!", Toast.LENGTH_SHORT).show();
+                                if(task.isSuccessful()){
+                                    Toast.makeText(SettingsActivity.this, "Data has been Successfully Deleted!", Toast.LENGTH_SHORT).show();
+                                }
+
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

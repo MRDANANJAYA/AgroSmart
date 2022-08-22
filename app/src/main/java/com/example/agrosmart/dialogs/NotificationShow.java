@@ -9,38 +9,29 @@ public class NotificationShow {
     private final SharedPreferences prefs;
 
     private final String notifEnabledKey = "notif_enabled";
-    private final boolean notifEnabledDefault = true;
 
     private final String notifEnabledWateringReminderKey = "notif_Enabled_Watering_Reminder_enabled";
-    private final boolean notifEnabledWateringReminderDefault = false;
 
 
     private final String pumpEnabledKey = "pump_enabled";
-    private final boolean pumpEnabledDefault = true;
 
     private final String lightEnabledKey = "light_enabled";
-    private final boolean lightEnabledDefault = true;
 
     private final String notifHourKey = "notif_hour";
-    private final int notifHourDefault = 18;
 
     private final String notifMinuteKey = "notif_minute";
-    private final int notifMinuteDefault = 00;
 
     private final String notifPostponedTimeKey = "notif_postponed";
-    private final int notifPostponedTimeDefault = 0;
 
     private final String alarmHourKey = "Alarm_hour";
-    private final int alarmHourDefault = 00;
 
     private final String alarmMinuteKey = "Alarm_minute";
-    private final int alarmMinuteDefault = 00;
 
     private final String waterMinuteKey = "Watering_minute";
-    private final int waterMinuteDefault = 00;
 
 
     public int getAlarmHour() {
+        int alarmHourDefault = 0;
         return prefs.getInt(alarmHourKey, alarmHourDefault);
     }
 
@@ -51,6 +42,7 @@ public class NotificationShow {
     }
 
     public int getAlarmMinute() {
+        int alarmMinuteDefault = 0;
         return prefs.getInt(alarmMinuteKey, alarmMinuteDefault);
     }
 
@@ -61,6 +53,7 @@ public class NotificationShow {
     }
 
     public boolean getNotifEnabledWateringReminder(){
+        boolean notifEnabledWateringReminderDefault = false;
         return prefs.getBoolean(notifEnabledWateringReminderKey, notifEnabledWateringReminderDefault);
     }
 
@@ -75,6 +68,7 @@ public class NotificationShow {
 
     public int getNotifHour() {
 
+        int notifHourDefault = 18;
         return prefs.getInt(notifHourKey, notifHourDefault);
     }
 
@@ -85,6 +79,7 @@ public class NotificationShow {
     }
 
     public int getNotifMinute(){
+        int notifMinuteDefault = 0;
         return prefs.getInt(notifMinuteKey, notifMinuteDefault);
     }
 
@@ -95,6 +90,7 @@ public class NotificationShow {
     }
 
     public int getWateringMinute(){
+        int waterMinuteDefault = 0;
         return prefs.getInt(waterMinuteKey, waterMinuteDefault);
     }
 
@@ -106,6 +102,7 @@ public class NotificationShow {
 
 
     public int getPostponedTime(){
+        int notifPostponedTimeDefault = 0;
         return prefs.getInt(notifPostponedTimeKey, notifPostponedTimeDefault);
     }
 
@@ -116,6 +113,7 @@ public class NotificationShow {
     }
 
     public boolean getNotifEnabled(){
+        boolean notifEnabledDefault = true;
         return prefs.getBoolean(notifEnabledKey, notifEnabledDefault);
     }
 
@@ -125,6 +123,7 @@ public class NotificationShow {
 
 
     public boolean getPumpEnabled(){
+        boolean pumpEnabledDefault = true;
         return prefs.getBoolean(pumpEnabledKey, pumpEnabledDefault);
     }
 
@@ -133,6 +132,7 @@ public class NotificationShow {
     }
 
     public boolean getLightEnabled(){
+        boolean lightEnabledDefault = true;
         return prefs.getBoolean(lightEnabledKey, lightEnabledDefault);
     }
 
